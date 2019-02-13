@@ -1,8 +1,15 @@
 from django.core.management.base import BaseCommand
 
+from selenium import webdriver
+
 
 class Command(BaseCommand):
     help = "seulgi image crawler"
+
+    def test_selenium(self, name):
+        driver = webdriver.Chrome("chromedriver")
+        driver.implicitly_wait(3)
+        driver.get("https://www.naver.com")
 
     def add_arguments(self, parser):
         """ get params """
@@ -14,4 +21,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         name = options["name"][0]
 
-        print(name)
+        self.test_selenium(name)

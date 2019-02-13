@@ -9,3 +9,6 @@ db.sqlite3
 
 # media
 media
+
+# chromedriver
+chromedriver.exe

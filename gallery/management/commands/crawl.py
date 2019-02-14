@@ -9,7 +9,11 @@ class Command(BaseCommand):
     def test_selenium(self, name):
         driver = webdriver.Chrome("chromedriver")
         driver.implicitly_wait(3)
-        driver.get("https://www.naver.com")
+        params = {
+            "q": name,
+            "tbm": "isch"
+        }
+        driver.get("https://www.google.co.kr/search?", params)
 
     def add_arguments(self, parser):
         """ get params """

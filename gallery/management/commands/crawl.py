@@ -5,9 +5,11 @@ from gallery.models import Album
 from io import BytesIO
 from selenium import webdriver
 
+import os
 import re
 import requests
 import time
+import uuid
 
 
 class Command(BaseCommand):
@@ -15,15 +17,18 @@ class Command(BaseCommand):
 
     def save_data(self, name, data):
         for row in data:
-            try:
-                a = Album(name=name, title=row[1], source=row[2])
-                a.photo.save(name, BytesIO(requests.get(row[0]).content))
+            if not Album.objects.filter(photo=row[0]).exists(): 
+                try:
+                    a = Album(name=name, title=row[1], source=row[2])
+                    filename = os.path.basename(row[0])
 
-                print(f"Save Image : {row[1]}")
-            except Exception as e:
-                print(f"Save Error : {e.__traceback__()}")
+                    # ext = row[0].split(".")
+                    # a.photo.save(f"{uuid.uuid4().hex}.{ext[len(ext) - 1]}", BytesIO(requests.get(row[0]).content))
+                    a.photo.save(f"{filename}", BytesIO(requests.get(row[0]).content))
 
-            break
+                    print(f"Save Image : {row[1]}")
+                except Exception as e:
+                    print(f"Save Error : {e}")
 
     def crawl_google_image(self, name):
         driver = webdriver.Chrome("chromedriver")
@@ -31,11 +36,11 @@ class Command(BaseCommand):
         driver.implicitly_wait(3)
 
         last_height = driver.execute_script("return document.body.scrollHeight")
-        SCROLL_PAUSE_TIME = 0.5
+        pause = 0.5
 
         while True:
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(SCROLL_PAUSE_TIME)
+            time.sleep(pause)
 
             try:
                 element = driver.find_elements_by_id("smb")[0]
@@ -49,15 +54,26 @@ class Command(BaseCommand):
                 break
 
             last_height = new_height
-            break #debug
 
         # [0]: image_link, [1]: title, [2]: source
         images_info = re.findall(r"\"ou\":\"(.*?)\".*?\"pt\":\"(.*?)\".*?\"ru\":\"(.*?)\"", driver.page_source)
+        result_images = list()
+        temp_count = 0
+
+        for image in images_info:
+            driver.get(image[0])
+            print(f"image has left {len(images_info) - temp_count}")
+            valid = input()
+
+            if not valid:
+                result_images.append(image)
+
+            temp_count += 1
 
         driver.quit()
 
         # save model
-        self.save_data("Seulgi", images_info)
+        self.save_data("Seulgi", result_images)
 
     def add_arguments(self, parser):
         """ get params """

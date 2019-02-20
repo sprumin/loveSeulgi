@@ -9,7 +9,6 @@ import os
 import re
 import requests
 import time
-import uuid
 
 
 class Command(BaseCommand):

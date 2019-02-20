@@ -6,9 +6,9 @@ from gallery.models import Album
 
 # Register your models here.
 class AlbumAdmin(admin.ModelAdmin):
-    list_display = ("name", "photo", "title", "source", "views", "thumbs", "created_at", )
+    list_display = ("name", "photo", "title", "source", "views", "thumbs", "is_gif", "created_at", )
     ordering = ("-id", )
-    list_filter = ("views", "thumbs", )
+    list_filter = ("views", "thumbs", "is_gif", )
     readonly_fields = ("photo", "source", "image_viewer", )
 
     def image_viewer(self, obj):

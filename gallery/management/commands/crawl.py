@@ -16,19 +16,23 @@ class Command(BaseCommand):
     help = "seulgi image crawler"
 
     def save_data(self, name, data):
-        for row in data:
-            if not Album.objects.filter(photo=row[0]).exists(): 
-                try:
-                    a = Album(name=name, title=row[1], source=row[2])
-                    filename = os.path.basename(row[0])
+        exts = ["jpg", "jpeg", "gif", "png"]
+        for row in data: 
+            try:
+                a = Album(name=name, title=row[1], source=row[2])
+                filename = os.path.basename(row[0])
 
-                    # ext = row[0].split(".")
-                    # a.photo.save(f"{uuid.uuid4().hex}.{ext[len(ext) - 1]}", BytesIO(requests.get(row[0]).content))
-                    a.photo.save(f"{filename}", BytesIO(requests.get(row[0]).content))
+                if not filename.split(".")[-1] in exts:
+                    filename += ".jpg"
 
-                    print(f"Save Image : {row[1]}")
-                except Exception as e:
-                    print(f"Save Error : {e}")
+                if filename.split(".")[-1] == "gif":
+                    a.is_gif = True
+
+                a.photo.save(f"{filename}", BytesIO(requests.get(row[0]).content))
+
+                print(f"Save Image : {row[1]}")
+            except Exception as e:
+                print(f"Save Error : {e}")
 
     def crawl_google_image(self, name):
         driver = webdriver.Chrome("chromedriver")
@@ -61,14 +65,15 @@ class Command(BaseCommand):
         temp_count = 0
 
         for image in images_info:
-            driver.get(image[0])
-            print(f"image has left {len(images_info) - temp_count}")
-            valid = input()
+            if not Album.objects.filter(photo=image[0]).exists():
+                driver.get(image[0])
+                print(f"image has left {len(images_info) - temp_count}")
+                valid = input()
 
-            if not valid:
-                result_images.append(image)
+                if not valid:
+                    result_images.append(image)
 
-            temp_count += 1
+                temp_count += 1
 
         driver.quit()
 

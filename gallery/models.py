@@ -10,6 +10,7 @@ class Album(models.Model):
     source = models.CharField(max_length=2048)
     views = models.IntegerField(default=0)
     thumbs = models.IntegerField(default=0)
+    is_gif = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

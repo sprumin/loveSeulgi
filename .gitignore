@@ -12,3 +12,6 @@ media
 
 # chromedriver
 chromedriver.exe
+
+# migrations
+gallery/migrations

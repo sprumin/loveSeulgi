@@ -9,6 +9,7 @@ import os
 import re
 import requests
 import time
+import uuid
 
 
 class Command(BaseCommand):
@@ -18,18 +19,19 @@ class Command(BaseCommand):
         exts = ["jpg", "jpeg", "gif", "png"]
         for row in data: 
             try:
-                a = Album(name=name, title=row[1], source=row[2])
-                filename = os.path.basename(row[0])
+                a = Album(name=name, title=row[1], photo_link=row[0], source=row[2])
+                filename = uuid.uuid4().hex
+                ext = os.path.basename(row[0]).split(".")[-1]
 
-                if not filename.split(".")[-1] in exts:
-                    filename += ".jpg"
+                if not ext in exts:
+                    ext = "jpg"
 
-                if filename.split(".")[-1] == "gif":
+                if ext == "gif":
                     a.is_gif = True
 
-                a.photo.save(f"{filename}", BytesIO(requests.get(row[0]).content))
-
+                a.photo.save(f"{filename}.{ext}", BytesIO(requests.get(row[0]).content))
                 print(f"Save Image : {row[1]}")
+
             except Exception as e:
                 print(f"Save Error : {e}")
 
@@ -64,7 +66,7 @@ class Command(BaseCommand):
         temp_count = 0
 
         for image in images_info:
-            if not Album.objects.filter(photo=image[0]).exists():
+            if not Album.objects.filter(photo_link=image[0]).exists():
                 driver.get(image[0])
                 print(f"image has left {len(images_info) - temp_count}")
                 valid = input()

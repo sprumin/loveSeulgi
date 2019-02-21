@@ -7,6 +7,7 @@ class Album(models.Model):
     photo = models.ImageField(upload_to="image/seulgi", unique=True)
     name = models.CharField(max_length=24, default="Seulgi")
     title = models.CharField(max_length=64)
+    photo_link = models.CharField(max_length=2048)
     source = models.CharField(max_length=2048)
     views = models.IntegerField(default=0)
     thumbs = models.IntegerField(default=0)

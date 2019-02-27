@@ -16,3 +16,8 @@ class Album(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class TrashCan(models.Model):
+    id = models.AutoField(primary_key=True)
+    photo_link = models.CharField(max_length=2048)

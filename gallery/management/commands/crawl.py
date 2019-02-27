@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from gallery.models import Album
+from gallery.models import Album, TrashCan
 
 from io import BytesIO
 from selenium import webdriver
@@ -66,15 +66,15 @@ class Command(BaseCommand):
         temp_count = 0
 
         for image in images_info:
-            if not Album.objects.filter(photo_link=image[0]).exists():
+            if not Album.objects.filter(photo_link=image[0]).exists() and not TrashCan.objects.filter(photo_link=image[0]).exists():
                 driver.get(image[0])
-                print(f"image has left {len(images_info) - temp_count}")
                 valid = input()
 
                 if not valid:
                     result_images.append(image)
-
-                temp_count += 1
+                else:
+                    t = TrashCan(photo_link=image[0])
+                    t.save()
 
         driver.quit()
 

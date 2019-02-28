@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from gallery.models import Album
+from gallery.models import Album, TrashCan
 
 
 # Register your models here.
@@ -19,4 +19,11 @@ class AlbumAdmin(admin.ModelAdmin):
     image_viewer.short_description = 'Image Viewer'
 
 
+class TrashCanAdmin(admin.ModelAdmin):
+    list_display = ("id", "photo_link", )
+    ordering = ("-id", )
+    readonly_fields = ("photo_link", )
+
+
 admin.site.register(Album, AlbumAdmin)
+admin.site.register(TrashCan, TrashCanAdmin)

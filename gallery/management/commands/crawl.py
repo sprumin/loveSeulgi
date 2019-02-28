@@ -16,24 +16,31 @@ class Command(BaseCommand):
     help = "seulgi image crawler"
 
     def save_data(self, name, data):
+        # save image data
         exts = ["jpg", "jpeg", "gif", "png"]
         for row in data: 
             try:
-                a = Album(name=name, title=row[1], photo_link=row[0], source=row[2])
-                filename = uuid.uuid4().hex
-                ext = os.path.basename(row[0]).split(".")[-1]
+                if row[0] == "trash":
+                    t = TrashCan(photo_link=row[1])
+                    t.save()
+                    print(f"Save Trash : {row[1]}")
+                else:
+                    a = Album(name=name, title=row[1].replace("\\u0027", ""), photo_link=row[0], source=row[2])
+                    filename = uuid.uuid4().hex
+                    ext = os.path.basename(row[0]).split(".")[-1]
 
-                if not ext in exts:
-                    ext = "jpg"
+                    if not ext in exts:
+                        ext = "jpg"
 
-                if ext == "gif":
-                    a.is_gif = True
+                    if ext == "gif":
+                        a.is_gif = True
 
-                a.photo.save(f"{filename}.{ext}", BytesIO(requests.get(row[0]).content))
-                print(f"Save Image : {row[1]}")
+                    a.photo.save(f"{filename}.{ext}", BytesIO(requests.get(row[0]).content))
+                    print(f"Save Image : {row[1]}")
 
             except Exception as e:
                 print(f"Save Error : {e}")
+
 
     def crawl_google_image(self, name):
         driver = webdriver.Chrome("chromedriver")
@@ -62,24 +69,24 @@ class Command(BaseCommand):
 
         # [0]: image_link, [1]: title, [2]: source
         images_info = re.findall(r"\"ou\":\"(.*?)\".*?\"pt\":\"(.*?)\".*?\"ru\":\"(.*?)\"", driver.page_source)
-        result_images = list()
-        temp_count = 0
+        result = list()
 
         for image in images_info:
             if not Album.objects.filter(photo_link=image[0]).exists() and not TrashCan.objects.filter(photo_link=image[0]).exists():
                 driver.get(image[0])
                 valid = input()
 
-                if not valid:
-                    result_images.append(image)
+                if valid:
+                    data = ("trash", image[0])
                 else:
-                    t = TrashCan(photo_link=image[0])
-                    t.save()
+                    data = image
+
+                result.append(data)
 
         driver.quit()
 
         # save model
-        self.save_data("Seulgi", result_images)
+        self.save_data("Seulgi", result)
 
     def add_arguments(self, parser):
         """ get params """

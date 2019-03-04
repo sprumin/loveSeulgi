@@ -9,7 +9,7 @@ class AlbumAdmin(admin.ModelAdmin):
     list_display = ("name", "photo", "title", "source", "views", "thumbs", "is_gif", "created_at", )
     ordering = ("-id", "views", "thumbs", )
     list_filter = ("is_gif", )
-    readonly_fields = ("photo", "source", "image_viewer", )
+    readonly_fields = ("image_viewer", )
 
     def image_viewer(self, obj):
         return mark_safe(
@@ -22,7 +22,6 @@ class AlbumAdmin(admin.ModelAdmin):
 class TrashCanAdmin(admin.ModelAdmin):
     list_display = ("id", "photo_link", )
     ordering = ("-id", )
-    readonly_fields = ("photo_link", )
 
 
 admin.site.register(Album, AlbumAdmin)

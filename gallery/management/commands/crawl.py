@@ -74,7 +74,6 @@ class Command(BaseCommand):
         for image in images_info:
             if not Album.objects.filter(photo_link=image[0]).exists() and not TrashCan.objects.filter(photo_link=image[0]).exists():
                 driver.get(image[0])
-                print(count)
                 valid = input()
 
                 if valid:

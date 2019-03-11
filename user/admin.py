@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 
 from user.forms import UserCreationForm
-from user.models import User
+from user.models import User, UserAlbum
 
 
 class UserAdmin(BaseUserAdmin):
@@ -25,5 +25,11 @@ class UserAdmin(BaseUserAdmin):
     ordering = ('email',)
     filter_horizontal = ()
 
+
+class UserAlbumAdmin(admin.ModelAdmin):
+    list_display = ("user", "photo", )
+    ordering = ("-id", )
+
 admin.site.register(User, UserAdmin)
+admin.site.register(UserAlbum, UserAlbumAdmin)
 admin.site.unregister(Group)

@@ -12,9 +12,7 @@ def user_info(request):
     if not request.user.is_authenticated:
         return redirect("/user/signin/")
 
-    # GET POST MODEL DATA
-
-    return render(request, "user/user_info.html")
+    return HttpResponse("User")
 
 
 class UserSignUpView(View):

@@ -92,3 +92,22 @@ class UserDeleteForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('email', )
+
+
+class UserEditForm(forms.ModelForm):
+    email = forms.EmailField(
+        label="E-mail",
+        disabled=True,
+        widget=forms.EmailInput(
+            attrs={
+                "placeholder": "email",
+                "id": "email"
+            }))
+    username = forms.CharField(
+        label="Username",
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'username',
+                'required': 'true'
+            }))

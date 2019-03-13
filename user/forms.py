@@ -100,7 +100,7 @@ class UserEditForm(forms.ModelForm):
         disabled=True,
         widget=forms.EmailInput(
             attrs={
-                "placeholder": "email",
+                "placeholder": "Email",
                 "id": "email"
             }))
     username = forms.CharField(
@@ -108,6 +108,20 @@ class UserEditForm(forms.ModelForm):
         required=True,
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'username',
+                'placeholder': 'Username',
+                'required': 'true'
+            }))
+    password1 = forms.CharField(
+        label='Password',
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Password',
+                'required': 'true'
+            }))
+    password2 = forms.CharField(
+        label='Password confirmation',
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Password confirmation',
                 'required': 'true'
             }))

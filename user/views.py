@@ -3,8 +3,10 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
-from .forms import UserCreationForm, UserSignInForm, UserDeleteForm
+from .forms import UserCreationForm, UserSignInForm, UserEditForm, UserDeleteForm
 from .models import User
+
+import QueryDict
 
 
 # Create your views here.
@@ -56,6 +58,38 @@ class UserSignInView(View):
             return redirect("/user/")
 
         return HttpResponse("Invalid email or password")
+
+
+class UserEditView(View):
+    """ User information update """
+    def get(self, request):
+        form = UserEditForm(initial={'email': request.user.email,
+                                     'username': request.user.username,
+                                     })
+
+        return render(request, "user/edit.html", {"form": form})
+
+    def put(self, request):
+        data = QueryDict(request.body)
+
+        username = data['username']
+        password1 = data['password1']
+        password2 = data['password2']
+
+        if password1 != password2:
+            return HttpResponse(status=400)
+
+        if len(password1) < 8:
+            return HttpResponse(status=400)
+
+        user = User.objects.get(email=request.user.email)
+
+        user.username = username
+        user.set_password(password1)
+
+        user.save()
+
+        return HttpResponse(status=200)
 
 
 class UserDeleteView(View):

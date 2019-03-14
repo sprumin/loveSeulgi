@@ -125,3 +125,7 @@ class UserEditForm(forms.ModelForm):
                 'placeholder': 'Password confirmation',
                 'required': 'true'
             }))
+
+    class Meta:
+        model = User
+        fields = ("email", "username", "password1", "password2", )

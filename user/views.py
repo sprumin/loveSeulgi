@@ -1,12 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.shortcuts import render, redirect
 from django.views import View
 
 from .forms import UserCreationForm, UserSignInForm, UserEditForm, UserDeleteForm
 from .models import User
-
-import QueryDict
 
 
 # Create your views here.
@@ -63,9 +61,8 @@ class UserSignInView(View):
 class UserEditView(View):
     """ User information update """
     def get(self, request):
-        form = UserEditForm(initial={'email': request.user.email,
-                                     'username': request.user.username,
-                                     })
+        form = UserEditForm(initial={"email": request.user.email,
+                                     "username": request.user.username})
 
         return render(request, "user/edit.html", {"form": form})
 

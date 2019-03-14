@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
+from django.utils.safestring import mark_safe
 
 from user.forms import UserCreationForm
 from user.models import User, UserAlbum
@@ -28,7 +29,14 @@ class UserAdmin(BaseUserAdmin):
 
 class UserAlbumAdmin(admin.ModelAdmin):
     list_display = ("user", "photo", )
-    ordering = ("-id", )
+    readonly_fields = ("image_viewer", )
+
+    def image_viewer(self, obj):
+        return mark_safe(
+            "<a href='{}'><img src='{}' width='{}' height='{}' /></a>".format(
+                obj.photo.photo.url, obj.photo.photo.url, obj.photo.photo.width / 3, obj.photo.photo.height / 3))
+
+    image_viewer.short_description = 'Image Viewer'
 
 admin.site.register(User, UserAdmin)
 admin.site.register(UserAlbum, UserAlbumAdmin)

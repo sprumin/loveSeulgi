@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from .forms import UserCreationForm, UserSignInForm, UserEditForm, UserDeleteForm
-from .models import User
+from .models import User, UserAlbum
 
 
 # Create your views here.
@@ -114,3 +114,8 @@ def signout(request):
     logout(request)
 
     return redirect("/user/")
+
+
+class UserAlbumView(View):
+    def get(self, request):
+        pass

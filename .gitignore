@@ -14,4 +14,4 @@ media
 chromedriver.exe
 
 # migrations
-gallery/migrations
+migrations

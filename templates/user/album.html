@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-USER ALBUM
+
+{% for photo in photos %}
+    <img src="{{ photo.photo }}">&nbsp;{{ photo.id }}&nbsp;{{ photo.title }}&nbsp;{{ photo.source }}
+{% endfor %}
+
 {% endblock %}

@@ -61,6 +61,9 @@ class UserSignInView(View):
 class UserEditView(View):
     """ User information update """
     def get(self, request):
+        if not request.user.is_authenticated:
+            return redirect("/user/signin/")
+
         form = UserEditForm(initial={"email": request.user.email,
                                      "username": request.user.username})
 
@@ -118,4 +121,17 @@ def signout(request):
 
 class UserAlbumView(View):
     def get(self, request):
-        pass
+        if not request.user.is_authenticated:
+            return redirect("/user/signin/")
+
+        photos = list()
+
+        for photo in UserAlbum.objects.all():
+            photos.append({
+                "id": photo.id,
+                "photo": photo,
+                "title": photo.title,
+                "source": photo.source
+            })
+
+        return render(request, "user/album.html", {"photos": photos})

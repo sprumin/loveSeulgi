@@ -3,8 +3,9 @@ from django.http import HttpResponse, QueryDict
 from django.shortcuts import render, redirect
 from django.views import View
 
-from .forms import UserCreationForm, UserSignInForm, UserEditForm, UserDeleteForm
-from .models import User, UserAlbum
+from gallery.utilities import get_photos
+from user.forms import UserCreationForm, UserSignInForm, UserEditForm, UserDeleteForm
+from user.models import User
 
 
 # Create your views here.
@@ -124,14 +125,4 @@ class UserAlbumView(View):
         if not request.user.is_authenticated:
             return redirect("/user/signin/")
 
-        photos = list()
-
-        for photo in UserAlbum.objects.all():
-            photos.append({
-                "id": photo.id,
-                "photo": photo,
-                "title": photo.title,
-                "source": photo.source
-            })
-
-        return render(request, "user/album.html", {"photos": photos})
+        return render(request, "user/album.html", get_photos(request, user=request.user.email))

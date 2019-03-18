@@ -28,7 +28,8 @@ class UserAdmin(BaseUserAdmin):
 
 
 class UserAlbumAdmin(admin.ModelAdmin):
-    list_display = ("user", "photo", )
+    list_display = ("id", "user", "photo", )
+    ordering = ("-id", )
     readonly_fields = ("image_viewer", )
 
     def image_viewer(self, obj):

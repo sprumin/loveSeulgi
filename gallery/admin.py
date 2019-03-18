@@ -6,7 +6,7 @@ from gallery.models import Album, TrashCan
 
 # Register your models here.
 class AlbumAdmin(admin.ModelAdmin):
-    list_display = ("name", "photo", "title", "source", "views", "thumbs", "is_gif", "created_at", )
+    list_display = ("id", "name", "photo", "title", "source", "views", "thumbs", "is_gif", "created_at", )
     ordering = ("-id", "views", "thumbs", )
     list_filter = ("is_gif", )
     readonly_fields = ("image_viewer", )

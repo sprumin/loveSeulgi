@@ -5,4 +5,6 @@ from . import views
 
 urlpatterns = [
     path("", views.index),
+    path("album/", views.AlbumView.as_view()),
+    path("album/<int:photo_id>", views.AlbumView.as_view()),
 ]

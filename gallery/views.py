@@ -13,7 +13,7 @@ def index(request):
 
 
 class AlbumView(View):
-    def get(self, request, photo_id):
+    def get(self, request, photo_id=None):
         if not request.user.is_authenticated:
             return redirect("/user/signin/")
 

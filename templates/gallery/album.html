@@ -2,58 +2,61 @@
 
 {% block content %}
 
-{% for photo in photos %}
-    <img src="{{ photo.photo }}" width="175" height="250">&nbsp;{{ photo.id }}&nbsp;{{ photo.title }}&nbsp;{{ photo.source }} <br>
-{% endfor %}
-
-{% if photos.has_other_pages %}
-    <ul class = "pagination">
-        {% if photos.has_previous %}
-            <li>
-                <a href="?page={{ photos.previous_page_number }}">&laquo;</a>
-            </li>
-        {% else %}
-            <li class = "disabled">
-                <span>&laquo;</span>
-            </li> 
-        {% endif %}
-        {% if photos.number > 2 %}
-            <li>
-                <a href="?page={{ 1 }}"> 1 </a>
-            </li>
-            <li>
-                <span>...<span class="sr-only">...</span></span>
-            </li>
-        {% endif %} 
-        {% for i in page_range %}
-            {% if photos.number == i %}
-                <li class="active">
-                    <span>{{ i }} <span class="sr-only">(current)</span></span>
-                </li> 
-            {% else %}
-                <li>
-                    <a href="?page={{ i }}">{{ i }}</a>
-                </li>
-            {% endif %}
+    {% if photo %}
+        <img src="{{ photo.photo }}" width="500" height="500">&nbsp;{{ photo.id }}&nbsp;{{ photo.title }}&nbsp;{{ photo.source }} <br>
+    {% else %}
+        {% for photo in photos %}
+            <img src="{{ photo.photo }}" width="175" height="250">&nbsp;{{ photo.id }}&nbsp;{{ photo.title }}&nbsp;{{ photo.source }} <br>
         {% endfor %}
-        {% if photos.number < max_index %}
-            <li >
-                <span>...<span class="sr-only">...</span></span>
-            </li>
-            <li>
-                <a href="?page={{ max_index|add:'2' }}">{{ max_index|add:"2" }}</a>
-            </li>
-        {% endif %}
-        {% if photos.has_next %}
-        <li>
-            <a href="?page={{ photos.next_page_number }}">&raquo;</a>
-        </li>
-        {% else %}
-            <li class="disabled">
-                <span>&raquo;</span>
-            </li>
-        {%endif %}
-    </ul>
-{%endif%}
 
+        {% if photos.has_other_pages %}
+            <ul class = "pagination">
+                {% if photos.has_previous %}
+                    <li>
+                        <a href="?page={{ photos.previous_page_number }}">&laquo;</a>
+                    </li>
+                {% else %}
+                    <li class = "disabled">
+                        <span>&laquo;</span>
+                    </li> 
+                {% endif %}
+                {% if photos.number > 2 %}
+                    <li>
+                        <a href="?page={{ 1 }}"> 1 </a>
+                    </li>
+                    <li>
+                        <span>...<span class="sr-only">...</span></span>
+                    </li>
+                {% endif %} 
+                {% for i in page_range %}
+                    {% if photos.number == i %}
+                        <li class="active">
+                            <span>{{ i }} <span class="sr-only">(current)</span></span>
+                        </li> 
+                    {% else %}
+                        <li>
+                            <a href="?page={{ i }}">{{ i }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if photos.number < max_index %}
+                    <li >
+                        <span>...<span class="sr-only">...</span></span>
+                    </li>
+                    <li>
+                        <a href="?page={{ max_index|add:'2' }}">{{ max_index|add:"2" }}</a>
+                    </li>
+                {% endif %}
+                {% if photos.has_next %}
+                <li>
+                    <a href="?page={{ photos.next_page_number }}">&raquo;</a>
+                </li>
+                {% else %}
+                    <li class="disabled">
+                        <span>&raquo;</span>
+                    </li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    {% endif %}
 {% endblock %}

@@ -18,6 +18,14 @@ class AlbumView(View):
             return redirect("/user/signin/")
 
         if photo_id:
-            return render(request, "gallery/photo.html", Album.objects.get(id=photo_id))
+            photo = Album.objects.get(id=photo_id)
+
+            photo_data = {
+                "id": photo.id,
+                "photo": photo.photo.url,
+                "title": photo.title,
+                "source": photo.source
+            }
+            return render(request, "gallery/album.html", {"photo": photo_data})
 
         return render(request, "gallery/album.html", get_photos(request))

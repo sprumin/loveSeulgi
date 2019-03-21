@@ -13,8 +13,20 @@ class Post(models.Model):
     title = models.CharField(max_length=64)
     photo = models.ImageField(upload_to="image/user")
     content = models.TextField(max_length=1024, default="Content")
-    comment = models.TextField(max_length=1024, default="Comment")
     views = models.IntegerField(default=0)
+    thumbs = models.IntegerField(default=0)
+    created_at = models.DateTimeField(default=datetime.datetime.now())
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Comment(models.Model):
+    id = models.AutoField(primary_key=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    username = models.CharField(max_length=32)
+    message = models.TextField(default="Comment")
     thumbs = models.IntegerField(default=0)
     created_at = models.DateTimeField(default=datetime.datetime.now())
     modified_at = models.DateTimeField(auto_now=True)
@@ -35,3 +47,6 @@ class Problem(models.Model):
     status = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=datetime.datetime.now())
     modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.photo

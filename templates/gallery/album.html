@@ -16,7 +16,8 @@
     {% else %}
         {% for photo in photos %}
             <img src="{{ photo.photo }}" width="175" height="250" onclick="window.location='/gallery/album/{{ photo.id }}'">
-            &nbsp;{{ photo.id }}&nbsp;{{ photo.title }} [{{ photo.comments }}] &nbsp;{{ photo.source }} <br>
+            &nbsp;{{ photo.id }}&nbsp;{{ photo.title }} {% if photo.comments != 0 %}[{{ photo.comments }}]{% endif %} &nbsp;
+            {{ photo.source }} <br>
         {% endfor %}
 
         {% if photos.has_other_pages %}

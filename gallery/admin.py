@@ -25,7 +25,7 @@ class TrashCanAdmin(admin.ModelAdmin):
 
 
 class AlbumCommentAdmin(admin.ModelAdmin):
-    list_display = ("id", "post", "username", "message", "thumbs", "modified_at", )
+    list_display = ("id", "photo", "username", "message", "thumbs", "modified_at", )
     ordering = ("-id", "thumbs", )
 
 

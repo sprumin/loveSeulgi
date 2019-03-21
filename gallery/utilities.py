@@ -4,12 +4,8 @@ from gallery.models import Album
 from user.models import UserAlbum
 
 
-def get_photos(request, user=None, photo_id=None, is_gif=None):
+def get_photos(request, user=None, is_gif=None):
     photo_list = list()
-
-    # get image
-    if photo_id:
-        return Album.objects.get(id=photo_id)
 
     # album photos list
     if user:
@@ -22,9 +18,9 @@ def get_photos(request, user=None, photo_id=None, is_gif=None):
             })
     else:
         if is_gif:
-            condition = Album.objects.filter(is_gif=True)
+            condition = Album.objects.filter(is_gif=True).order_by("-id")
         else:
-            condition = Album.objects.filter(is_gif=False)
+            condition = Album.objects.filter(is_gif=False).order_by("-id")
 
         for row in condition:
             photo_list.append({

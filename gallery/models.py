@@ -22,7 +22,7 @@ class Album(models.Model):
 
 class AlbumComment(models.Model):
     id = models.AutoField(primary_key=True)
-    post = models.ForeignKey(Album, on_delete=models.CASCADE)
+    photo = models.ForeignKey(Album, on_delete=models.CASCADE)
     username = models.CharField(max_length=32)
     message = models.TextField(default="Comment")
     thumbs = models.IntegerField(default=0)

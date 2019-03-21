@@ -3,7 +3,14 @@
 {% block content %}
 
     {% if photo %}
-        <img src="{{ photo.photo }}" width="500" height="500">&nbsp;{{ photo.id }}&nbsp;{{ photo.title }}&nbsp;{{ photo.source }} <br>
+        <img src="{{ photo.photo }}" width="500" height="500"><br>&nbsp;{{ photo.id }}&nbsp;{{ photo.title }}&nbsp;{{ photo.source }} <br>
+        <form method="post">
+            {% csrf_token %}
+            Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"><br>
+        </form>
+        {% for message in photo.comment %}
+            {{ message.username }} | {{ message }} <br>
+        {% endfor %}
     {% else %}
         {% for photo in photos %}
             <img src="{{ photo.photo }}" width="175" height="250" onclick="location.href='/gallery/album/{{ photo.id }}'">
@@ -60,4 +67,8 @@
             </ul>
         {% endif %}
     {% endif %}
+
+    <script type="text/javascript">
+        
+    </script>
 {% endblock %}

@@ -121,7 +121,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
+"""STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+"""
 
 # Media files
 
@@ -129,5 +132,5 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 이거 설정하다가 ForeignKey 에러 날 수도있는데 그러면 db 날리고 makemigrations 먼저 한다음 migrate 하자.
-# 에러나는 이유 : user_user 모델이 유저모델이 되어야하는데 auth_user 모델도 같이 migrate 되기 때문에 에러가나는것. 
+# 에러나는 이유 : user_user 모델이 유저모델이 되어야하는데 auth_user 모델도 같이 migrate 되기 때문에 에러가나는것.
 AUTH_USER_MODEL = 'user.User'

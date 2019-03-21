@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from gallery.models import Album, TrashCan
+from gallery.models import Album, TrashCan, AlbumComment
 
 
 # Register your models here.
@@ -24,5 +24,11 @@ class TrashCanAdmin(admin.ModelAdmin):
     ordering = ("-id", )
 
 
+class AlbumCommentAdmin(admin.ModelAdmin):
+    list_display = ("id", "post", "username", "message", "thumbs", "modified_at", )
+    ordering = ("-id", "thumbs", )
+
+
 admin.site.register(Album, AlbumAdmin)
 admin.site.register(TrashCan, TrashCanAdmin)
+admin.site.register(AlbumComment, AlbumCommentAdmin)

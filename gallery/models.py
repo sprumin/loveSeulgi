@@ -1,5 +1,7 @@
 from django.db import models
 
+import datetime
+
 
 # Create your models here.
 class Album(models.Model):
@@ -16,6 +18,19 @@ class Album(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class AlbumComment(models.Model):
+    id = models.AutoField(primary_key=True)
+    post = models.ForeignKey(Album, on_delete=models.CASCADE)
+    username = models.CharField(max_length=32)
+    message = models.TextField(default="Comment")
+    thumbs = models.IntegerField(default=0)
+    created_at = models.DateTimeField(default=datetime.datetime.now())
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.message
 
 
 class TrashCan(models.Model):

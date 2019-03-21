@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from post.models import Post, Problem, Comment
+from post.models import Post, Problem, PostComment
 
 
 # Register your models here.
@@ -31,11 +31,11 @@ class ProblemAdmin(admin.ModelAdmin):
     image_viewer.short_description = 'Image Viewer'
 
 
-class CommentAdmin(admin.ModelAdmin):
+class PostCommentAdmin(admin.ModelAdmin):
     list_display = ("id", "post", "username", "message", "thumbs", "modified_at", )
     ordering = ("-id", "thumbs", )
 
 
 admin.site.register(Post, PostAdmin)
-admin.site.register(Comment, CommentAdmin)
+admin.site.register(PostComment, PostCommentAdmin)
 admin.site.register(Problem, ProblemAdmin)

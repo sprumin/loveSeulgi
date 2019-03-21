@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from gallery.models import Album
+from gallery.models import Album, AlbumComment
 from user.models import UserAlbum
 
 
@@ -14,7 +14,8 @@ def get_photos(request, user=None, is_gif=None):
                 "id": row.id,
                 "photo": row,
                 "title": row.photo.title,
-                "source": row.photo.source
+                "source": row.photo.source,
+                "comments": len(AlbumComment.objects.filter(photo=row))
             })
     else:
         if is_gif:
@@ -27,7 +28,8 @@ def get_photos(request, user=None, is_gif=None):
                 "id": row.id,
                 "photo": row.photo.url,
                 "title": row.title,
-                "source": row.source
+                "source": row.source,
+                "comments": len(AlbumComment.objects.filter(photo=row))
             })
 
     return pagination(request, photo_list)

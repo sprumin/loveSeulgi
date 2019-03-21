@@ -3,7 +3,8 @@
 {% block content %}
 
     {% if photo %}
-        <img src="{{ photo.photo }}" width="500" height="500"><br>&nbsp;{{ photo.id }}&nbsp;{{ photo.title }}&nbsp;{{ photo.source }} <br>
+        <img src="{{ photo.photo }}" width="500" height="500"><br>&nbsp;{{ photo.id }}&nbsp;
+        {{ photo.title }} &nbsp;{{ photo.source }} <br>
         <form method="post">
             {% csrf_token %}
             Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ photo.views }}   
@@ -15,7 +16,7 @@
     {% else %}
         {% for photo in photos %}
             <img src="{{ photo.photo }}" width="175" height="250" onclick="window.location='/gallery/album/{{ photo.id }}'">
-            &nbsp;{{ photo.id }}&nbsp;{{ photo.title }}&nbsp;{{ photo.source }} <br>
+            &nbsp;{{ photo.id }}&nbsp;{{ photo.title }} [{{ photo.comments }}] &nbsp;{{ photo.source }} <br>
         {% endfor %}
 
         {% if photos.has_other_pages %}

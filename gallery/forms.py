@@ -1,6 +1,6 @@
 from django import forms
 
-from gallery.models import Album, AlbumComment
+from gallery.models import AlbumComment
 
 
 class AlbumCommentForm(forms.ModelForm):

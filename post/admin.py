@@ -1,10 +1,23 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from post.models import Post, Problem, PostComment
+from post.models import Notice, Post, Report, NoticeComment, PostComment, ReportComment
 
 
 # Register your models here.
+class NoticeAdmin(admin.ModelAdmin):
+    list_display = ("id", "user", "title", "photo", "views", "thumbs", "modified_at", )
+    ordering = ("-id", "views", )
+    readonly_fields = ("image_viewer", )
+
+    def image_viewer(self, obj):
+        return mark_safe(
+            "<a href='{}'><img src='{}' width='{}' height='{}' /></a>".format(
+                obj.photo.url, obj.photo.url, obj.photo.width / 3, obj.photo.height / 3))
+
+    image_viewer.short_description = 'Image Viewer'
+
+
 class PostAdmin(admin.ModelAdmin):
     list_display = ("id", "user", "title", "photo", "views", "thumbs", "modified_at", )
     ordering = ("-id", "views", "thumbs", )
@@ -18,17 +31,22 @@ class PostAdmin(admin.ModelAdmin):
     image_viewer.short_description = 'Image Viewer'
 
 
-class ProblemAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "title", "photo", "category", "status", "modified_at", )
-    ordering = ("-id", "category", "status", )
+class ReportAdmin(admin.ModelAdmin):
+    list_display = ("id", "user", "title", "photo", "views", "thumbs", "modified_at", )
+    ordering = ("-id", "views", )
     readonly_fields = ("image_viewer", )
 
     def image_viewer(self, obj):
         return mark_safe(
             "<a href='{}'><img src='{}' width='{}' height='{}' /></a>".format(
-                obj.photo.photo.url, obj.photo.photo.url, obj.photo.photo.width / 3, obj.photo.photo.height / 3))
+                obj.photo.url, obj.photo.url, obj.photo.width / 3, obj.photo.height / 3))
 
     image_viewer.short_description = 'Image Viewer'
+
+
+class NoticeCommentAdmin(admin.ModelAdmin):
+    list_display = ("id", "notice", "username", "message", "modified_at", )
+    ordering = ("-id", )
 
 
 class PostCommentAdmin(admin.ModelAdmin):
@@ -36,6 +54,14 @@ class PostCommentAdmin(admin.ModelAdmin):
     ordering = ("-id", "thumbs", )
 
 
+class ReportCommentAdmin(admin.ModelAdmin):
+    list_display = ("id", "report", "username", "message", "modified_at", )
+    ordering = ("-id", )
+
+
+admin.site.register(Notice, PostAdmin)
 admin.site.register(Post, PostAdmin)
+admin.site.register(Report, PostAdmin)
+admin.site.register(NoticeComment, NoticeCommentAdmin)
 admin.site.register(PostComment, PostCommentAdmin)
-admin.site.register(Problem, ProblemAdmin)
+admin.site.register(ReportComment, ReportCommentAdmin)

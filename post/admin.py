@@ -6,7 +6,7 @@ from post.models import Notice, Post, Report, NoticeComment, PostComment, Report
 
 # Register your models here.
 class NoticeAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "title", "photo", "views", "thumbs", "modified_at", )
+    list_display = ("id", "user", "title", "photo", "views", "modified_at", )
     ordering = ("-id", "views", )
     readonly_fields = ("image_viewer", )
 
@@ -32,7 +32,7 @@ class PostAdmin(admin.ModelAdmin):
 
 
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "title", "photo", "views", "thumbs", "modified_at", )
+    list_display = ("id", "user", "title", "photo", "views", "modified_at", )
     ordering = ("-id", "views", )
     readonly_fields = ("image_viewer", )
 
@@ -59,9 +59,9 @@ class ReportCommentAdmin(admin.ModelAdmin):
     ordering = ("-id", )
 
 
-admin.site.register(Notice, PostAdmin)
+admin.site.register(Notice, NoticeAdmin)
 admin.site.register(Post, PostAdmin)
-admin.site.register(Report, PostAdmin)
+admin.site.register(Report, ReportAdmin)
 admin.site.register(NoticeComment, NoticeCommentAdmin)
 admin.site.register(PostComment, PostCommentAdmin)
 admin.site.register(ReportComment, ReportCommentAdmin)

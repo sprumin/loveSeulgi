@@ -25,7 +25,7 @@ class Post(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=64)
-    photo = models.ImageField(upload_to="image/user", blank=True)
+    photo = models.ImageField(upload_to="image/post", blank=True)
     content = models.TextField(max_length=1024, default="")
     views = models.IntegerField(default=0)
     thumbs = models.IntegerField(default=0)
@@ -45,7 +45,7 @@ class Report(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=64)
-    photo = models.ForeignKey(Album, on_delete=models.CASCADE, blank=True)
+    photo = models.ImageField(upload_to="image/report", blank=True)
     category = models.CharField(max_length=12, choices=CATEGORY, default="SITE")
     content = models.TextField(max_length=1024, default="")
     views = models.IntegerField(default=0)
@@ -55,12 +55,12 @@ class Report(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.photo
+        return self.content
 
 
 class NoticeComment(models.Model):
     id = models.AutoField(primary_key=True)
-    notice = models.ForeignKey(Notice, on_delete=models.CASCADE, blank=True)
+    notice = models.ForeignKey(Notice, on_delete=models.CASCADE)
     username = models.CharField(max_length=32)
     message = models.TextField(default="")
     created_at = models.DateTimeField(default=datetime.datetime.now())
@@ -72,7 +72,7 @@ class NoticeComment(models.Model):
 
 class PostComment(models.Model):
     id = models.AutoField(primary_key=True)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     username = models.CharField(max_length=32)
     message = models.TextField(default="")
     thumbs = models.IntegerField(default=0)
@@ -85,7 +85,7 @@ class PostComment(models.Model):
 
 class ReportComment(models.Model):
     id = models.AutoField(primary_key=True)
-    report = models.ForeignKey(Report, on_delete=models.CASCADE, blank=True)
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)
     username = models.CharField(max_length=32)
     message = models.TextField(default="")
     created_at = models.DateTimeField(default=datetime.datetime.now())

@@ -7,13 +7,13 @@ def pagination(request, data_list):
     page = request.GET.get('page')
 
     try:
-        photos = paginator.page(page)
+        data = paginator.page(page)
     except PageNotAnInteger:
-        photos = paginator.page(1)
+        data = paginator.page(1)
     except EmptyPage:
-        photos = paginator.page(paginator.num_pages)
+        data = paginator.page(paginator.num_pages)
 
-    index = photos.number - 1
+    index = data.number - 1
     max_index = len(paginator.page_range)
     start_index = index - 2 if index >= 2 else 0
 
@@ -24,5 +24,5 @@ def pagination(request, data_list):
 
     page_range = list(paginator.page_range[start_index:end_index])
 
-    return {"photos": photos, "page_range": page_range,
+    return {"data": data, "page_range": page_range,
             "total_len": total_len, "max_index": max_index - 2}

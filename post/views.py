@@ -43,9 +43,7 @@ class NoticeView(View):
 
             return render(request, "post/notice.html", {"notice": notice_data, "form": form})
 
-        return render(request, "post/notice.html", {
-            "notice": Notice.objects.all().order_by("-id")
-        })
+        return render(request, "post/notice.html", pagination(request, Notice.objects.all().order_by("-id")))
 
     def post(self, request, notice_id):
         pass
@@ -79,9 +77,7 @@ class PostView(View):
 
             return render(request, "post/post.html", {"post": post_data, "form": form})
 
-        return render(request, "post/post.html", {
-            "post": Post.objects.all().order_by("-id")
-        })
+        return render(request, "post/post.html", pagination(request, Post.objects.all().order_by("-id")))
 
     def post(self, request, post_id):
         pass
@@ -117,9 +113,7 @@ class ReportView(View):
 
             return render(request, "post/report.html", {"post": report_data, "form": form})
 
-        return render(request, "post/report.html", {
-            "report": Report.objects.all().order_by("-id")
-        })
+        return render(request, "post/report.html", pagination(request, Report.objects.all().order_by("-id")))
 
     def post(self, request, report_id):
         pass

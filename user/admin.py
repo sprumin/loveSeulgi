@@ -4,17 +4,17 @@ from django.contrib.auth.models import Group
 from django.utils.safestring import mark_safe
 
 from user.forms import UserCreationForm
-from user.models import User, UserAlbum
+from user.models import User
 
 
 class UserAdmin(BaseUserAdmin):
     """ User Model Admin"""
     add_form = UserCreationForm
 
-    list_display = ('email', 'username', 'is_superuser', )
+    list_display = ('email', 'username', 'photos_count', 'is_superuser', )
     list_filter = ('is_superuser', )
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'username', 'is_superuser', )}),
+        (None, {'fields': ('email', 'password', 'username', 'is_superuser', 'image_viewer', )}),
     )
     add_fieldsets = (
         (None, {
@@ -25,20 +25,22 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ()
+    readonly_fields = ('image_viewer', )
 
-
-class UserAlbumAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "photo", )
-    ordering = ("-id", )
-    readonly_fields = ("image_viewer", )
+    def photos_count(self, obj):
+        return len(obj.photos.all())
 
     def image_viewer(self, obj):
-        return mark_safe(
-            "<a href='{}'><img src='{}' width='{}' height='{}' /></a>".format(
-                obj.photo.photo.url, obj.photo.photo.url, obj.photo.photo.width / 3, obj.photo.photo.height / 3))
+        photos = ""
+
+        for row in obj.photos.all():
+            photos += "<a href='{}'><img src='{}' width='{}' height='{}' /></a>  ".format(
+                      row.photo.url, row.photo.url, row.photo.width / 3, row.photo.height / 3)
+
+        return mark_safe(photos)
 
     image_viewer.short_description = 'Image Viewer'
 
+
 admin.site.register(User, UserAdmin)
-admin.site.register(UserAlbum, UserAlbumAdmin)
 admin.site.unregister(Group)

@@ -39,6 +39,7 @@ class User(AbstractBaseUser):
         unique=True,
     )
     username = models.CharField(max_length=32)
+    photos = models.ManyToManyField(Album)
     is_superuser = models.BooleanField(default=False)
 
     objects = UserManager()
@@ -67,12 +68,3 @@ class User(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All superusers are staff
         return self.is_superuser
-
-
-class UserAlbum(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    photo = models.ForeignKey(Album, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.photo.photo.url

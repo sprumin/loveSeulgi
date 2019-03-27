@@ -3,7 +3,7 @@ from django.http import HttpResponse, QueryDict
 from django.shortcuts import render, redirect
 from django.views import View
 
-from gallery.utilities import get_photos
+from gallery.utilities import pagination
 from user.forms import UserCreationForm, UserSignInForm, UserEditForm, UserDeleteForm
 from user.models import User
 

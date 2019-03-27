@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
+from gallery.models import Album
 from user.models import User, UserManager
 
 

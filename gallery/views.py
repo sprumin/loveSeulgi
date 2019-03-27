@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from gallery.forms import AlbumCommentForm
-from gallery.utilities import get_photos
+from gallery.utilities import pagination
 from gallery.models import Album, AlbumComment
 
 

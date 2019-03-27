@@ -1,39 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from gallery.models import Album, AlbumComment
-from user.models import UserAlbum
-
-
-def get_photos(request, user=None, is_gif=None):
-    photo_list = list()
-
-    # album photos list
-    if user:
-        for row in UserAlbum.objects.filter(user__email=user):
-            photo_list.append({
-                "id": row.id,
-                "photo": row,
-                "title": row.photo.title,
-                "source": row.photo.source,
-                "comments": len(AlbumComment.objects.filter(photo=row))
-            })
-    else:
-        if is_gif:
-            condition = Album.objects.filter(is_gif=True).order_by("-id")
-        else:
-            condition = Album.objects.filter(is_gif=False).order_by("-id")
-
-        for row in condition:
-            photo_list.append({
-                "id": row.id,
-                "photo": row.photo.url,
-                "title": row.title,
-                "source": row.source,
-                "comments": len(AlbumComment.objects.filter(photo=row))
-            })
-
-    return pagination(request, photo_list)
-
 
 def pagination(request, data_list):
     total_len = len(data_list)

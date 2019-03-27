@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import View
 
+from gallery.utilities import pagination
 from post.forms import NoticeCommentForm, PostCommentForm, ReportCommentForm
 from post.models import Notice, Post, Report, NoticeComment, PostComment, ReportComment
 
@@ -115,10 +116,6 @@ class ReportView(View):
             report.save()
 
             return render(request, "post/report.html", {"post": report_data, "form": form})
-
-        return render(request, "post/post.html", {
-            "post": Post.objects.all().order_by("-id")
-        })
 
         return render(request, "post/report.html", {
             "report": Report.objects.all().order_by("-id")

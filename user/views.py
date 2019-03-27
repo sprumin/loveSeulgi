@@ -125,4 +125,15 @@ class UserAlbumView(View):
         if not request.user.is_authenticated:
             return redirect("/user/signin/")
 
-        return render(request, "user/album.html", get_photos(request, user=request.user.email))
+        user = User.objects.get(email=request.user.email)
+        user_album = list()
+
+        for row in user.photos.all():
+            user_album.append({
+                "id": row.id,
+                "title": row.title,
+                "photo": row.photo.url,
+                "source": row.source
+            })
+
+        return render(request, "user/album.html", pagination(request, user_album))

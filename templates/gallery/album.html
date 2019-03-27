@@ -8,7 +8,8 @@
         <form method="post">
             {% csrf_token %}
             Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ photo.views }}   
-            추천 수 {{ photo.thumbs }} <input type="button" id="thumbs_up" value="추천"><br>
+            추천 수 {{ photo.thumbs }} <input type="button" id="thumbs_up" value="추천">
+            <input type="button" id="move_myalbum" value="앨범에 등록"><br>
         </form>
         {% for message in photo.comment %}
             {{ message.username }} | {{ message }} <br>
@@ -86,6 +87,23 @@
                 },
                 error: function(error){
                     alert(error);
+                }
+              })
+            })
+        $("#move_myalbum").on("click", function(){
+            $.ajax({
+                type: "POST",
+                url: "/gallery/album/" + "{{ photo.id }}",
+                data: {myalbum: true},
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
+                },
+                success: function(){
+                    alert("나의 앨범에 사진을 등록하였습니다!");
+                    window.location.reload();
+                },
+                error: function(error){
+                    alert("이미 등록되어있는 사진입니다.");
                 }
               })
             })

@@ -6,6 +6,7 @@ from django.views import View
 from gallery.forms import AlbumCommentForm
 from gallery.utilities import pagination
 from gallery.models import Album, AlbumComment
+from user.models import User
 
 
 # Create your views here.
@@ -17,6 +18,8 @@ class AlbumView(View):
     def get(self, request, photo_id=None):
         if not request.user.is_authenticated:
             return redirect("/user/signin/")
+
+        is_gif = request.POST.get("is_gif", None)
 
         # send photo data
         if photo_id:
@@ -40,7 +43,23 @@ class AlbumView(View):
 
             return render(request, "gallery/album.html", {"photo": photo_data, "form": form})
 
-        return render(request, "gallery/album.html", get_photos(request))
+        if is_gif:
+            condition = Album.objects.filter(is_gif=True).order_by("-id")
+        else:
+            condition = Album.objects.filter(is_gif=False).order_by("-id")
+
+        photo_list = list()
+
+        for row in condition:
+            photo_list.append({
+                "id": row.id,
+                "photo": row.photo.url,
+                "title": row.title,
+                "source": row.source,
+                "comments": len(AlbumComment.objects.filter(photo=row))
+            })
+
+        return render(request, "gallery/album.html", pagination(request, photo_list))
 
     def post(self, request, photo_id):
         photo = Album.objects.get(id=photo_id)
@@ -48,6 +67,7 @@ class AlbumView(View):
         username = request.POST.get("username", None)
         comment = request.POST.get("comment", None)
         thumbs = request.POST.get("thumbs", None)
+        myalbum = request.POST.get("myalbum", None)
 
         # save photo comment
         if username and comment:
@@ -61,5 +81,16 @@ class AlbumView(View):
             # thumbs 데이터를 view 로 전송할 때 해당 url에 접근하기때문에 조회수가 두번 누적되어서 한번 빼준다
             photo.views -= 1
             photo.save()
+
+        # UserAlbum 에 해당 photo 등록시키기
+        if myalbum:
+            user = User.objects.get(email=request.user.email)
+
+            if photo in user.photos.all():
+                return HttpResponse(status=400)
+            else:
+                # ManyToManyField 라서 add 로 추가해줘야함
+                user.photos.add(photo)
+                user.save()
 
         return redirect(f"/gallery/album/{photo_id}")

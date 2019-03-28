@@ -2,20 +2,37 @@
 
 {% block content %}
 
+{% if report %}
+    {% if report.photo %}
+        <img src="{{ report.photo }}" width="500" height="500"><br>
+    {% endif %}
+    &nbsp;{{ report.id }}&nbsp;{{ report.title }} &nbsp;<br>{{ report.content }} <br>
+    <form method="post">
+        {% csrf_token %}
+        Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ report.views }}
+    </form>
+    {% for message in report.comment %}
+        {{ message.username }} | {{ message }} <br>
+    {% endfor %}
+{% else %}
+    {% for row in data %}
+        <a href="/post/report/{{ row.id }}">{{ row.id }}&nbsp;{{ row.title }}&nbsp;{{ row.content }}&nbsp;{{ row.views }}</a><br>
+    {% endfor %}
+{% endif %}
 
 
-{% if photos.has_other_pages %}
+{% if data.has_other_pages %}
     <ul class = "pagination">
-        {% if photos.has_previous %}
+        {% if data.has_previous %}
             <li>
-                <a href="?page={{ photos.previous_page_number }}">&laquo;</a>
+                <a href="?page={{ data.previous_page_number }}">&laquo;</a>
             </li>
         {% else %}
             <li class = "disabled">
                 <span>&laquo;</span>
             </li> 
         {% endif %}
-        {% if photos.number > 2 %}
+        {% if data.number > 2 %}
             <li>
                 <a href="?page={{ 1 }}"> 1 </a>
             </li>
@@ -24,7 +41,7 @@
             </li>
         {% endif %} 
         {% for i in page_range %}
-            {% if photos.number == i %}
+            {% if data.number == i %}
                 <li class="active">
                     <span>{{ i }} <span class="sr-only">(current)</span></span>
                 </li> 
@@ -34,7 +51,7 @@
                 </li>
             {% endif %}
         {% endfor %}
-        {% if photos.number < max_index %}
+        {% if data.number < max_index %}
             <li >
                 <span>...<span class="sr-only">...</span></span>
             </li>
@@ -42,16 +59,16 @@
                 <a href="?page={{ max_index|add:'2' }}">{{ max_index|add:"2" }}</a>
             </li>
         {% endif %}
-        {% if photos.has_next %}
+        {% if data.has_next %}
         <li>
-            <a href="?page={{ photos.next_page_number }}">&raquo;</a>
+            <a href="?page={{ data.next_page_number }}">&raquo;</a>
         </li>
         {% else %}
             <li class="disabled">
                 <span>&raquo;</span>
             </li>
-        {%endif %}
+        {% endif %}
     </ul>
-{%endif%}
+{% endif %}
 
 {% endblock %}

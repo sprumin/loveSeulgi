@@ -35,7 +35,7 @@ class NoticeView(View):
             }
 
             if notice.photo:
-                notice_data["photo"] = notice.photo
+                notice_data["photo"] = notice.photo.url
 
             # views update
             notice.views += 1
@@ -46,7 +46,16 @@ class NoticeView(View):
         return render(request, "post/notice.html", pagination(request, Notice.objects.all().order_by("-id")))
 
     def post(self, request, notice_id):
-        pass
+        notice = Notice.objects.get(id=notice_id)
+
+        username = request.POST.get("username", None)
+        comment = request.POST.get("comment", None)
+
+        if username and comment:
+            notice_com = NoticeComment(notice=notice, username=username, message=comment)
+            notice_com.save()
+
+        return redirect(f"/post/notice/{notice_id}")
 
 
 class PostView(View):
@@ -69,7 +78,7 @@ class PostView(View):
             }
 
             if post.photo:
-                post_data["photo"] = post.photo
+                post_data["photo"] = post.photo.url
 
             # views update
             post.views += 1
@@ -80,7 +89,16 @@ class PostView(View):
         return render(request, "post/post.html", pagination(request, Post.objects.all().order_by("-id")))
 
     def post(self, request, post_id):
-        pass
+        post = Post.objects.get(id=post_id)
+
+        username = request.POST.get("username", None)
+        comment = request.POST.get("comment", None)
+
+        if username and comment:
+            post_com = PostComment(post=post, username=username, message=comment)
+            post_com.save()
+
+        return redirect(f"/post/post/{post_id}")
 
 
 class ReportView(View):
@@ -105,15 +123,24 @@ class ReportView(View):
             }
 
             if report.photo:
-                report["photo"] = report.photo
+                report["photo"] = report.photo.url
 
             # views update
             report.views += 1
             report.save()
 
-            return render(request, "post/report.html", {"post": report_data, "form": form})
+            return render(request, "post/report.html", {"report": report_data, "form": form})
 
         return render(request, "post/report.html", pagination(request, Report.objects.all().order_by("-id")))
 
     def post(self, request, report_id):
-        pass
+        report = Report.objects.get(id=report_id)
+
+        username = request.POST.get("username", None)
+        comment = request.POST.get("comment", None)
+
+        if username and comment:
+            report_com = ReportComment(report=report, username=username, message=comment)
+            report_com.save()
+
+        return redirect(f"/post/report/{report_id}")

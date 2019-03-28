@@ -6,14 +6,14 @@
     {% if notice.photo %}
         <img src="{{ notice.photo }}" width="500" height="500"><br>
     {% endif %}
-        &nbsp;{{ notice.id }}&nbsp;{{ notice.title }} &nbsp;<br>{{ notice.content }} <br>
-        <form method="post">
-            {% csrf_token %}
-            Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ notice.views }}
-        </form>
-        {% for message in notice.comment %}
-            {{ message.username }} | {{ message }} <br>
-        {% endfor %}
+    &nbsp;{{ notice.id }}&nbsp;{{ notice.title }} &nbsp;<br>{{ notice.content }} <br>
+    <form method="post">
+        {% csrf_token %}
+        Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ notice.views }}
+    </form>
+    {% for message in notice.comment %}
+        {{ message.username }} | {{ message }} <br>
+    {% endfor %}
 {% else %}
     {% for row in data %}
         <a href="/post/notice/{{ row.id }}">{{ row.id }}&nbsp;{{ row.title }}&nbsp;{{ row.content }}&nbsp;{{ row.views }}</a><br>

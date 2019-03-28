@@ -63,11 +63,13 @@ class AlbumView(View):
 
     def post(self, request, photo_id):
         photo = Album.objects.get(id=photo_id)
+        user = User.objects.get(email=request.user.email)
 
         username = request.POST.get("username", None)
         comment = request.POST.get("comment", None)
         thumbs = request.POST.get("thumbs", None)
-        myalbum = request.POST.get("myalbum", None)
+        add_myalbum = request.POST.get("add_myalbum", None)
+        del_myalbum = request.POST.get("del_myalbum", None)
 
         # save photo comment
         if username and comment:
@@ -82,15 +84,18 @@ class AlbumView(View):
             photo.views -= 1
             photo.save()
 
-        # UserAlbum 에 해당 photo 등록시키기
-        if myalbum:
-            user = User.objects.get(email=request.user.email)
-
+        # UserAlbum 에 해당 photo 등록/삭제 시키기
+        if add_myalbum:
             if photo in user.photos.all():
                 return HttpResponse(status=400)
             else:
-                # ManyToManyField 라서 add 로 추가해줘야함
                 user.photos.add(photo)
+                user.save()
+        elif del_myalbum:
+            if not photo in user.photos.all():
+                return HttpResponse(status=400)
+            else:
+                user.photos.remove(photo)
                 user.save()
 
         return redirect(f"/gallery/album/{photo_id}")

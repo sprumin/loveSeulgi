@@ -2,6 +2,7 @@
 
 {% block content %}
 
+<h1> 공지사항 </h1>
 {% if notice %}
     {% if notice.photo %}
         <img src="{{ notice.photo }}" width="500" height="500"><br>
@@ -15,6 +16,10 @@
         {{ message.username }} | {{ message }} <br>
     {% endfor %}
 {% else %}
+    {% if request.user.is_superuser %}
+        <input type="button" name="add_notice" value="글쓰기">
+    {% endif %}
+    <br>
     {% for row in data %}
         <a href="/post/notice/{{ row.id }}">{{ row.id }}&nbsp;{{ row.title }}&nbsp;{{ row.content }}&nbsp;{{ row.views }}</a><br>
     {% endfor %}

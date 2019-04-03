@@ -1,6 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%; /* Could be more or less, depending on screen size */                          
+        }
+ 
+</style>
 
 <h1> 공지사항 </h1>
 {% if notice %}
@@ -16,28 +41,45 @@
         {{ message.username }} | {{ message }} <br>
     {% endfor %}
 {% else %}
+    <div id="add_notice" class="modal">
+ 
+      <!-- Modal content -->
+      <div class="modal-content">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="등록">
+            </form>
+            <div id="close_modal" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
+                <span class="pop_bt" style="font-size: 13pt;" >
+                     닫기
+                </span>
+            </div>
+      </div>
+ 
+    </div>
     {% if request.user.is_superuser %}
-        <input type="button" name="add_notice" value="글쓰기">
+        <input type="button" id="open_modal" name="add_notice" value="글쓰기">
     {% endif %}
     <br>
-    {% for row in data %}
+    {% for row in pagination.data %}
         <a href="/post/notice/{{ row.id }}">{{ row.id }}&nbsp;{{ row.title }}&nbsp;{{ row.content }}&nbsp;{{ row.views }}</a><br>
     {% endfor %}
 {% endif %}
 
 
-{% if data.has_other_pages %}
+{% if pagination.data.has_other_pages %}
     <ul class = "pagination">
-        {% if data.has_previous %}
+        {% if pagination.data.has_previous %}
             <li>
-                <a href="?page={{ data.previous_page_number }}">&laquo;</a>
+                <a href="?page={{ pagination.data.previous_page_number }}">&laquo;</a>
             </li>
         {% else %}
             <li class = "disabled">
                 <span>&laquo;</span>
             </li> 
         {% endif %}
-        {% if data.number > 2 %}
+        {% if pagination.data.number > 2 %}
             <li>
                 <a href="?page={{ 1 }}"> 1 </a>
             </li>
@@ -46,7 +88,7 @@
             </li>
         {% endif %} 
         {% for i in page_range %}
-            {% if data.number == i %}
+            {% if pagination.data.number == i %}
                 <li class="active">
                     <span>{{ i }} <span class="sr-only">(current)</span></span>
                 </li> 
@@ -56,7 +98,7 @@
                 </li>
             {% endif %}
         {% endfor %}
-        {% if data.number < max_index %}
+        {% if pagination.data.number < max_index %}
             <li >
                 <span>...<span class="sr-only">...</span></span>
             </li>
@@ -64,9 +106,9 @@
                 <a href="?page={{ max_index|add:'2' }}">{{ max_index|add:"2" }}</a>
             </li>
         {% endif %}
-        {% if data.has_next %}
+        {% if pagination.data.has_next %}
         <li>
-            <a href="?page={{ data.next_page_number }}">&raquo;</a>
+            <a href="?page={{ pagination.data.next_page_number }}">&raquo;</a>
         </li>
         {% else %}
             <li class="disabled">
@@ -75,5 +117,18 @@
         {% endif %}
     </ul>
 {% endif %}
+<script>
+    $(document).ready(function(){
+        $("#add_notice").hide();
+    })
+
+    $("#open_modal").on("click", function(){
+        $("#add_notice").show();
+    })
+
+    $("#close_modal").on("click", function(){
+        $("#add_notice").hide();
+    })
+</script>
 
 {% endblock %}

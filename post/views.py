@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.views import View
 
 from gallery.utilities import pagination
-from post.forms import NoticeCommentForm, PostCommentForm, ReportCommentForm
+from user.models import User
+from post.forms import NoticeAddForm, NoticeCommentForm, PostCommentForm, ReportCommentForm
 from post.models import Notice, Post, Report, NoticeComment, PostComment, ReportComment
 
 
@@ -22,7 +23,7 @@ class NoticeView(View):
             notice = Notice.objects.get(id=notice_id)
 
             if not notice.user.is_superuser:
-                return "This user is not admin"
+                return HttpResponse("This user is not admin")
 
             comment = NoticeComment.objects.filter(notice=notice)
 
@@ -42,11 +43,17 @@ class NoticeView(View):
             notice.save()
 
             return render(request, "post/notice.html", {"notice": notice_data, "form": form})
+        else:
+            form = NoticeAddForm
 
-        return render(request, "post/notice.html", pagination(request, Notice.objects.all().order_by("-id")))
+            return render(request, "post/notice.html", {
+                "pagination": pagination(request, Notice.objects.all().order_by("-id")),
+                "form": form
+            })
 
-    def post(self, request, notice_id):
-        notice = Notice.objects.get(id=notice_id)
+    def post(self, request, notice_id=None):
+        if notice_id:
+            notice = Notice.objects.get(id=notice_id)
 
         username = request.POST.get("username", None)
         comment = request.POST.get("comment", None)
@@ -54,6 +61,16 @@ class NoticeView(View):
         if username and comment:
             notice_com = NoticeComment(notice=notice, username=username, message=comment)
             notice_com.save()
+        else:
+            form = NoticeAddForm(request.POST, request.FILES)
+
+            if form.is_valid():
+                user = User.objects.get(email=request.user.email)
+                if not user.is_superuser:
+                    return HttpResponse("User is not admin")
+
+                form.save()
+                return redirect("/post/notice")
 
         return redirect(f"/post/notice/{notice_id}")
 

@@ -1,6 +1,12 @@
 from django import forms
 
-from post.models import NoticeComment, PostComment, ReportComment
+from post.models import Notice, Post, Report, NoticeComment, PostComment, ReportComment
+
+
+class NoticeAddForm(forms.ModelForm):
+    class Meta:
+        model = Notice
+        fields = ("user", "title", "photo", "content")
 
 
 class NoticeCommentForm(forms.ModelForm):

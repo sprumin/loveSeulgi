@@ -47,7 +47,10 @@
       <div class="modal-content">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
+                <h3>User : {{ form.user }}</h3>
+                <h3>Title : {{ form.title }}</h3>
+                <h3>Photo : {{ form.photo }}</h3>
+                <h3>Content : {{ form.content }}</h3>
                 <input type="submit" value="등록">
             </form>
             <div id="close_modal" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">

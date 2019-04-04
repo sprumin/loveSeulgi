@@ -10,12 +10,42 @@ class NoticeAddForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "E-mail",
-                "required": "true"
+                "required": True,
             }))
 
     class Meta:
         model = Notice
         fields = ("user", "title", "photo", "content")
+
+
+class PostAddForm(forms.ModelForm):
+    user = forms.CharField(
+        label="E-mail",
+        disabled=True,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "E-mail",
+                "required": True,
+            }))
+
+    class Meta:
+        model = Post
+        fields = ("user", "title", "photo", "content")
+
+
+class ReportAddForm(forms.ModelForm):
+    user = forms.CharField(
+        label="E-mail",
+        disabled=True,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "E-mail",
+                "required": True,
+            }))
+
+    class Meta:
+        model = Report
+        fields = ("user", "title", "category", "photo", "content", "password")
 
 
 class NoticeCommentForm(forms.ModelForm):

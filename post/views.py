@@ -4,7 +4,7 @@ from django.views import View
 
 from gallery.utilities import pagination
 from user.models import User
-from post.forms import NoticeAddForm, NoticeCommentForm, PostCommentForm, ReportCommentForm
+from post.forms import NoticeAddForm, PostAddForm, ReportAddForm, NoticeCommentForm, PostCommentForm, ReportCommentForm
 from post.models import Notice, Post, Report, NoticeComment, PostComment, ReportComment
 
 
@@ -44,7 +44,7 @@ class NoticeView(View):
 
             return render(request, "post/notice.html", {"notice": notice_data, "form": form})
         else:
-            form = NoticeAddForm(initial={"user": request.user.email})
+            form = NoticeAddForm(initial={"user": User.objects.get(email=request.user.email)})
 
             return render(request, "post/notice.html", {
                 "pagination": pagination(request, Notice.objects.all().order_by("-id")),
@@ -62,14 +62,19 @@ class NoticeView(View):
             notice_com = NoticeComment(notice=notice, username=username, message=comment)
             notice_com.save()
         else:
-            form = NoticeAddForm(request.POST, request.FILES)
+            user = User.objects.get(email=request.user.email)
 
-            if form.is_valid():
-                user = User.objects.get(email=request.user.email)
-                if not user.is_superuser:
-                    return HttpResponse("User is not admin")
+            if not user.is_superuser:
+                return HttpResponse("User is not admin")
 
-                form.save()
+            title = request.POST.get("title", None)
+            photo = request.FILES.get("photo", None)
+            content = request.POST.get("content", None)
+
+            if title and content:
+                notice = Notice(user=user, title=title, photo=photo, content=content)
+                notice.save()
+
                 return redirect("/post/notice")
 
         return redirect(f"/post/notice/{notice_id}")
@@ -102,8 +107,10 @@ class PostView(View):
             post.save()
 
             return render(request, "post/post.html", {"post": post_data, "form": form})
+        else:
+            form = PostAddForm(initial={"user": request.user.email})
 
-        return render(request, "post/post.html", pagination(request, Post.objects.all().order_by("-id")))
+            return render(request, "post/post.html", pagination(request, Post.objects.all().order_by("-id")))
 
     def post(self, request, post_id):
         post = Post.objects.get(id=post_id)
@@ -114,6 +121,17 @@ class PostView(View):
         if username and comment:
             post_com = PostComment(post=post, username=username, message=comment)
             post_com.save()
+        else:
+            user = User.objects.get(email=request.user.email)
+            title = request.POST.get("title", None)
+            photo = request.FILES.get("photo", None)
+            content = request.POST.get("content", None)
+
+            if title and content:
+                post = Post(user=user, title=title, photo=photo, content=content)
+                post.save()
+
+                return redirect("/post/post")
 
         return redirect(f"/post/post/{post_id}")
 

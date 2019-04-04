@@ -44,7 +44,7 @@ class NoticeView(View):
 
             return render(request, "post/notice.html", {"notice": notice_data, "form": form})
         else:
-            form = NoticeAddForm
+            form = NoticeAddForm(initial={"user": request.user.email})
 
             return render(request, "post/notice.html", {
                 "pagination": pagination(request, Notice.objects.all().order_by("-id")),

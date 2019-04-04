@@ -4,6 +4,15 @@ from post.models import Notice, Post, Report, NoticeComment, PostComment, Report
 
 
 class NoticeAddForm(forms.ModelForm):
+    user = forms.CharField(
+        label="E-mail",
+        disabled=True,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "E-mail",
+                "required": "true"
+            }))
+
     class Meta:
         model = Notice
         fields = ("user", "title", "photo", "content")

@@ -75,7 +75,7 @@ class NoticeView(View):
                 notice = Notice(user=user, title=title, photo=photo, content=content)
                 notice.save()
 
-                return redirect("/post/notice")
+            return redirect("/post/notice")
 
         return redirect(f"/post/notice/{notice_id}")
 
@@ -121,10 +121,15 @@ class PostView(View):
 
         username = request.POST.get("username", None)
         comment = request.POST.get("comment", None)
+        thumbs = request.POST.get("thumbs", None)
 
         if username and comment:
             post_com = PostComment(post=post, username=username, message=comment)
             post_com.save()
+        elif thumbs:
+            post.thumbs += 1
+            post.views -= 1
+            post.save()
         else:
             user = User.objects.get(email=request.user.email)
             title = request.POST.get("title", None)
@@ -135,7 +140,7 @@ class PostView(View):
                 post = Post(user=user, title=title, photo=photo, content=content)
                 post.save()
 
-                return redirect("/post/post")
+            return redirect("/post/post")
 
         return redirect(f"/post/post/{post_id}")
 
@@ -162,24 +167,54 @@ class ReportView(View):
             }
 
             if report.photo:
-                report["photo"] = report.photo.url
+                report_data["photo"] = report.photo.url
 
             # views update
             report.views += 1
             report.save()
 
             return render(request, "post/report.html", {"report": report_data, "form": form})
+        else:
+            form = ReportAddForm(initial={"user": request.user.email})
 
-        return render(request, "post/report.html", pagination(request, Report.objects.all().order_by("-id")))
+            return render(request, "post/report.html", {
+                "pagination": pagination(request, Report.objects.all().order_by("-id")),
+                "form": form
+            })
 
-    def post(self, request, report_id):
-        report = Report.objects.get(id=report_id)
+    def post(self, request, report_id=None):
+        if report_id:
+            report = Report.objects.get(id=report_id)
 
         username = request.POST.get("username", None)
         comment = request.POST.get("comment", None)
+        post_pw = request.POST.get("post_pw", None)
+
+        print(post_pw)
 
         if username and comment:
             report_com = ReportComment(report=report, username=username, message=comment)
             report_com.save()
+        elif post_pw:
+            report = Report.objects.get(id=report_id)
+
+            if report.password == post_pw:
+                return HttpResponse(status=200)
+            else:
+                return HttpResponse(status=400)
+        else:
+            user = User.objects.get(email=request.user.email)
+            category = request.POST.get("category", None)
+            title = request.POST.get("title", None)
+            photo = request.FILES.get("photo", None)
+            content = request.POST.get("content", None)
+            password = request.POST.get("password", None)
+
+            if category and title and content:
+                report = Report(user=user, category=category, title=title, photo=photo,
+                                content=content, password=password)
+                report.save()
+
+            return redirect("/post/report")
 
         return redirect(f"/post/report/{report_id}")

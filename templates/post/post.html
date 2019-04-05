@@ -36,6 +36,7 @@
     <form method="post">
         {% csrf_token %}
         Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ post.views }}
+        추천 수 {{ post.thumbs }} <input type="button" id="thumbs_up" value="추천">
     </form>
     {% for message in post.comment %}
         {{ message.username }} | {{ message }} <br>
@@ -46,7 +47,10 @@
       <div class="modal-content">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
+                <h3>User : {{ form.user }}</h3>
+                <h3>Title : {{ form.title }}</h3>
+                <h3>Photo : {{ form.photo }}</h3>
+                <h3>Content : {{ form.content }}</h3>
                 <input type="submit" value="등록">
             </form>
             <div id="close_modal" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
@@ -55,7 +59,6 @@
                 </span>
             </div>
       </div>
- 
     </div>
     <input type="button" id="open_modal" name="add_post" value="글쓰기">
     <br>
@@ -126,5 +129,22 @@
     $("#close_modal").on("click", function(){
         $("#add_post").hide();
     })
+    $("#thumbs_up").on("click", function(){
+        $.ajax({
+            type: "POST",
+            url: "/post/post/" + "{{ post.id }}",
+            data: {thumbs: true},
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
+            },
+            success: function(){
+                alert("추천성공!");
+                window.location.reload();
+            },
+            error: function(error){
+                alert(error);
+            }
+          })
+        })
 </script>
 {% endblock %}

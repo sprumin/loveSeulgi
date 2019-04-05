@@ -1,12 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%; /* Could be more or less, depending on screen size */                          
+        }
+ 
+</style>
 
+<h1> 건의사항 </h1>
 {% if report %}
     {% if report.photo %}
         <img src="{{ report.photo }}" width="500" height="500"><br>
     {% endif %}
-    &nbsp;{{ report.id }}&nbsp;{{ report.title }} &nbsp;<br>{{ report.content }} <br>
+    &nbsp;{{ report.id }}&nbsp;{{ report.category }}&nbsp;{{ report.title }}&nbsp;<br>{{ report.content }} <br>
     <form method="post">
         {% csrf_token %}
         Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ report.views }}
@@ -15,8 +41,48 @@
         {{ message.username }} | {{ message }} <br>
     {% endfor %}
 {% else %}
-    {% for row in data %}
-        <a href="/post/report/{{ row.id }}">{{ row.id }}&nbsp;{{ row.title }}&nbsp;{{ row.content }}&nbsp;{{ row.views }}</a><br>
+    <div id="add_report" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h3>User : {{ form.user }}</h3>
+                <h3>Category : {{ form.category }}</h3>
+                <h3>Title : {{ form.title }}</h3>
+                <h3>Photo : {{ form.photo }}</h3>
+                <h3>Content : {{ form.content }}</h3>
+                <h3>Post Password : {{ form.password }}</h3>
+                <input type="submit" value="등록">
+            </form>
+            <div id="close_modal" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
+                <span class="pop_bt" style="font-size: 13pt;" >
+                     닫기
+                </span>
+            </div>
+        </div>
+    </div>
+    <div id="password_modal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+            <input type="text" id="post_pw" placeholder="set password">
+            <input type="submit" id="password_check" value="등록">
+            <div id="close_pwcheck" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
+                <span class="pop_bt" style="font-size: 13pt;" >
+                     닫기
+                </span>
+            </div>
+        </div>
+    </div>
+    <input type="button" id="open_modal" name="add_report" value="글쓰기">
+    <br>
+    {% for row in pagination.data %}
+        {% if row.password %}
+            <a id="password_report"><span class="report_id">{{ row.id }}</span>&nbsp;{{ row.category }}&nbsp;
+                {{ row.title }}&nbsp;{{ row.content }}&nbsp;{{ row.views }}&nbsp; [LOCK]<br>
+        {% else %}
+            <a href="/post/report/{{ row.id }}">{{ row.id }}&nbsp;{{ row.category }}&nbsp;
+                {{ row.title }}&nbsp;{{ row.content }}&nbsp;{{ row.views }}</a><br>
+        {% endif %}
     {% endfor %}
 {% endif %}
 
@@ -70,5 +136,48 @@
         {% endif %}
     </ul>
 {% endif %}
+<script>
+    $(document).ready(function(){
+        $("#add_report").hide();
+        $("#password_modal").hide();
+    })
+
+    $("#open_modal").on("click", function(){
+        $("#add_report").show();
+    })
+
+    $("#close_modal").on("click", function(){
+        $("#add_report").hide();
+    })
+
+    $("#close_pwcheck").on("click", function(){
+        $("#password_modal").hide();
+    })
+
+    $("#password_report").on("click", function(event){
+        event.preventDefault();
+        $("#password_modal").show();
+        report_id = $(this).find('.report_id').text()
+        $("#password_modal").append('<input type="hidden" id="report_id" name="report_id" value="'+report_id+'">')
+    })
+
+    $("#password_check").on("click", function(){
+        report_id = $('#password_modal').find('#report_id').val()
+        $.ajax({
+            type: "POST",
+            url: "/post/report/" + report_id,
+            data: {post_pw: $("#post_pw").val()},
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
+            },
+            success: function(){
+                window.location="/post/report/" + report_id;
+            },
+            error: function(error){
+                alert(error);
+            }
+         })
+    })
+</script>
 
 {% endblock %}

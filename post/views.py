@@ -110,10 +110,14 @@ class PostView(View):
         else:
             form = PostAddForm(initial={"user": request.user.email})
 
-            return render(request, "post/post.html", pagination(request, Post.objects.all().order_by("-id")))
+            return render(request, "post/post.html", {
+                "pagination": pagination(request, Post.objects.all().order_by("-id")),
+                "form": form
+            })
 
-    def post(self, request, post_id):
-        post = Post.objects.get(id=post_id)
+    def post(self, request, post_id=None):
+        if post_id:
+            post = Post.objects.get(id=post_id)
 
         username = request.POST.get("username", None)
         comment = request.POST.get("comment", None)

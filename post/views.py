@@ -45,9 +45,19 @@ class NoticeView(View):
             return render(request, "post/notice.html", {"notice": notice_data, "form": form})
         else:
             form = NoticeAddForm(initial={"user": User.objects.get(email=request.user.email)})
+            notice_list = list()
+
+            for row in Notice.objects.all().order_by("-id"):
+                notice_list.append({
+                    "id": row.id,
+                    "title": row.title,
+                    "content": row.content,
+                    "views": row.views,
+                    "comments": len(NoticeComment.objects.filter(notice=row))
+                })
 
             return render(request, "post/notice.html", {
-                "pagination": pagination(request, Notice.objects.all().order_by("-id")),
+                "pagination": pagination(request, notice_list),
                 "form": form
             })
 
@@ -109,9 +119,19 @@ class PostView(View):
             return render(request, "post/post.html", {"post": post_data, "form": form})
         else:
             form = PostAddForm(initial={"user": request.user.email})
+            post_list = list()
+
+            for row in Post.objects.all().order_by("-id"):
+                post_list.append({
+                    "id": row.id,
+                    "title": row.title,
+                    "content": row.content,
+                    "views": row.views,
+                    "comments": len(PostComment.objects.filter(post=row))
+                })
 
             return render(request, "post/post.html", {
-                "pagination": pagination(request, Post.objects.all().order_by("-id")),
+                "pagination": pagination(request, post_list),
                 "form": form
             })
 
@@ -176,9 +196,19 @@ class ReportView(View):
             return render(request, "post/report.html", {"report": report_data, "form": form})
         else:
             form = ReportAddForm(initial={"user": request.user.email})
+            report_list = list()
+
+            for row in Report.objects.all().order_by("-id"):
+                report_list.append({
+                    "id": row.id,
+                    "title": row.title,
+                    "content": row.content,
+                    "views": row.views,
+                    "comments": len(ReportComment.objects.filter(report=row))
+                })
 
             return render(request, "post/report.html", {
-                "pagination": pagination(request, Report.objects.all().order_by("-id")),
+                "pagination": pagination(request, report_list),
                 "form": form
             })
 

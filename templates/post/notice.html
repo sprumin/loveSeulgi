@@ -32,18 +32,34 @@
     {% if notice.photo %}
         <img src="{{ notice.photo }}" width="500" height="500"><br>
     {% endif %}
-    &nbsp;{{ notice.id }}&nbsp;{{ notice.title }} &nbsp;<br>{{ notice.content }} <br>
+    <h2>ID : {{ notice.id }}</h2>
+    <h2>TITLE : {{ notice.title }}</h2>
+    <h2>CONTENT : {{ notice.content }}</h2>
+    <h2>VIEWS : {{ notice.views }}</h2>
+    <br>
+    <h3>댓글</h3>
     <form method="post">
         {% csrf_token %}
-        Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ notice.views }}
+        Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit">
     </form>
-    {% for message in notice.comment %}
-        {{ message.username }} | {{ message }} <br>
-    {% endfor %}
+    <table border=1>
+        <thead>
+            <tr>
+                <td><b>Username</b></td>
+                <td><b>Comment</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for message in notice.comment %}
+            <tr>
+                <td>{{ message.username }}</td>
+                <td>{{ message }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% else %}
     <div id="add_notice" class="modal">
- 
-      <!-- Modal content -->
       <div class="modal-content">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -58,18 +74,35 @@
                      닫기
                 </span>
             </div>
-      </div>
- 
+        </div>
     </div>
     {% if request.user.is_superuser %}
         <input type="button" id="open_modal" name="add_notice" value="글쓰기">
     {% endif %}
     <br>
-    {% for row in pagination.data %}
-        <a href="/post/notice/{{ row.id }}">{{ row.id }}&nbsp;{{ row.title }}&nbsp;{{ row.content }}&nbsp;{{ row.views }}</a><br>
-    {% endfor %}
+    <table border=1>
+        <thead>
+            <tr>
+                <td><b>Id</b></td>
+                <td><b>Title</b></td>
+                <td><b>Content</b></td>
+                <td><b>Views</b></td>
+                <td><b>Comments</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in pagination.data %}
+            <tr onclick="javascript:location='/post/notice/{{ row.id }}'">
+                <td>{{ row.id }}</td>
+                <td>{{ row.title }}</td>
+                <td>{{ row.content }}</td>
+                <td>{{ row.views }}</td>
+                <td>{{ row.comments }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endif %}
-
 
 {% if pagination.data.has_other_pages %}
     <ul class = "pagination">

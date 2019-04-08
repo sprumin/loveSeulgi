@@ -33,13 +33,28 @@
         <img src="{{ report.photo }}" width="500" height="500"><br>
     {% endif %}
     &nbsp;{{ report.id }}&nbsp;{{ report.category }}&nbsp;{{ report.title }}&nbsp;<br>{{ report.content }} <br>
+    <br>
+    <h3>댓글</h3>
     <form method="post">
         {% csrf_token %}
         Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ report.views }}
     </form>
-    {% for message in report.comment %}
-        {{ message.username }} | {{ message }} <br>
-    {% endfor %}
+    <table border=1>
+        <thead>
+            <tr>
+                <td><b>Username</b></td>
+                <td><b>Comment</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for message in report.comment %}
+            <tr>
+                <td>{{ message.username }}</td>
+                <td>{{ message }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% else %}
     <div id="add_report" class="modal">
       <!-- Modal content -->
@@ -77,7 +92,7 @@
     <br>
     {% for row in pagination.data %}
         {% if row.password %}
-            <a id="password_report"><span class="report_id">{{ row.id }}</span>&nbsp;{{ row.category }}&nbsp;
+            <a id="password_report" onclick=""><span class="report_id">{{ row.id }}</span>&nbsp;{{ row.category }}&nbsp;
                 {{ row.title }}&nbsp;{{ row.content }}&nbsp;{{ row.views }}&nbsp; [LOCK]<br>
         {% else %}
             <a href="/post/report/{{ row.id }}">{{ row.id }}&nbsp;{{ row.category }}&nbsp;
@@ -178,6 +193,8 @@
             }
          })
     })
+
+    function
 </script>
 
 {% endblock %}

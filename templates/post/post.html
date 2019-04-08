@@ -33,14 +33,28 @@
         <img src="{{ post.photo }}" width="500" height="500"><br>
     {% endif %}
     &nbsp;{{ post.id }}&nbsp;{{ post.title }} &nbsp;<br>{{ post.content }} <br>
+    <br>
+    <h3>댓글</h3>
     <form method="post">
         {% csrf_token %}
         Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ post.views }}
-        추천 수 {{ post.thumbs }} <input type="button" id="thumbs_up" value="추천">
     </form>
-    {% for message in post.comment %}
-        {{ message.username }} | {{ message }} <br>
-    {% endfor %}
+    <table border=1>
+        <thead>
+            <tr>
+                <td><b>Username</b></td>
+                <td><b>Comment</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for message in post.comment %}
+            <tr>
+                <td>{{ message.username }}</td>
+                <td>{{ message }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% else %}
     <div id="add_post" class="modal">
       <!-- Modal content -->

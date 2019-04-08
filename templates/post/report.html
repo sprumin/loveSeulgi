@@ -30,9 +30,12 @@
 <h1> 건의사항 </h1>
 {% if report %}
     {% if report.photo %}
-        <img src="{{ report.photo }}" width="500" height="500"><br>
+        <img src="{{ report.photo }}" width="500" height="500">
     {% endif %}
-    &nbsp;{{ report.id }}&nbsp;{{ report.category }}&nbsp;{{ report.title }}&nbsp;<br>{{ report.content }} <br>
+    <h2>ID : {{ report.id }}</h2>
+    <h2>TITLE : {{ report.title }}</h2>
+    <h2>CONTENT : {{ report.content }}</h2>
+    <h2>VIEWS : {{ report.views }}</h2>
     <br>
     <h3>댓글</h3>
     <form method="post">
@@ -77,8 +80,8 @@
         </div>
     </div>
     <div id="password_modal" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content">
+        <!-- Modal content -->
+        <div class="modal-content">
             <input type="text" id="post_pw" placeholder="set password">
             <input type="submit" id="password_check" value="등록">
             <div id="close_pwcheck" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
@@ -88,17 +91,40 @@
             </div>
         </div>
     </div>
-    <input type="button" id="open_modal" name="add_report" value="글쓰기">
+    <input type="button" id="open_modal" value="글쓰기">
     <br>
-    {% for row in pagination.data %}
-        {% if row.password %}
-            <a id="password_report" onclick=""><span class="report_id">{{ row.id }}</span>&nbsp;{{ row.category }}&nbsp;
-                {{ row.title }}&nbsp;{{ row.content }}&nbsp;{{ row.views }}&nbsp; [LOCK]<br>
-        {% else %}
-            <a href="/post/report/{{ row.id }}">{{ row.id }}&nbsp;{{ row.category }}&nbsp;
-                {{ row.title }}&nbsp;{{ row.content }}&nbsp;{{ row.views }}</a><br>
-        {% endif %}
-    {% endfor %}
+    <table border=1>
+        <thead>
+            <tr>
+                <td><b>Id</b></td>
+                <td><b>Category</b></td>
+                <td><b>Title</b></td>
+                <td><b>Content</b></td>
+                <td><b>Views</b></td>
+                <td><b>Password</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in pagination.data %}
+                {% if request.user.is_superuser %}
+                    <tr onclick="javascript:location='/post/report/{{ row.id }}'">
+                {% else %}
+                    <tr onclick="password_modal('{{ row.id }}')">
+                {% endif %}
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.category }}</td>
+                    <td>{{ row.title }}</td>
+                    <td>{{ row.content }}</td>
+                    <td>{{ row.views }}</td>
+                    {% if row.password %}
+                        <td>True</td>
+                    {% else %}
+                        <td>False</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endif %}
 
 
@@ -152,6 +178,8 @@
     </ul>
 {% endif %}
 <script>
+    var report_id = "";
+
     $(document).ready(function(){
         $("#add_report").hide();
         $("#password_modal").hide();
@@ -169,15 +197,13 @@
         $("#password_modal").hide();
     })
 
-    $("#password_report").on("click", function(event){
-        event.preventDefault();
+    function password_modal(_id){
+        report_id = _id;
+
         $("#password_modal").show();
-        report_id = $(this).find('.report_id').text()
-        $("#password_modal").append('<input type="hidden" id="report_id" name="report_id" value="'+report_id+'">')
-    })
+    }
 
     $("#password_check").on("click", function(){
-        report_id = $('#password_modal').find('#report_id').val()
         $.ajax({
             type: "POST",
             url: "/post/report/" + report_id,
@@ -193,8 +219,6 @@
             }
          })
     })
-
-    function
 </script>
 
 {% endblock %}

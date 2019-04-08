@@ -30,14 +30,17 @@
 <h1> 게시글 </h1>
 {% if post %}
     {% if post.photo %}
-        <img src="{{ post.photo }}" width="500" height="500"><br>
+        <img src="{{ post.photo }}" width="500" height="500">
     {% endif %}
-    &nbsp;{{ post.id }}&nbsp;{{ post.title }} &nbsp;<br>{{ post.content }} <br>
+    <h2>ID : {{ post.id }}</h2>
+    <h2>TITLE : {{ post.title }}</h2>
+    <h2>CONTENT : {{ post.content }}</h2>
+    <h2>VIEWS : {{ post.views }}</h2>
     <br>
     <h3>댓글</h3>
     <form method="post">
         {% csrf_token %}
-        Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ post.views }}
+        Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit">
     </form>
     <table border=1>
         <thead>
@@ -76,9 +79,28 @@
     </div>
     <input type="button" id="open_modal" name="add_post" value="글쓰기">
     <br>
-    {% for row in pagination.data %}
-        <a href="/post/post/{{ row.id }}">{{ row.id }}&nbsp;{{ row.title }}&nbsp;{{ row.content }}&nbsp;{{ row.views }}</a><br>
-    {% endfor %}
+    <table border=1>
+        <thead>
+            <tr>
+                <td><b>Id</b></td>
+                <td><b>Title</b></td>
+                <td><b>Content</b></td>
+                <td><b>Views</b></td>
+                <td><b>Comments</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in pagination.data %}
+            <tr onclick="javascript:location='/post/post/{{ row.id }}'">
+                <td>{{ row.id }}</td>
+                <td>{{ row.title }}</td>
+                <td>{{ row.content }}</td>
+                <td>{{ row.views }}</td>
+                <td>{{ row.comments }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endif %}
 
 

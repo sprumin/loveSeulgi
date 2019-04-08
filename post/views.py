@@ -201,10 +201,12 @@ class ReportView(View):
             for row in Report.objects.all().order_by("-id"):
                 report_list.append({
                     "id": row.id,
+                    "category": row.category,
                     "title": row.title,
                     "content": row.content,
                     "views": row.views,
-                    "comments": len(ReportComment.objects.filter(report=row))
+                    "comments": len(ReportComment.objects.filter(report=row)),
+                    "password": row.password
                 })
 
             return render(request, "post/report.html", {

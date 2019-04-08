@@ -222,8 +222,6 @@ class ReportView(View):
         comment = request.POST.get("comment", None)
         post_pw = request.POST.get("post_pw", None)
 
-        print(post_pw)
-
         if username and comment:
             report_com = ReportComment(report=report, username=username, message=comment)
             report_com.save()

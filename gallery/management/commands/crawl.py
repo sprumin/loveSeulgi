@@ -82,6 +82,10 @@ class Command(BaseCommand):
                     data = image
 
                 result.append(data)
+            """
+            if len(result) > 5:
+                break
+            """
 
         driver.quit()
 

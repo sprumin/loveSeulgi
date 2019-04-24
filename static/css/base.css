@@ -1,0 +1,44 @@
+@charset "utf-8"
+
+/* common */
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code, header,
+del, dfn, em, font, img, ins, kbd, q, s, samp,small, strike, sub, sup, tt, var,dl, dt, dd, ol, ul, li, fieldset, form, label, legend, m project
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-size: 62.5% !important
+}
+
+ol, ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+header {
+    height: 70px;
+    padding-top: 1%;
+}
+
+footer {
+    height: 70px;
+    padding-bottom: 1%;
+}
+
+.logo {
+    text-align: center
+}
+

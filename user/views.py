@@ -9,11 +9,8 @@ from user.models import User
 
 
 # Create your views here.
-def user_info(request):
-    if not request.user.is_authenticated:
-        return redirect("/user/signin/")
-
-    return HttpResponse("User")
+def index(request):
+    return render(request, "index.html")
 
 
 class UserSignUpView(View):

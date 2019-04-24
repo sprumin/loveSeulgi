@@ -3,13 +3,28 @@
 <html>
 <head>
     <title>LoveSeulgi - 슬기 팬 페이지</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css'%}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <script src="{% static 'js/base.js' %}"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 </head>
 <body>
-    <h1 class="test"> STATIC TEST</h1>
+    <header>
+        <h1 class="logo">
+            <img src="{% static 'img/loveseulgi_logo.jpg' %}">
+        </h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a class="button is-dark">Dark</a></li>
+        </ul>
+    </nav>
     {% block content %}
     {% endblock %}
+    <footer>
+        <h3>Copyright 2019.Sprumin.All Right Reseved</h3>
+    </footer>
 </body>
 </html>

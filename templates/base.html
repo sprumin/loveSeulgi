@@ -12,13 +12,28 @@
 </head>
 <body>
     <header>
-        <h1 class="logo">
-            <img src="{% static 'img/loveseulgi_logo.jpg' %}">
-        </h1>
+        <div class="header-container">
+            <h1 class="logo">
+                <img src="{% static 'img/loveseulgi_logo.jpg' %}">
+            </h1>
+            <div class="user-event">
+                {% if request.user.is_authentication %}
+                    <a href=""><h2>MyAlbum</h2></a>
+                    <a href=""><h2>Logout</h2></a>
+                {% else %}
+                    <a href=""><h2>Login</h2></a>
+                    <a href=""><h2>SignUp</h2></a>
+                {% endif %}
+            </div>
+        </div>
     </header>
     <nav>
-        <ul>
-            <li><a class="button is-dark">Dark</a></li>
+        <ul class="nav-container">
+            <li class="nav-item"><a href="">About</a></li>
+            <li class="nav-item"><a href="">Photo</a></li>
+            <li class="nav-item"><a href="">Notice</a></li>
+            <li class="nav-item"><a href="">Post</a></li>
+            <li class="nav-item"><a href="">Report</a></li>
         </ul>
     </nav>
     {% block content %}

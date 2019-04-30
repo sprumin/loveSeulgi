@@ -13,33 +13,48 @@
 <body>
     <header>
         <div class="header-container">
-            <h1 class="logo">
+            <div class="logo">
                 <img src="{% static 'img/loveseulgi_logo.jpg' %}">
-            </h1>
+            </div>
             <div class="user-event">
                 {% if request.user.is_authentication %}
-                    <a href=""><h2>MyAlbum</h2></a>
-                    <a href=""><h2>Logout</h2></a>
+                <div class="ui primary button">
+                    <h2>My-album</h2>
+                </div>
+                <div class="ui button">
+                    <h2>Log-out</h2>
+                </div>
                 {% else %}
-                    <a href=""><h2>Login</h2></a>
-                    <a href=""><h2>SignUp</h2></a>
+                <div class="ui primary button">
+                    <h2>Sign-up</h2>
+                </div>
+                <div class="ui button">
+                    <h2>Log-in</h2>
+                </div>
                 {% endif %}
             </div>
         </div>
     </header>
     <nav>
-        <ul class="nav-container">
-            <li class="nav-item"><a href="">About</a></li>
-            <li class="nav-item"><a href="">Photo</a></li>
-            <li class="nav-item"><a href="">Notice</a></li>
-            <li class="nav-item"><a href="">Post</a></li>
-            <li class="nav-item"><a href="">Report</a></li>
-        </ul>
+        <div class="nav-container">
+            <div class="ui five item inverted menu">
+                <a class="item" href="">About</a>
+                <a class="item" href="">Photo</a>
+                <a class="item" href="">Notice</a>
+                <a class="item" href="">Post</a>
+                <a class="item" href="">Report</a>
+            </div>
+        </div>
     </nav>
     {% block content %}
     {% endblock %}
     <footer>
-        <h3>Copyright 2019.Sprumin.All Right Reseved</h3>
+        <div class="footer-container">
+            <ul class="footer-ul">
+                <li class="footer-li">Copyright 2019.Sprumin.All Right Reseved</li>
+                <li class="footer-li">이미지 삭제 요청은 sprumin123@gmail.com</li>
+            </ul>
+        </div>
     </footer>
 </body>
 </html>

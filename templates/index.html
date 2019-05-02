@@ -4,8 +4,14 @@
 <section>
     <div class="Wrap">
         <div class="main">
-            <h1>TEST</h1>  
+            <img idsrc="">
         </div>
     </div>
+<script>
+    var images = "{{ images | safe }}";
+
+    $("#main").append("<img src='{{" + images[0] + "}}'>");
+
+</script>
 </section>
 {% endblock %}

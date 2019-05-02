@@ -13,37 +13,27 @@
 <body>
     <header>
         <div class="header-container">
-            <div class="logo">
-                <img src="{% static 'img/loveseulgi_logo.jpg' %}">
+            <div class="logo"></div>
+                <a href="/"><img src="{% static 'img/loveseulgi_logo.jpg' %}"></a>
             </div>
             <div class="user-event">
                 {% if request.user.is_authentication %}
-                <div class="ui primary button">
-                    <h2>My-album</h2>
-                </div>
-                <div class="ui button">
-                    <h2>Log-out</h2>
-                </div>
+                <button class="ui inverted primary button" onclick="window.location='/user/album/'">My-album</button>
+                <button class="ui inverted red button" onclick="window.location='/user/signout/'">Log-out</button>
                 {% else %}
-                <div class="ui primary button">
-                    <h2>Sign-up</h2>
-                </div>
-                <div class="ui button">
-                    <h2>Log-in</h2>
-                </div>
+                <button class="ui inverted primary button" onclick="window.location='/user/signup/'">Sign-up</button>
+                <button class="ui inverted red button" onclick="window.location='/user/signin/'">Log-in</button>
                 {% endif %}
             </div>
         </div>
     </header>
     <nav>
-        <div class="nav-container">
-            <div class="ui five item inverted menu">
-                <a class="item" href="">About</a>
-                <a class="item" href="">Photo</a>
-                <a class="item" href="">Notice</a>
-                <a class="item" href="">Post</a>
-                <a class="item" href="">Report</a>
-            </div>
+        <div class="nav-container">   
+            <a class="about" href="">About</a>
+            <a class="photo" href="/gallery/album">Photo</a>
+            <a class="notice" href="/post/notice">Notice</a>
+            <a class="post" href="/post/post">Post</a>
+            <a class="report" href="/post/report">Report</a>
         </div>
     </nav>
     {% block content %}
@@ -57,4 +47,7 @@
         </div>
     </footer>
 </body>
+<script>
+    
+</script>
 </html>

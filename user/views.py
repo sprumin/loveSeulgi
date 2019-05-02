@@ -6,11 +6,21 @@ from django.views import View
 from gallery.utilities import pagination
 from user.forms import UserCreationForm, UserSignInForm, UserEditForm, UserDeleteForm
 from user.models import User
+from gallery.models import Album
 
 
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+    images = list()
+    album = Album.objects.filter(is_gif=True).order_by("-id")
+
+    for image in album:
+        if len(images) > 20:
+            break
+
+        images.append(image.photo.url)
+
+    return render(request, "index.html", {"images": images})
 
 
 class UserSignUpView(View):

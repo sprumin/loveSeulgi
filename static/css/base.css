@@ -29,17 +29,42 @@ a {
     text-decoration: none;
 }
 
+.about {
+    color: red;
+}
+
+.photo {
+    color: orange;
+}
+
+.notice {
+    color: lightgreen;
+}
+
+.post {
+    color: skyblue;
+}
+
+.report {
+    color: mediumpurple;
+}
+
 .header-container {
     width: 100%;
     margin-top: 1.5%;
     text-align: center;
 }
-.header-container > div{
-    display: inline-block;
+
+.ui.inverted.button {
+    font-size: 15px;
+    width: 100px;
+    height: 40px;
 }
 
 .user-event {
-    float:right;
+    position: absolute;
+    top: 2%;
+    right: 2%;
 }
 
 .nav-container {
@@ -47,11 +72,19 @@ a {
     height: 100%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 1%;
+    margin-top: 2%;
+    text-align: center;
 }
 
-.logo {
-    margin-left: 3.5%;
+.nav-container > a {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 25px;
+}
+
+.nav-active {
+    text-decoration: underline;
+    color: red;
 }
 
 .Wrap {

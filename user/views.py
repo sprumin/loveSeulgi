@@ -26,7 +26,7 @@ def index(request):
 class UserSignUpView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect("/user/")
+            return redirect("/")
 
         form = UserCreationForm
 
@@ -46,7 +46,7 @@ class UserSignUpView(View):
 class UserSignInView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect("/user/")
+            return redirect("/signup")
 
         form = UserSignInForm
 
@@ -61,7 +61,7 @@ class UserSignInView(View):
         if user:
             login(request, user)
 
-            return redirect("/user/")
+            return redirect("/")
 
         return HttpResponse("Invalid email or password")
 

@@ -101,6 +101,11 @@ a {
     width: 100%;
 }
 
+.main-image {
+    width: 950px;
+    height: 650px;
+}
+
 .footer-container {
     height: 80px;
     background-color: #f2f2f2;    

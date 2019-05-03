@@ -12,7 +12,7 @@ from gallery.models import Album
 # Create your views here.
 def index(request):
     images = list()
-    album = Album.objects.filter(is_gif=True).order_by("-id")
+    album = Album.objects.filter(is_gif=False).order_by("-id")
 
     for image in album:
         if len(images) > 20:

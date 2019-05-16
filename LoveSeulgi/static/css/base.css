@@ -1,0 +1,124 @@
+@charset "utf-8"
+
+/* common */
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code, header,
+del, dfn, em, font, img, ins, kbd, q, s, samp,small, strike, sub, sup, tt, var,dl, dt, dd, ol, ul, li, fieldset, form, label, legend, m project
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-size: 62.5% !important
+}
+
+ol, ul {
+    list-style: none;
+    padding-left: 0px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.about {
+    color: red;
+}
+
+.photo {
+    color: orange;
+}
+
+.notice {
+    color: lightgreen;
+}
+
+.post {
+    color: skyblue;
+}
+
+.report {
+    color: mediumpurple;
+}
+
+.header-container {
+    width: 100%;
+    margin-top: 1.5%;
+    text-align: center;
+}
+
+.ui.inverted.button {
+    font-size: 15px;
+    width: 100px;
+    height: 40px;
+}
+
+.user-event {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+}
+
+.nav-container {
+    width: 50%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    text-align: center;
+}
+
+.nav-container > a {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 25px;
+}
+
+.nav-active {
+    text-decoration: underline;
+    color: red;
+}
+
+.Wrap {
+    height: 100%;
+    width: 1024px;
+    text-align: center;
+    margin: auto;
+    position: relative;
+    margin-top: 2%;
+}
+
+.main {
+    height: 650px;
+    width: 100%;
+}
+
+.main-image {
+    width: 950px;
+    height: 650px;
+}
+
+.footer-container {
+    height: 80px;
+    background-color: #f2f2f2;    
+    bottom: 0;
+    width: 100%;
+    font-size: 1.6rem;
+    position: fixed;
+}
+
+.footer-ul {
+    text-align: center;
+}
+
+.footer-li {
+    padding: 7px;
+}

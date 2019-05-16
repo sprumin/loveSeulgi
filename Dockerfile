@@ -6,4 +6,4 @@ EXPOSE 8000
 RUN pip install -r requirements.txt
 RUN chmod +x docker-entrypoint.sh
 
-CMD ["/bin/bash", "docker-entrypoint.sh"]
+

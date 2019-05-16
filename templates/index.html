@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+    <div class="Wrap">
+        <div id="main" class="main">
+            <img id="main-image" class="main-image" src="">
+        </div>
+    </div>
+<script>
+    $(document).ready(function(){
+        var image_str = "{{ images | safe }}";
+        images = image_str.slice(1, image_str.length - 1).replace(/\'/gi, "").replace(/(\s*)/g, "").split(",");
+
+        var image_cnt = 0;
+
+        $("#main-image").fadeIn(1000);
+        $("#main-image").attr("src", images[image_cnt])
+        $("#main-image").fadeOut(3000);
+        
+        setInterval(function(){
+            image_cnt++;
+
+            if( image_cnt >= images.length ){
+                image_cnt = 0;
+            }
+            $("#main-image").fadeIn(1000);
+            $("#main-image").attr("src", images[image_cnt]);
+            $("#main-image").fadeOut(1000);
+        }, 3000);
+    });
+
+</script>
+</section>
+{% endblock %}

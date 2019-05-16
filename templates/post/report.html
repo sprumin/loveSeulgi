@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%; /* Could be more or less, depending on screen size */                          
+        }
+ 
+</style>
+
+<h1> 건의사항 </h1>
+{% if report %}
+    {% if report.photo %}
+        <img src="{{ report.photo }}" width="500" height="500">
+    {% endif %}
+    <h2>ID : {{ report.id }}</h2>
+    <h2>TITLE : {{ report.title }}</h2>
+    <h2>CONTENT : {{ report.content }}</h2>
+    <h2>VIEWS : {{ report.views }}</h2>
+    <br>
+    <h3>댓글</h3>
+    <form method="post">
+        {% csrf_token %}
+        Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ report.views }}
+    </form>
+    <table border=1>
+        <thead>
+            <tr>
+                <td><b>Username</b></td>
+                <td><b>Comment</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for message in report.comment %}
+            <tr>
+                <td>{{ message.username }}</td>
+                <td>{{ message }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div id="add_report" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h3>User : {{ form.user }}</h3>
+                <h3>Category : {{ form.category }}</h3>
+                <h3>Title : {{ form.title }}</h3>
+                <h3>Photo : {{ form.photo }}</h3>
+                <h3>Content : {{ form.content }}</h3>
+                <h3>Post Password : {{ form.password }}</h3>
+                <input type="submit" value="등록">
+            </form>
+            <div id="close_modal" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
+                <span class="pop_bt" style="font-size: 13pt;" >
+                     닫기
+                </span>
+            </div>
+        </div>
+    </div>
+    <div id="password_modal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <input type="text" id="post_pw" placeholder="set password">
+            <input type="submit" id="password_check" value="등록">
+            <div id="close_pwcheck" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
+                <span class="pop_bt" style="font-size: 13pt;" >
+                     닫기
+                </span>
+            </div>
+        </div>
+    </div>
+    <input type="button" id="open_modal" value="글쓰기">
+    <br>
+    <table border=1>
+        <thead>
+            <tr>
+                <td><b>Id</b></td>
+                <td><b>Category</b></td>
+                <td><b>Title</b></td>
+                <td><b>Content</b></td>
+                <td><b>Views</b></td>
+                <td><b>Password</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in pagination.data %}
+                {% if request.user.is_superuser %}
+                    <tr onclick="javascript:location='/post/report/{{ row.id }}'">
+                {% else %}
+                    <tr onclick="password_modal('{{ row.id }}')">
+                {% endif %}
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.category }}</td>
+                    <td>{{ row.title }}</td>
+                    <td>{{ row.content }}</td>
+                    <td>{{ row.views }}</td>
+                    {% if row.password %}
+                        <td>True</td>
+                    {% else %}
+                        <td>False</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+
+{% if pagination.data.has_other_pages %}
+    <ul class = "pagination">
+        {% if pagination.data.has_previous %}
+            <li>
+                <a href="?page={{ pagination.data.previous_page_number }}">&laquo;</a>
+            </li>
+        {% else %}
+            <li class = "disabled">
+                <span>&laquo;</span>
+            </li> 
+        {% endif %}
+        {% if pagination.data.number > 2 %}
+            <li>
+                <a href="?page={{ 1 }}"> 1 </a>
+            </li>
+            <li>
+                <span>...<span class="sr-only">...</span></span>
+            </li>
+        {% endif %} 
+        {% for i in page_range %}
+            {% if pagination.data.number == i %}
+                <li class="active">
+                    <span>{{ i }} <span class="sr-only">(current)</span></span>
+                </li> 
+            {% else %}
+                <li>
+                    <a href="?page={{ i }}">{{ i }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% if pagination.data.number < max_index %}
+            <li >
+                <span>...<span class="sr-only">...</span></span>
+            </li>
+            <li>
+                <a href="?page={{ max_index|add:'2' }}">{{ max_index|add:"2" }}</a>
+            </li>
+        {% endif %}
+        {% if pagination.data.has_next %}
+        <li>
+            <a href="?page={{ pagination.data.next_page_number }}">&raquo;</a>
+        </li>
+        {% else %}
+            <li class="disabled">
+                <span>&raquo;</span>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}
+<script>
+    var report_id = "";
+
+    $(document).ready(function(){
+        $("#add_report").hide();
+        $("#password_modal").hide();
+    })
+
+    $("#open_modal").on("click", function(){
+        $("#add_report").show();
+    })
+
+    $("#close_modal").on("click", function(){
+        $("#add_report").hide();
+    })
+
+    $("#close_pwcheck").on("click", function(){
+        $("#password_modal").hide();
+    })
+
+    function password_modal(_id){
+        report_id = _id;
+
+        $("#password_modal").show();
+    }
+
+    $("#password_check").on("click", function(){
+        $.ajax({
+            type: "POST",
+            url: "/post/report/" + report_id,
+            data: {post_pw: $("#post_pw").val()},
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
+            },
+            success: function(){
+                window.location="/post/report/" + report_id;
+            },
+            error: function(error){
+                alert(error);
+            }
+         })
+    })
+</script>
+
+{% endblock %}

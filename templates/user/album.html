@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for photo in data %}
+    <img src="{{ photo.photo }}" width="175" height="250" onclick="window.location='/gallery/album/{{ photo.id }}'">
+    &nbsp;{{ photo.id }}&nbsp;{{ photo.title }}&nbsp;{{ photo.source }} <br>
+{% endfor %}
+
+{% if data.has_other_pages %}
+    <ul class = "pagination">
+        {% if data.has_previous %}
+            <li>
+                <a href="?page={{ data.previous_page_number }}">&laquo;</a>
+            </li>
+        {% else %}
+            <li class = "disabled">
+                <span>&laquo;</span>
+            </li> 
+        {% endif %}
+        {% if data.number > 2 %}
+            <li>
+                <a href="?page={{ 1 }}"> 1 </a>
+            </li>
+            <li>
+                <span>...<span class="sr-only">...</span></span>
+            </li>
+        {% endif %} 
+        {% for i in page_range %}
+            {% if data.number == i %}
+                <li class="active">
+                    <span>{{ i }} <span class="sr-only">(current)</span></span>
+                </li> 
+            {% else %}
+                <li>
+                    <a href="?page={{ i }}">{{ i }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% if data.number < max_index %}
+            <li >
+                <span>...<span class="sr-only">...</span></span>
+            </li>
+            <li>
+                <a href="?page={{ max_index|add:'2' }}">{{ max_index|add:"2" }}</a>
+            </li>
+        {% endif %}
+        {% if data.has_next %}
+        <li>
+            <a href="?page={{ data.next_page_number }}">&raquo;</a>
+        </li>
+        {% else %}
+            <li class="disabled">
+                <span>&raquo;</span>
+            </li>
+        {%endif %}
+    </ul>
+{%endif%}
+
+{% endblock %}

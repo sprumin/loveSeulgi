@@ -41,7 +41,11 @@ class NoticeView(View):
 
             return render(request, "post/notice.html", {"notice": notice_data, "form": form})
         else:
-            form = NoticeAddForm(initial={"user": User.objects.get(email=request.user.email)})
+            if request.user.is_authenticated:
+                form = NoticeAddForm(initial={"user": User.objects.get(email=request.user.email)})
+            else:
+                form = "Anonymous User"
+
             notice_list = list()
 
             for row in Notice.objects.all().order_by("-id"):
@@ -112,7 +116,10 @@ class PostView(View):
 
             return render(request, "post/post.html", {"post": post_data, "form": form})
         else:
-            form = PostAddForm(initial={"user": request.user.email})
+            if request.user.is_authenticated:
+                form = PostAddForm(initial={"user": request.user.email})
+            else:
+                form = "Anonymous User"
             post_list = list()
 
             for row in Post.objects.all().order_by("-id"):
@@ -186,7 +193,11 @@ class ReportView(View):
 
             return render(request, "post/report.html", {"report": report_data, "form": form})
         else:
-            form = ReportAddForm(initial={"user": request.user.email})
+            if request.user.is_authenticated:
+                form = ReportAddForm(initial={"user": request.user.email})
+            else:
+                form = "Anonymous User"
+
             report_list = list()
 
             for row in Report.objects.all().order_by("-id"):

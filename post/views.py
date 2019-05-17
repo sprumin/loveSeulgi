@@ -15,9 +15,6 @@ def index(request):
 
 class NoticeView(View):
     def get(self, request, notice_id=None):
-        if not request.user.is_authenticated:
-            return redirect("/user/signin/")
-
         if notice_id:
             form = NoticeCommentForm
             notice = Notice.objects.get(id=notice_id)
@@ -92,9 +89,6 @@ class NoticeView(View):
 
 class PostView(View):
     def get(self, request, post_id=None):
-        if not request.user.is_authenticated:
-            return redirect("/user/signin/")
-
         if post_id:
             form = PostCommentForm
             post = Post.objects.get(id=post_id)
@@ -167,9 +161,6 @@ class PostView(View):
 
 class ReportView(View):
     def get(self, request, report_id=None):
-        if not request.user.is_authenticated:
-            return redirect("/user/signin/")
-
         if report_id:
             form = ReportCommentForm
             report = Report.objects.get(id=report_id)

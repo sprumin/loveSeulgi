@@ -1,6 +1,3 @@
-# venv
-venv
-
 # __pycache__
 __pycache__
 
@@ -15,3 +12,21 @@ chromedriver.exe
 
 # migrations
 migrations
+=======
+# media
+media
+
+# db
+db.sqlite3
+
+# chromedriver
+chromedriver.exe
+
+# __pycache__
+__pycache__
+
+# migrations
+migrations
+
+# debug
+debug.log

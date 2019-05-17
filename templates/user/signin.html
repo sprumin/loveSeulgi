@@ -1,13 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1> SIGNIN</h1>
-<form method="POST">
-    {% csrf_token %}
-
-    <h3>Email : {{ form.email }}</h3>
-    <h3>Password: {{ form.password }}</h3>
-
-    <button type="submit">Signin</button>
-</form>
+<section>
+    <div class="Wrap">
+        <div class="main">
+            <h1><b>Log-in</b></h1>
+            <form class="ui fluid form" method="POST">
+                {% csrf_token %}
+                <div class="inline field">
+                    <h3 class="auth-input">{{ form.email }}</h3>
+                    <div class="ui left pointing red basic label">
+                        Please enter a E-mail
+                    </div>
+                </div>
+                <div class="inline field">
+                    <h3 class="auth-input">{{ form.password }}</h3>
+                    <div class="ui left pointing red basic label">
+                        Please enter a Password
+                    </div>
+                </div>
+                <button class="ui inverted red button" type="submit">Signin</button>
+            </form>
+        </div>
+    </div>
+</section>
 {% endblock %}

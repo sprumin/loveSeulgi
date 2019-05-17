@@ -29,6 +29,7 @@ a {
     text-decoration: none;
 }
 
+/* base */
 .about {
     color: red;
 }
@@ -121,4 +122,14 @@ a {
 
 .footer-li {
     padding: 7px;
+}
+
+/* sign-in */
+.inline.field {
+    text-align: -webkit-center;
+}
+.auth-input {
+    width: 300px;
+    height: 50px;
+    display: inline-block;
 }

@@ -15,9 +15,6 @@ def index(request):
 
 class NoticeView(View):
     def get(self, request, notice_id=None):
-        if not request.user.is_authenticated:
-            return redirect("/user/signin/")
-
         if notice_id:
             form = NoticeCommentForm
             notice = Notice.objects.get(id=notice_id)
@@ -44,7 +41,11 @@ class NoticeView(View):
 
             return render(request, "post/notice.html", {"notice": notice_data, "form": form})
         else:
-            form = NoticeAddForm(initial={"user": User.objects.get(email=request.user.email)})
+            if request.user.is_authenticated:
+                form = NoticeAddForm(initial={"user": User.objects.get(email=request.user.email)})
+            else:
+                form = "Anonymous User"
+
             notice_list = list()
 
             for row in Notice.objects.all().order_by("-id"):
@@ -92,9 +93,6 @@ class NoticeView(View):
 
 class PostView(View):
     def get(self, request, post_id=None):
-        if not request.user.is_authenticated:
-            return redirect("/user/signin/")
-
         if post_id:
             form = PostCommentForm
             post = Post.objects.get(id=post_id)
@@ -118,7 +116,10 @@ class PostView(View):
 
             return render(request, "post/post.html", {"post": post_data, "form": form})
         else:
-            form = PostAddForm(initial={"user": request.user.email})
+            if request.user.is_authenticated:
+                form = PostAddForm(initial={"user": request.user.email})
+            else:
+                form = "Anonymous User"
             post_list = list()
 
             for row in Post.objects.all().order_by("-id"):
@@ -167,9 +168,6 @@ class PostView(View):
 
 class ReportView(View):
     def get(self, request, report_id=None):
-        if not request.user.is_authenticated:
-            return redirect("/user/signin/")
-
         if report_id:
             form = ReportCommentForm
             report = Report.objects.get(id=report_id)
@@ -195,7 +193,11 @@ class ReportView(View):
 
             return render(request, "post/report.html", {"report": report_data, "form": form})
         else:
-            form = ReportAddForm(initial={"user": request.user.email})
+            if request.user.is_authenticated:
+                form = ReportAddForm(initial={"user": request.user.email})
+            else:
+                form = "Anonymous User"
+
             report_list = list()
 
             for row in Report.objects.all().order_by("-id"):

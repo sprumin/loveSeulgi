@@ -4,23 +4,25 @@
 <section>
     <div class="Wrap">
         <div class="main">
-            <h1><b>Log-in</b></h1>
-            <form class="ui fluid form" method="POST">
-                {% csrf_token %}
-                <div class="inline field">
-                    <h3 class="auth-input">{{ form.email }}</h3>
-                    <div class="ui left pointing red basic label">
-                        Please enter a E-mail
+            <div class="auth-form">
+                <h1 class="auth-title"><b>Login</b></h1>
+                <form class="ui fluid form" method="POST">
+                    {% csrf_token %}
+                    <div class="inline field">
+                        <h3 class="auth-input">{{ form.email }}</h3>
+                        <div class="ui left pointing red basic label">
+                            Please enter a E-mail
+                        </div>
                     </div>
-                </div>
-                <div class="inline field">
-                    <h3 class="auth-input">{{ form.password }}</h3>
-                    <div class="ui left pointing red basic label">
-                        Please enter a Password
+                    <div class="inline field">
+                        <h3 class="auth-input" style="margin-left:15px;">{{ form.password }}</h3>
+                        <div class="ui left pointing red basic label">
+                            Please enter a Password
+                        </div>
                     </div>
-                </div>
-                <button class="ui inverted red button" type="submit">Signin</button>
-            </form>
+                    <button class="ui inverted red button" type="submit">Signin</button>
+                </form>
+            </div>
         </div>
     </div>
 </section>

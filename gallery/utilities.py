@@ -5,6 +5,7 @@ def pagination(request, data_list):
     total_len = len(data_list)
     paginator = Paginator(data_list, 5)
     page = request.GET.get('page')
+    last_data = data_list[0]
 
     try:
         data = paginator.page(page)
@@ -24,5 +25,5 @@ def pagination(request, data_list):
 
     page_range = list(paginator.page_range[start_index:end_index])
 
-    return {"data": data, "page_range": page_range,
+    return {"data": data, "last_data": last_data, "page_range": page_range,
             "total_len": total_len, "max_index": max_index - 2}

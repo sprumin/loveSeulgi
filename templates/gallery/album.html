@@ -1,77 +1,108 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-    {% if photo %}
-        <img src="{{ photo.photo }}" width="500" height="500"><br>&nbsp;{{ photo.id }}&nbsp;
-        {{ photo.title }} &nbsp;{{ photo.source }} <br>
-        <form method="post">
-            {% csrf_token %}
-            Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ photo.views }}   
-            추천 수 {{ photo.thumbs }} <input type="button" id="thumbs_up" value="추천">
-            <input type="button" id="add_myalbum" value="앨범에 등록">
-            <input type="button" id="del_myalbum" value="앨범에서 삭제"><br><br>
-        </form>
-        {% for message in photo.comment %}
-            {{ message.username }} | {{ message }} <br>
-        {% endfor %}
-    {% else %}
-        {% for photo in data %}
-            <img src="{{ photo.photo }}" width="175" height="250" onclick="window.location='/gallery/album/{{ photo.id }}'">
-            &nbsp;{{ photo.id }}&nbsp;{{ photo.title }} {% if photo.comments != 0 %}[{{ photo.comments }}]{% endif %} &nbsp;
-            {{ photo.source }} <br>
-        {% endfor %}
-
-        {% if data.has_other_pages %}
-            <ul class = "pagination">
-                {% if data.has_previous %}
-                    <li>
-                        <a href="?page={{ data.previous_page_number }}">&laquo;</a>
-                    </li>
+    <section>
+        <div class="Wrap">
+            <div class="main">
+                {% if photo %}
+                    <img src="{{ photo.photo }}" width="500" height="500"><br>&nbsp;{{ photo.id }}&nbsp;
+                    {{ photo.title }} &nbsp;{{ photo.source }} <br>
+                    <form method="post">
+                        {% csrf_token %}
+                        Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ photo.views }}   
+                        추천 수 {{ photo.thumbs }} <input type="button" id="thumbs_up" value="추천">
+                        <input type="button" id="add_myalbum" value="앨범에 등록">
+                        <input type="button" id="del_myalbum" value="앨범에서 삭제"><br><br>
+                    </form>
+                    {% for message in photo.comment %}
+                        {{ message.username }} | {{ message }} <br>
+                    {% endfor %}
                 {% else %}
-                    <li class = "disabled">
-                        <span>&laquo;</span>
-                    </li> 
+                    <div class="photo">
+                        <img src="{{ last_data.photo }}" width="175" height="250" onclick="window.location='/gallery/album/{{ photo.id }}'">
+                    </div>
+                    <div class="photos">
+                        <table class="ui celled table" cellspacing=0>
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Title</th>
+                                    <th>Photo</th>
+                                    <th>Source</th>
+                                    <th>Upload Time</th>
+                                    <th>Views</th>
+                                    <th>Thumbs</th>
+                                </tr>    
+                            </thead>
+                            <tbody>
+                                {% for photo in data %}
+                                    <tr>
+                                        <td>{{ photo.id }}</td>
+                                        <td>{{ photo.title }}</td>
+                                        <td><button class="ui green button" value="{{ photo.photo }}">Show Photo</button></td>
+                                        <td><button class="ui blue button" value="{{ photo.source }}">Show Source</button></td>
+                                        <td>{{ photo.upload_time }}</td>
+                                        <td>{{ photo.views }}</td>
+                                        <td>{{ photo.thumbs }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                            {% if data.has_other_pages %}
+                                <ul class = "pagination">
+                                    {% if data.has_previous %}
+                                        <li>
+                                            <a href="?page={{ data.previous_page_number }}">&laquo;</a>
+                                        </li>
+                                    {% else %}
+                                        <li class = "disabled">
+                                            <span>&laquo;</span>
+                                        </li> 
+                                    {% endif %}
+                                    {% if data.number > 2 %}
+                                        <li>
+                                            <a href="?page={{ 1 }}"> 1 </a>
+                                        </li>
+                                        <li>
+                                            <span>...<span class="sr-only">...</span></span>
+                                        </li>
+                                    {% endif %} 
+                                    {% for i in page_range %}
+                                        {% if data.number == i %}
+                                            <li class="active">
+                                                <span>{{ i }} <span class="sr-only">(current)</span></span>
+                                            </li> 
+                                        {% else %}
+                                            <li>
+                                                <a href="?page={{ i }}">{{ i }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if data.number < max_index %}
+                                        <li >
+                                            <span>...<span class="sr-only">...</span></span>
+                                        </li>
+                                        <li>
+                                            <a href="?page={{ max_index|add:'2' }}">{{ max_index|add:"2" }}</a>
+                                        </li>
+                                    {% endif %}
+                                    {% if data.has_next %}
+                                    <li>
+                                        <a href="?page={{ data.next_page_number }}">&raquo;</a>
+                                    </li>
+                                    {% else %}
+                                        <li class="disabled">
+                                            <span>&raquo;</span>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            {% endif %}
                 {% endif %}
-                {% if data.number > 2 %}
-                    <li>
-                        <a href="?page={{ 1 }}"> 1 </a>
-                    </li>
-                    <li>
-                        <span>...<span class="sr-only">...</span></span>
-                    </li>
-                {% endif %} 
-                {% for i in page_range %}
-                    {% if data.number == i %}
-                        <li class="active">
-                            <span>{{ i }} <span class="sr-only">(current)</span></span>
-                        </li> 
-                    {% else %}
-                        <li>
-                            <a href="?page={{ i }}">{{ i }}</a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-                {% if data.number < max_index %}
-                    <li >
-                        <span>...<span class="sr-only">...</span></span>
-                    </li>
-                    <li>
-                        <a href="?page={{ max_index|add:'2' }}">{{ max_index|add:"2" }}</a>
-                    </li>
-                {% endif %}
-                {% if data.has_next %}
-                <li>
-                    <a href="?page={{ data.next_page_number }}">&raquo;</a>
-                </li>
-                {% else %}
-                    <li class="disabled">
-                        <span>&raquo;</span>
-                    </li>
-                {% endif %}
-            </ul>
-        {% endif %}
-    {% endif %}
+            </div>
+        </div>
+    </section>
 
     <script type="text/javascript">
         $("#thumbs_up").on("click", function(){

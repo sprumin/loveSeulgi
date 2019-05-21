@@ -53,6 +53,9 @@ class AlbumView(View):
                 "photo": row.photo.url,
                 "title": row.title,
                 "source": row.source,
+                "upload_time": row.created_at,
+                "views": row.views,
+                "thumbs": row.thumbs,
                 "comments": len(AlbumComment.objects.filter(photo=row))
             })
 

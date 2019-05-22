@@ -18,9 +18,8 @@
                         {{ message.username }} | {{ message }} <br>
                     {% endfor %}
                 {% else %}
-                    <div class="photo">
-                        <img src="{{ last_data.photo }}" width="175" height="250" onclick="window.location='/gallery/album/{{ photo.id }}'">
-                    </div>
+                    <h1>Recent Photos</h1>
+                    <h3>매주 월, 금에 업데이트 될 예정입니다</h3>
                     <div class="photos">
                         <table class="ui celled table" cellspacing=0>
                             <thead>
@@ -48,58 +47,58 @@
                                 {% endfor %}
                             </tbody>
                         </table>
-                    </div>
+                        {% if data.has_other_pages %}
+                            <div class="ui pagination menu">
+                                {% if data.has_previous %}
+                                    <a class="item" href="?page={{ data.previous_page_number }}">&laquo;</a>
+                                {% else %}
+                                    <div class="disabled item"><span>&laquo;</span></div>
+                                {% endif %}
 
-                            {% if data.has_other_pages %}
-                                <ul class = "pagination">
-                                    {% if data.has_previous %}
-                                        <li>
-                                            <a href="?page={{ data.previous_page_number }}">&laquo;</a>
-                                        </li>
+                                {% if data.number > 2 %}
+                                    <a class="item" href="?page={{ 1 }}">1</a>
+                                    <div class="disabled item">...</div>
+                                {% endif %}
+                                {% for i in page_range %}
+                                    {% if data.number == i %}
+                                        <a class="active item">{{ i }}</a>
                                     {% else %}
-                                        <li class = "disabled">
-                                            <span>&laquo;</span>
-                                        </li> 
+                                        <a class="item" href="?page={{ i }}">{{ i }}</a>
                                     {% endif %}
-                                    {% if data.number > 2 %}
-                                        <li>
-                                            <a href="?page={{ 1 }}"> 1 </a>
-                                        </li>
-                                        <li>
-                                            <span>...<span class="sr-only">...</span></span>
-                                        </li>
-                                    {% endif %} 
-                                    {% for i in page_range %}
-                                        {% if data.number == i %}
-                                            <li class="active">
-                                                <span>{{ i }} <span class="sr-only">(current)</span></span>
-                                            </li> 
-                                        {% else %}
-                                            <li>
-                                                <a href="?page={{ i }}">{{ i }}</a>
-                                            </li>
-                                        {% endif %}
-                                    {% endfor %}
-                                    {% if data.number < max_index %}
-                                        <li >
-                                            <span>...<span class="sr-only">...</span></span>
-                                        </li>
-                                        <li>
-                                            <a href="?page={{ max_index|add:'2' }}">{{ max_index|add:"2" }}</a>
-                                        </li>
-                                    {% endif %}
-                                    {% if data.has_next %}
-                                    <li>
-                                        <a href="?page={{ data.next_page_number }}">&raquo;</a>
-                                    </li>
-                                    {% else %}
-                                        <li class="disabled">
-                                            <span>&raquo;</span>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                            {% endif %}
-                {% endif %}
+                                {% endfor %}
+
+                                {% if data.number < max_index %}
+                                    <div class="disabled item">...</div>
+                                    <a class="item" href="?page={{ max_index|add:'2' }}">{{ max_index|add:"2"}}</a>
+                                {% endif %}
+
+                                {% if data.has_next %}
+                                    <a class="item" href="?page={{ data.next_page_number }}">&raquo;</a>
+                                {% else %}
+                                    <div class="disabled item"><span>&raquo;</span></div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                                <!--
+                                <a class="active item">
+                                    1
+                                </a>
+                                <div class="disabled item">
+                                    ...
+                                </div>
+                                <a class="item">
+                                    10
+                                </a>
+                                <a class="item">
+                                    11
+                                </a>
+                                <a class="item">
+                                    12
+                                </a>
+                            -->
+                            </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </section>

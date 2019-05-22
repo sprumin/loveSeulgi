@@ -3,7 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def pagination(request, data_list):
     total_len = len(data_list)
-    paginator = Paginator(data_list, 5)
+    paginator = Paginator(data_list, 10)
     page = request.GET.get('page')
     last_data = data_list[0]
 

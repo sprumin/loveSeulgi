@@ -44,7 +44,7 @@
                                 {% for photo in data %}
                                     <tr>
                                         <td>{{ photo.id }}</td>
-                                        <td class="photo-title">{{ photo.title }}</td>
+                                        <td class="photo-title"><a href="/gallery/album/{{ photo.id }}">{{ photo.title }}</a></td>
                                         <td><button class="ui green button"
                                             onclick="show_photo('{{ photo.title }}', '{{ photo.photo }}')">Show Photo</button></td>
                                         <td><button class="ui blue button" onclick="alert('{{ photo.source }}')">Show Source</button></td>

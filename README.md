@@ -19,3 +19,4 @@
 - [ ] Post 페이지 디자인
 - [x] Dockerfile, docker-compose 추가
 - [ ] nginx,uwsgi 연동
+- [ ] About 페이지 작성

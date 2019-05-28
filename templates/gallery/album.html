@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <div class="ui modal">
+        <div id="header" class="header"></div>
+        <div class="image content">
+            <img id="photo" width="500" height="650" class="image">
+        </div>
+        <div class="ui cancel button" onclick="$('.ui.modal').css('display', 'none')">Cancel</div>
+    </div>
     <section>
         <div class="Wrap">
             <div class="main">
@@ -37,9 +44,10 @@
                                 {% for photo in data %}
                                     <tr>
                                         <td>{{ photo.id }}</td>
-                                        <td>{{ photo.title }}</td>
-                                        <td><button class="ui green button" value="{{ photo.photo }}">Show Photo</button></td>
-                                        <td><button class="ui blue button" value="{{ photo.source }}">Show Source</button></td>
+                                        <td class="photo-title">{{ photo.title }}</td>
+                                        <td><button class="ui green button"
+                                            onclick="show_photo('{{ photo.title }}', '{{ photo.photo }}')">Show Photo</button></td>
+                                        <td><button class="ui blue button" onclick="alert('{{ photo.source }}')">Show Source</button></td>
                                         <td>{{ photo.upload_time }}</td>
                                         <td>{{ photo.views }}</td>
                                         <td>{{ photo.thumbs }}</td>
@@ -79,26 +87,8 @@
                                 {% endif %}
                             </div>
                         {% endif %}
-                                <!--
-                                <a class="active item">
-                                    1
-                                </a>
-                                <div class="disabled item">
-                                    ...
-                                </div>
-                                <a class="item">
-                                    10
-                                </a>
-                                <a class="item">
-                                    11
-                                </a>
-                                <a class="item">
-                                    12
-                                </a>
-                            -->
-                            </div>
-                    {% endif %}
-                </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </section>
@@ -121,6 +111,7 @@
                 }
               })
             })
+
         $("#add_myalbum").on("click", function(){
             $.ajax({
                 type: "POST",
@@ -138,6 +129,7 @@
                 }
               })
             })
+
         $("#del_myalbum").on("click", function(){
             $.ajax({
                 type: "POST",
@@ -155,5 +147,11 @@
                 }
               })
             })
+
+        function show_photo(title, photo){
+            $(".ui.modal").css("display", "block");
+            $("#photo").attr("src", photo);
+            $("#header").text(title);
+        }
     </script>
 {% endblock %}

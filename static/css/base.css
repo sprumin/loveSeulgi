@@ -159,3 +159,21 @@ a {
     height: 500px;
     margin: 0 auto;
 }
+
+.photo-title {
+    width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.image {
+    padding: 20px;
+}
+
+.ui.modal {
+    width: 500px !important;
+}
+
+.ui.cancel.button {
+    float: right;
+}

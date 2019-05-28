@@ -51,7 +51,7 @@ class AlbumView(View):
             photo_list.append({
                 "id": row.id,
                 "photo": row.photo.url,
-                "title": row.title,
+                "title": row.title.replace("\\", ""),
                 "source": row.source,
                 "upload_time": row.created_at,
                 "views": row.views,

@@ -177,3 +177,7 @@ a {
 .ui.cancel.button {
     float: right;
 }
+
+.select-photo {
+    float: left;
+}

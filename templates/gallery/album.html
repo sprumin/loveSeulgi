@@ -12,7 +12,7 @@
         <div class="Wrap">
             <div class="main">
                 {% if photo %}
-                    <img src="{{ photo.photo }}" width="500" height="500"><br>&nbsp;{{ photo.id }}&nbsp;
+                    <img class="select-photo" src="{{ photo.photo }}" width="500" height="500"><br>&nbsp;{{ photo.id }}&nbsp;
                     {{ photo.title }} &nbsp;{{ photo.source }} <br>
                     <form method="post">
                         {% csrf_token %}

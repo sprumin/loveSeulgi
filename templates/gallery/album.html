@@ -4,9 +4,20 @@
     <div class="ui modal">
         <div id="header" class="header"></div>
         <div class="image content">
-            <img id="photo" width="500" height="650" class="image">
+            <div class="image">
+                <img id="photo" width="500" height="650" class="image">
+                <div class="photo-my">
+                    <div class="positive ui button" id="add_myalbum">Add Myalbum</div>
+                    <div class="negative ui button" id="del_myalbum">Delete Myalbum</div>
+                </div>
+                <!--<div class="ui cancel button" onclick="$('.ui.modal').css('display', 'none')">Cancel</div>-->
+            </div>
+            <div class="description">
+                <div class="ui raised segment">
+                    <a class="ui teal ribbon label">Comments</a>
+                </div>
+            </div>     
         </div>
-        <div class="ui cancel button" onclick="$('.ui.modal').css('display', 'none')">Cancel</div>
     </div>
     <section>
         <div class="Wrap">
@@ -18,12 +29,16 @@
                         {% csrf_token %}
                         Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ photo.views }}   
                         추천 수 {{ photo.thumbs }} <input type="button" id="thumbs_up" value="추천">
-                        <input type="button" id="add_myalbum" value="앨범에 등록">
-                        <input type="button" id="del_myalbum" value="앨범에서 삭제"><br><br>
                     </form>
                     {% for message in photo.comment %}
                         {{ message.username }} | {{ message }} <br>
                     {% endfor %}
+                    <div class="photo-my">
+                        <div class="positive ui button" id="add_myalbum">Add Myalbum</div>
+                        <div class=""></div>
+                        <input type="button" id="add_myalbum" value="앨범에 등록">
+                        <input type="button" id="del_myalbum" value="앨범에서 삭제"><br><br>
+                    </div>
                 {% else %}
                     <h1>Recent Photos</h1>
                     <h3>매주 월, 금에 업데이트 될 예정입니다</h3>
@@ -44,7 +59,7 @@
                                 {% for photo in data %}
                                     <tr>
                                         <td>{{ photo.id }}</td>
-                                        <td class="photo-title"><a href="/gallery/album/{{ photo.id }}">{{ photo.title }}</a></td>
+                                        <td class="photo-title">{{ photo.title }}</td>
                                         <td><button class="ui green button"
                                             onclick="show_photo('{{ photo.title }}', '{{ photo.photo }}')">Show Photo</button></td>
                                         <td><button class="ui blue button" onclick="alert('{{ photo.source }}')">Show Source</button></td>

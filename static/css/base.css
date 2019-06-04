@@ -30,23 +30,23 @@ a {
 }
 
 /* base */
-.about {
+.nav-about {
     color: red;
 }
 
-.photo {
+.nav-photo {
     color: orange;
 }
 
-.notice {
+.nav-notice {
     color: lightgreen;
 }
 
-.post {
+.nav-post {
     color: skyblue;
 }
 
-.report {
+.nav-report {
     color: mediumpurple;
 }
 
@@ -166,6 +166,29 @@ a {
     text-overflow: ellipsis;
 }
 
+.ui.modal {
+    width: 530px !important;
+}
+
+.select-photo {
+    float: left;
+    height: 100%;
+}
+
+.photo {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.photo-div {
+    width: 50%;
+}
+
+.description-div {
+    width: 50%;
+}
+
 .photo-my {
     text-align: center;
 }
@@ -175,18 +198,6 @@ a {
     height: 30px;
 }
 
-.ui.modal {
-    width: 530px !important;
-}
-
-.ui.cancel.button {
-    float: right;
-}
-
-.select-photo {
-    float: left;
-}
-
 .description {
     width: 100% !important;
 }
@@ -194,4 +205,8 @@ a {
 .ui.raised.segment {
     width: 100%;
     height: 100%;
+}
+
+.ui.teal.ribbon.label {
+    float:left;
 }

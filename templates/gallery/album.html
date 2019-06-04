@@ -6,19 +6,7 @@
         <div class="image content">
             <div class="image">
                 <img id="photo" width="500" height="650" class="image">
-                <!--
-                <div class="photo-my">
-                    <div class="positive ui button" id="add_myalbum">Add Myalbum</div>
-                    <div class="negative ui button" id="del_myalbum">Delete Myalbum</div>
-                </div>-->
-                <!--<div class="ui cancel button" onclick="$('.ui.modal').css('display', 'none')">Cancel</div>-->
-            </div>
-            <!--
-            <div class="description">
-                <div class="ui raised segment">
-                    <a class="ui teal ribbon label">Comments</a>
-                </div>
-            </div>-->     
+            </div>   
         </div>
     </div>
     <section>
@@ -28,19 +16,45 @@
                     <div class="photo">
                         <div class="photo-div">
                             <img class="select-photo" src="{{ photo.photo }}" width="500" height="500">
-                            <!--<div class="photo-my">
-                                <div class="positive ui button" id="add_myalbum">Add Myalbum</div>
-                                <div class="negative ui button" id="del_myalbum">Delete Myalbum</div>
-                            </div>-->
                         </div>
                         <div class="description-div">
                             <div class="ui raised segment">
                                 <div class="description-header"><h3>{{ photo.title }}</h3></div>
                                 <br>
                                 <a class="ui teal ribbon label">Comments</a>
-                                {% for message in photo.comment %}
-                                    {{ message.username }} | {{ message }}
-                                {% endfor %}
+                                <div class="ui list">
+                                    {% for message in photo.comment %}
+                                        <div class="item">
+                                            <div class="header">{{ message.username }}</div>
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <a class="ui orange ribbon label">Events</a>
+                                <div class="description-footer">
+                                    <div class="ui labeled button" tabindex="0">
+                                        <div class="ui button">
+                                            <i class="eye icon"></i> Views
+                                        </div>
+                                        <a class="ui basic left pointing label">{{ photo.views }}</a>
+                                    </div>
+                                    {% if request.user.is_authenticated %}
+                                        <div class="ui labeled button" tabindex="0">
+                                            <div class="ui red button" id="thumbs-up">
+                                                <i class="thumbs up outline icon"></i> Thumbs
+                                            </div>
+                                            <a class="ui basic red left pointing label">{{ photo.thumbs }}</a>
+                                        </div>
+                                        <div class="ui buttons">
+                                            <p>Add or Delete To My-Album</p>
+                                            <button class="ui positive button" id="add-myalbum">Add</button>
+                                            <div class="or"></div>
+                                            <button class="ui negative button" id="del-myalbum">Delete</button>
+                                        </div>
+                                    {% else %}
+                                        <h1>Please use the additional function after login.</h1>
+                                    {% endif %}
+                                </div>
                             </div>
                             <!--<form method="post">
                                 {% csrf_token %}
@@ -120,10 +134,10 @@
     </section>
 
     <script type="text/javascript">
-        $("#thumbs_up").on("click", function(){
+        $("#thumbs-up").on("click", function(){
             $.ajax({
                 type: "POST",
-                url: "/gallery/album/" + "{{ photo.id }}",
+                url: window.location.pathname,
                 data: {thumbs: true},
                 beforeSend: function(xhr) {
                     xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
@@ -138,10 +152,10 @@
               })
             })
 
-        $("#add_myalbum").on("click", function(){
+        $("#add-myalbum").on("click", function(){
             $.ajax({
                 type: "POST",
-                url: "/gallery/album/" + "{{ photo.id }}",
+                url: window.location.pathname,
                 data: {add_myalbum: true},
                 beforeSend: function(xhr) {
                     xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
@@ -156,10 +170,10 @@
               })
             })
 
-        $("#del_myalbum").on("click", function(){
+        $("#del-myalbum").on("click", function(){
             $.ajax({
                 type: "POST",
-                url: "/gallery/album/" + "{{ photo.id }}",
+                url: window.location.pathname,
                 data: {del_myalbum: true},
                 beforeSend: function(xhr) {
                     xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  

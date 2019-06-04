@@ -27,7 +27,7 @@ class AlbumView(View):
             photo_data = {
                 "id": photo.id,
                 "photo": photo.photo.url,
-                "title": photo.title,
+                "title": photo.title.replace("\\", ""),
                 "source": photo.source,
                 "views": photo.views,
                 "thumbs": photo.thumbs,

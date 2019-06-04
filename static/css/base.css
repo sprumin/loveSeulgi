@@ -207,6 +207,25 @@ a {
     height: 100%;
 }
 
-.ui.teal.ribbon.label {
+.ui.teal.ribbon.label, .ui.orange.ribbon.label{
     float:left;
+}
+
+.ui.list {
+    height: 250px;
+    margin-top: 25px !important;
+    padding: 15px !important;
+    overflow: hidden;
+    font-size: 13px !important;
+}
+
+.description-footer {
+    width: 200px;
+    height: 250px;
+    margin: 0 auto;
+    margin-top: 45px;
+}
+
+.ui.labeled.button {
+    margin-bottom: 20px;
 }

@@ -6,17 +6,19 @@
         <div class="image content">
             <div class="image">
                 <img id="photo" width="500" height="650" class="image">
+                <!--
                 <div class="photo-my">
                     <div class="positive ui button" id="add_myalbum">Add Myalbum</div>
                     <div class="negative ui button" id="del_myalbum">Delete Myalbum</div>
-                </div>
+                </div>-->
                 <!--<div class="ui cancel button" onclick="$('.ui.modal').css('display', 'none')">Cancel</div>-->
             </div>
+            <!--
             <div class="description">
                 <div class="ui raised segment">
                     <a class="ui teal ribbon label">Comments</a>
                 </div>
-            </div>     
+            </div>-->     
         </div>
     </div>
     <section>
@@ -59,7 +61,8 @@
                                 {% for photo in data %}
                                     <tr>
                                         <td>{{ photo.id }}</td>
-                                        <td class="photo-title">{{ photo.title }}</td>
+                                        <td class="photo-title">{{ photo.title }}{% if comments > 0 %}[{{ photo.comments }}]{% endif %}
+                                        </td>
                                         <td><button class="ui green button"
                                             onclick="show_photo('{{ photo.title }}', '{{ photo.photo }}')">Show Photo</button></td>
                                         <td><button class="ui blue button" onclick="alert('{{ photo.source }}')">Show Source</button></td>
@@ -164,7 +167,7 @@
             })
 
         function show_photo(title, photo){
-            $(".ui.modal").css("display", "block");
+            $(".ui.modal").modal('show');
             $("#photo").attr("src", photo);
             $("#header").text(title);
         }

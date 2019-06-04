@@ -155,7 +155,7 @@ a {
 
 /* photo */
 .photos {
-    width: 800px;
+    width: 80%;
     height: 500px;
     margin: 0 auto;
 }
@@ -173,6 +173,10 @@ a {
 .photo-my > div {
     width: 246px;
     height: 30px;
+}
+
+.ui.modal {
+    width: 530px !important;
 }
 
 .ui.cancel.button {

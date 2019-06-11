@@ -1,0 +1,195 @@
+*** Starting uWSGI 2.0.18 (64bit) on [Mon Jun 10 03:34:31 2019] ***
+compiled with version: 7.4.0 on 07 June 2019 12:28:42
+os: Linux-4.15.0-1032-aws #34-Ubuntu SMP Thu Jan 17 15:18:09 UTC 2019
+nodename: ip-172-31-40-243
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 1
+current working directory: /home/ubuntu/LoveSeulgi
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/ubuntu/LoveSeulgi
+your processes number limit is 3841
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uWSGI http bound on :8000 fd 6
+uwsgi socket 0 bound to UNIX address loveseulgi.sock fd 9
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.6.7 (default, Oct 22 2018, 11:32:17)  [GCC 8.2.0]
+Python main interpreter initialized at 0x556bb5747490
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 145808 bytes (142 KB) for 1 cores
+*** Operational MODE: single process ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x556bb5747490 pid: 16095 (default app)
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 16095)
+spawned uWSGI worker 1 (pid: 16097, cores: 1)
+spawned uWSGI http 1 (pid: 16098)
+[uwsgi-http key: 3.16.158.117:8000 client_addr: 49.170.131.30 client_port: 57351] hr_write(): Broken pipe [plugins/http/http.c line 565]
+Mon Jun 10 03:34:40 2019 - SIGPIPE: writing to a closed pipe/socket/fd (probably the client disconnected) on request /media/image/seulgi/44d0a934072b43d78ec6b7f9c0f76087.jpg (ip 49.170.131.30) !!!
+Mon Jun 10 03:34:40 2019 - uwsgi_response_sendfile_do(): Broken pipe [core/writer.c line 655] during GET /media/image/seulgi/44d0a934072b43d78ec6b7f9c0f76087.jpg (49.170.131.30)
+OSError: write error
+[pid: 16097|app: 0|req: 1/1] 49.170.131.30 () {38 vars in 808 bytes} [Mon Jun 10 03:34:37 2019] GET /media/image/seulgi/44d0a934072b43d78ec6b7f9c0f76087.jpg => generated 0 bytes in 2874 msecs via sendfile() (HTTP/1.1 200) 4 headers in 146 bytes (12 switches on core 0)
+[pid: 16097|app: 0|req: 2/2] 49.170.131.30 () {40 vars in 802 bytes} [Mon Jun 10 03:34:42 2019] GET / => generated 3950 bytes in 72 msecs (HTTP/1.1 200) 4 headers in 124 bytes (1 switches on core 0)
+Internal Server Error: /static/css/base.css
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/views/static.py", line 36, in serve
+    fullpath = Path(safe_join(document_root, path))
+  File "/usr/local/lib/python3.6/dist-packages/django/utils/_os.py", line 32, in safe_join
+    final_path = abspath(join(base, *paths))
+  File "/usr/lib/python3.6/posixpath.py", line 80, in join
+    a = os.fspath(a)
+TypeError: expected str, bytes or os.PathLike object, not tuple
+[pid: 16097|app: 0|req: 3/3] 49.170.131.30 () {38 vars in 715 bytes} [Mon Jun 10 03:34:42 2019] GET /static/css/base.css => generated 67008 bytes in 41 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+Internal Server Error: /static/js/base.js
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/views/static.py", line 36, in serve
+    fullpath = Path(safe_join(document_root, path))
+  File "/usr/local/lib/python3.6/dist-packages/django/utils/_os.py", line 32, in safe_join
+    final_path = abspath(join(base, *paths))
+  File "/usr/lib/python3.6/posixpath.py", line 80, in join
+    a = os.fspath(a)
+TypeError: expected str, bytes or os.PathLike object, not tuple
+[pid: 16097|app: 0|req: 4/4] 49.170.131.30 () {38 vars in 695 bytes} [Mon Jun 10 03:34:42 2019] GET /static/js/base.js => generated 66954 bytes in 33 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+Internal Server Error: /static/img/loveseulgi_logo.jpg
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/views/static.py", line 36, in serve
+    fullpath = Path(safe_join(document_root, path))
+  File "/usr/local/lib/python3.6/dist-packages/django/utils/_os.py", line 32, in safe_join
+    final_path = abspath(join(base, *paths))
+  File "/usr/lib/python3.6/posixpath.py", line 80, in join
+    a = os.fspath(a)
+TypeError: expected str, bytes or os.PathLike object, not tuple
+[pid: 16097|app: 0|req: 5/5] 49.170.131.30 () {38 vars in 758 bytes} [Mon Jun 10 03:34:42 2019] GET /static/img/loveseulgi_logo.jpg => generated 67240 bytes in 33 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+SIGINT/SIGQUIT received...killing workers...
+gateway "uWSGI http 1" has been buried (pid: 16098)
+worker 1 buried after 0 seconds
+goodbye to uWSGI.
+VACUUM: unix socket loveseulgi.sock removed.
+*** Starting uWSGI 2.0.18 (64bit) on [Mon Jun 10 03:34:50 2019] ***
+compiled with version: 7.4.0 on 07 June 2019 12:28:42
+os: Linux-4.15.0-1032-aws #34-Ubuntu SMP Thu Jan 17 15:18:09 UTC 2019
+nodename: ip-172-31-40-243
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 1
+current working directory: /home/ubuntu/LoveSeulgi
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /home/ubuntu/LoveSeulgi
+your processes number limit is 3841
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uWSGI http bound on :8000 fd 6
+uwsgi socket 0 bound to UNIX address loveseulgi.sock fd 9
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.6.7 (default, Oct 22 2018, 11:32:17)  [GCC 8.2.0]
+Python main interpreter initialized at 0x55b1a682a490
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 145808 bytes (142 KB) for 1 cores
+*** Operational MODE: single process ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x55b1a682a490 pid: 16099 (default app)
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 16099)
+spawned uWSGI worker 1 (pid: 16101, cores: 1)
+spawned uWSGI http 1 (pid: 16102)
+[pid: 16101|app: 0|req: 1/1] 49.170.131.30 () {40 vars in 802 bytes} [Mon Jun 10 03:34:51 2019] GET / => generated 3950 bytes in 51 msecs (HTTP/1.1 200) 4 headers in 124 bytes (1 switches on core 0)
+Internal Server Error: /static/css/base.css
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/views/static.py", line 36, in serve
+    fullpath = Path(safe_join(document_root, path))
+  File "/usr/local/lib/python3.6/dist-packages/django/utils/_os.py", line 32, in safe_join
+    final_path = abspath(join(base, *paths))
+  File "/usr/lib/python3.6/posixpath.py", line 80, in join
+    a = os.fspath(a)
+TypeError: expected str, bytes or os.PathLike object, not tuple
+[pid: 16101|app: 0|req: 2/2] 49.170.131.30 () {38 vars in 715 bytes} [Mon Jun 10 03:34:52 2019] GET /static/css/base.css => generated 67008 bytes in 38 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+Internal Server Error: /static/js/base.js
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/views/static.py", line 36, in serve
+    fullpath = Path(safe_join(document_root, path))
+  File "/usr/local/lib/python3.6/dist-packages/django/utils/_os.py", line 32, in safe_join
+    final_path = abspath(join(base, *paths))
+  File "/usr/lib/python3.6/posixpath.py", line 80, in join
+    a = os.fspath(a)
+TypeError: expected str, bytes or os.PathLike object, not tuple
+[pid: 16101|app: 0|req: 3/3] 49.170.131.30 () {38 vars in 696 bytes} [Mon Jun 10 03:34:52 2019] GET /static/js/base.js => generated 66955 bytes in 34 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+Internal Server Error: /static/img/loveseulgi_logo.jpg
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.6/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/django/views/static.py", line 36, in serve
+    fullpath = Path(safe_join(document_root, path))
+  File "/usr/local/lib/python3.6/dist-packages/django/utils/_os.py", line 32, in safe_join
+    final_path = abspath(join(base, *paths))
+  File "/usr/lib/python3.6/posixpath.py", line 80, in join
+    a = os.fspath(a)
+TypeError: expected str, bytes or os.PathLike object, not tuple
+[pid: 16101|app: 0|req: 4/4] 49.170.131.30 () {38 vars in 758 bytes} [Mon Jun 10 03:34:52 2019] GET /static/img/loveseulgi_logo.jpg => generated 67240 bytes in 33 msecs (HTTP/1.1 500) 4 headers in 129 bytes (1 switches on core 0)
+[uwsgi-http key: 3.16.158.117:8000 client_addr: 49.170.131.30 client_port: 62471] hr_write(): Broken pipe [plugins/http/http.c line 565]
+[uwsgi-http key: 3.16.158.117:8000 client_addr: 49.170.131.30 client_port: 62727] hr_write(): Broken pipe [plugins/http/http.c line 565]
+Mon Jun 10 03:35:01 2019 - SIGPIPE: writing to a closed pipe/socket/fd (probably the client disconnected) on request /media/image/seulgi/44d0a934072b43d78ec6b7f9c0f76087.jpg (ip 49.170.131.30) !!!
+Mon Jun 10 03:35:01 2019 - uwsgi_response_sendfile_do(): Broken pipe [core/writer.c line 655] during GET /media/image/seulgi/44d0a934072b43d78ec6b7f9c0f76087.jpg (49.170.131.30)
+OSError: write error
+[pid: 16101|app: 0|req: 5/5] 49.170.131.30 () {38 vars in 808 bytes} [Mon Jun 10 03:34:58 2019] GET /media/image/seulgi/44d0a934072b43d78ec6b7f9c0f76087.jpg => generated 0 bytes in 2959 msecs via sendfile() (HTTP/1.1 200) 4 headers in 146 bytes (17 switches on core 0)
+SIGINT/SIGQUIT received...killing workers...
+gateway "uWSGI http 1" has been buried (pid: 16102)
+worker 1 buried after 0 seconds
+goodbye to uWSGI.
+VACUUM: unix socket loveseulgi.sock removed.

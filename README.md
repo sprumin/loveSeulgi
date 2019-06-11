@@ -15,7 +15,8 @@ Dev. http://18.220.99.199:8000
 - [ ] 크롤러 동작 방식 변경
 - [x] base template 디자인
 - [x] User 관리 페이지 디자인
-- [ ] Gallery 페이지 디자인
+- [x] Gallery 페이지 디자인
+- [ ] Photo Comments Pagination 추가
 - [ ] Post 페이지 디자인
 - [x] Dockerfile, docker-compose 추가
 - [ ] nginx,uwsgi 연동

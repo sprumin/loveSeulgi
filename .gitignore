@@ -18,3 +18,4 @@ migrations
 
 # debug
 debug.log
+uwsgi.log

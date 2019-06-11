@@ -154,10 +154,14 @@ a {
 }
 
 /* photo */
-.photos {
+.tables {
     width: 80%;
     height: 500px;
     margin: 0 auto;
+}
+
+.ui.celled.table > tbody > tr {
+    height: 40px;
 }
 
 .photo-title {
@@ -212,6 +216,7 @@ a {
 }
 
 .ui.list {
+    position: relative;
     height: 400px;
     margin-top: 25px !important;
     padding: 15px !important;
@@ -224,4 +229,10 @@ a {
     height: 120px;
     display: inline-block;
     margin-top: 45px;
+}
+
+.ui.inverted.olive.button {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
 }

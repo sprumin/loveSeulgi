@@ -1,186 +1,100 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<style>
-        /* The Modal (background) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        }
-    
-        /* Modal Content/Box */
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto; /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 30%; /* Could be more or less, depending on screen size */                          
-        }
- 
-</style>
+    <section>
+        <div class="Wrap">
+            <div class="main">
+                <button class="ui inverted blue button">Post</button>
+                <h3>위 버튼을 눌러 게시물을 작성할 수 있습니다</h3>
+                {% if post %}
+                    {% if post.photo %}
+                        <img src="{{ post.photo }}" width="500" height="500">
+                    {% endif %}
+                    <h2>ID : {{ post.id }}</h2>
+                    <h2>TITLE : {{ post.title }}</h2>
+                    <h2>CONTENT : {{ post.content }}</h2>
+                    <h2>VIEWS : {{ post.views }}</h2>
+                    <br>
+                    <h3>댓글</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit">
+                    </form>
+                    <table border=1>
+                        <thead>
+                            <tr>
+                                <td><b>Username</b></td>
+                                <td><b>Comment</b></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for message in post.comment %}
+                            <tr>
+                                <td>{{ message.username }}</td>
+                                <td>{{ message }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                <div class="tables">
+                    <table class="ui celled table" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Views</th>
+                                <th>Comments</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in pagination.data %}
+                            <tr>
+                                <td>{{ row.id }}</td>
+                                <td class="photo-title"><a href="/post/post/{{ row.id }}">{{ row.title }}</a></td>
+                                <td>{{ row.content }}</td>
+                                <td>{{ row.views }}</td>
+                                <td>{{ row.comments }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if pagination.data.has_other_pages %}
+                        <div class="ui pagination menu">
+                            {% if pagination.data.has_previous %}
+                                <a class="item" href="?page={{ pagination.data.previous_page_number }}">&laquo;</a>
+                            {% else %}
+                                <div class="disabled item"><span>&laquo;</span></div>
+                            {% endif %}
 
-<h1> 게시글 </h1>
-{% if post %}
-    {% if post.photo %}
-        <img src="{{ post.photo }}" width="500" height="500">
-    {% endif %}
-    <h2>ID : {{ post.id }}</h2>
-    <h2>TITLE : {{ post.title }}</h2>
-    <h2>CONTENT : {{ post.content }}</h2>
-    <h2>VIEWS : {{ post.views }}</h2>
-    <br>
-    <h3>댓글</h3>
-    <form method="post">
-        {% csrf_token %}
-        Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit">
-    </form>
-    <table border=1>
-        <thead>
-            <tr>
-                <td><b>Username</b></td>
-                <td><b>Comment</b></td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for message in post.comment %}
-            <tr>
-                <td>{{ message.username }}</td>
-                <td>{{ message }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <div id="add_post" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <h3>User : {{ form.user }}</h3>
-                <h3>Title : {{ form.title }}</h3>
-                <h3>Photo : {{ form.photo }}</h3>
-                <h3>Content : {{ form.content }}</h3>
-                <input type="submit" value="등록">
-            </form>
-            <div id="close_modal" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
-                <span class="pop_bt" style="font-size: 13pt;" >
-                     닫기
-                </span>
+                            {% if pagination.data.number > 2 %}
+                                <a class="item" href="?page={{ 1 }}">1</a>
+                                <div class="disabled item">...</div>
+                            {% endif %}
+                            {% for i in pagination.page_range %}
+                                {% if pagination.data.number == i %}
+                                    <a class="active item">{{ i }}</a>
+                                {% else %}
+                                    <a class="item" href="?page={{ i }}">{{ i }}</a>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if pagination.data.number < max_index %}
+                                <div class="disabled item">...</div>
+                                <a class="item" href="?page={{ pagination.max_index|add:'2' }}">{{ pagination.max_index|add:"2"}}</a>
+                            {% endif %}
+
+                            {% if pagination.data.has_next %}
+                                <a class="item" href="?page={{ pagination.data.next_page_number }}">&raquo;</a>
+                            {% else %}
+                                <div class="disabled item"><span>&raquo;</span></div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                {% endif %}
             </div>
-      </div>
-    </div>
-    <input type="button" id="open_modal" name="add_post" value="글쓰기">
-    <br>
-    <table border=1>
-        <thead>
-            <tr>
-                <td><b>Id</b></td>
-                <td><b>Title</b></td>
-                <td><b>Content</b></td>
-                <td><b>Views</b></td>
-                <td><b>Comments</b></td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in pagination.data %}
-            <tr onclick="javascript:location='/post/post/{{ row.id }}'">
-                <td>{{ row.id }}</td>
-                <td>{{ row.title }}</td>
-                <td>{{ row.content }}</td>
-                <td>{{ row.views }}</td>
-                <td>{{ row.comments }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% endif %}
-
-
-{% if pagination.data.has_other_pages %}
-    <ul class = "pagination">
-        {% if pagination.data.has_previous %}
-            <li>
-                <a href="?page={{ pagination.data.previous_page_number }}">&laquo;</a>
-            </li>
-        {% else %}
-            <li class = "disabled">
-                <span>&laquo;</span>
-            </li> 
-        {% endif %}
-        {% if pagination.data.number > 2 %}
-            <li>
-                <a href="?page={{ 1 }}"> 1 </a>
-            </li>
-            <li>
-                <span>...<span class="sr-only">...</span></span>
-            </li>
-        {% endif %} 
-        {% for i in page_range %}
-            {% if pagination.data.number == i %}
-                <li class="active">
-                    <span>{{ i }} <span class="sr-only">(current)</span></span>
-                </li> 
-            {% else %}
-                <li>
-                    <a href="?page={{ i }}">{{ i }}</a>
-                </li>
-            {% endif %}
-        {% endfor %}
-        {% if pagination.data.number < max_index %}
-            <li >
-                <span>...<span class="sr-only">...</span></span>
-            </li>
-            <li>
-                <a href="?page={{ max_index|add:'2' }}">{{ max_index|add:"2" }}</a>
-            </li>
-        {% endif %}
-        {% if pagination.data.has_next %}
-        <li>
-            <a href="?page={{ pagination.data.next_page_number }}">&raquo;</a>
-        </li>
-        {% else %}
-            <li class="disabled">
-                <span>&raquo;</span>
-            </li>
-        {% endif %}
-    </ul>
-{% endif %}
-<script>
-    $(document).ready(function(){
-        $("#add_post").hide();
-    })
-
-    $("#open_modal").on("click", function(){
-        $("#add_post").show();
-    })
-
-    $("#close_modal").on("click", function(){
-        $("#add_post").hide();
-    })
-    $("#thumbs_up").on("click", function(){
-        $.ajax({
-            type: "POST",
-            url: "/post/post/" + "{{ post.id }}",
-            data: {thumbs: true},
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
-            },
-            success: function(){
-                alert("추천성공!");
-                window.location.reload();
-            },
-            error: function(error){
-                alert(error);
-            }
-          })
-        })
-</script>
+        </div>
+    </section>
 {% endblock %}

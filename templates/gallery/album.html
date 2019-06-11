@@ -23,12 +23,17 @@
                                 <br>
                                 <a class="ui teal ribbon label">Comments</a>
                                 <div class="ui list">
-                                    {% for message in photo.comment %}
-                                        <div class="item">
-                                            <div class="header">{{ message.username }}</div>
-                                            {{ message }}
-                                        </div>
-                                    {% endfor %}
+                                    {% if photo.comment %}
+                                        {% for message in photo.comment %}
+                                            <div class="item">
+                                                <div class="header">{{ message.username }}</div>
+                                                {{ message }}
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <h1>No Comments</h1>
+                                    {% endif %}
+                                    <button class="ui inverted olive button">Add</button>
                                 </div>
                                 <a class="ui orange ribbon label">Events</a>
                                 <div class="description-footer">
@@ -64,7 +69,7 @@
                 {% else %}
                     <h1>Recent Photos</h1>
                     <h3>매주 월, 금에 업데이트 될 예정입니다</h3>
-                    <div class="photos">
+                    <div class="tables">
                         <table class="ui celled table" cellspacing=0>
                             <thead>
                                 <tr>

@@ -7,4 +7,4 @@ echo "Django Databases migration"
 python manage.py migrate --settings=LoveSeulgi.settings.development
 
 echo "Start Django Server"
-python manage.py runserver 0:8000 --settings=LoveSeulgi.settings.development 
+python manage.py runserver --settings=LoveSeulgi.settings.development

@@ -4,8 +4,6 @@
     <section>
         <div class="Wrap">
             <div class="main">
-                <button class="ui inverted green button">Notice</button>
-                <h3> Admin 페이지에서 작성할 수 있습니다 </h3>
                 {% if notice %}
                     {% if notice.photo %}
                         <img src="{{ notice.photo }}" width="500" height="500">
@@ -37,6 +35,8 @@
                         </tbody>
                     </table>
                 {% else %}
+                    <button class="ui inverted green button">Notice</button>
+                    <h3> Admin 페이지에서 작성할 수 있습니다 </h3>
                     <div class="tables">
                         <table class="ui celled table" cellspacing=0>
                             <thead>

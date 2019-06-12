@@ -35,7 +35,11 @@
                         </tbody>
                     </table>
                 {% else %}
-                    <button class="ui inverted green button">Notice</button>
+                    {% if request.user.is_superuser %}
+                    <button class="ui inverted green button" onclick="javascript:window.location='/_4dmin/post/notice/add'">Notice</button>
+                    {% else %}
+                    <button class="ui inverted green button" data-tooltip="Admin 권한이 필요합니다" data-position="right center">Notice</button>
+                    {% endif %}    
                     <h3> Admin 페이지에서 작성할 수 있습니다 </h3>
                     <div class="tables">
                         <table class="ui celled table" cellspacing=0>

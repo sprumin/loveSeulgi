@@ -124,7 +124,7 @@ class UserDeleteView(View):
 def signout(request):
     logout(request)
 
-    return redirect("/user/")
+    return redirect("/")
 
 
 class UserAlbumView(View):

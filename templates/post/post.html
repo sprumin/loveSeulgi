@@ -1,6 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <div class="ui modal">
+        <div class="header">
+            Add Post
+        </div>
+        <div class="image content">
+            <div class="description">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="ui input">
+                        <h3>Title : {{ form.title }}</h3>
+                    </div>
+                    <br>
+                    <div class="ui input">
+                        <h3>Photo : {{ form.photo }}</h3>
+                    </div>
+                    <br>
+                    <div class="ui input">
+                        <h3>Content : {{ form.content }}</h3>
+                    </div>
+                    <input type="submit" value="Submit" class="post-submit">
+                </form>
+            </div>
+        </div>
+    </div>
     <section>
         <div class="Wrap">
             <div class="main">
@@ -35,7 +59,11 @@
                         </tbody>
                     </table>
                 {% else %}
-                <button class="ui inverted blue button">Post</button>
+                {% if request.user.is_authenticated %}
+                    <button class="ui inverted blue button" onclick="javascript:$('.ui.modal').modal('show')">Post</button>
+                {% else %}
+                    <button class="ui inverted blue button" data-tooltip="로그인 후 작성해주세요" data-position="right center">Post</button>
+                {% endif %}
                 <h3>위 버튼을 눌러 게시물을 작성할 수 있습니다</h3>
                 <div class="tables">
                     <table class="ui celled table" cellspacing="0">

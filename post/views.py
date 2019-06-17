@@ -120,6 +120,7 @@ class PostView(View):
                 form = PostAddForm(initial={"user": request.user.email})
             else:
                 form = "Anonymous User"
+
             post_list = list()
 
             for row in Post.objects.all().order_by("-id"):

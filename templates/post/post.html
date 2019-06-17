@@ -7,20 +7,27 @@
         </div>
         <div class="image content">
             <div class="description">
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data" id="add-post" class="ui form">
                     {% csrf_token %}
-                    <div class="ui input">
-                        <h3>Title : {{ form.title }}</h3>
+                    <div class="field">
+                        <label>Title</label>
+                        <div class="field">
+                            {{ form.title }}
+                        </div>
                     </div>
-                    <br>
-                    <div class="ui input">
-                        <h3>Photo : {{ form.photo }}</h3>
+                    <div class="field">
+                        <label>file</label>
+                        <div class="field">
+                            {{ form.photo }}
+                        </div>
                     </div>
-                    <br>
-                    <div class="ui input">
-                        <h3>Content : {{ form.content }}</h3>
+                    <div class="field">
+                        <label>Content</label>
+                        <div class="field">
+                            {{ form.content }}
+                        </div>
                     </div>
-                    <input type="submit" value="Submit" class="post-submit">
+                    <div id="post-submit" class="ui submit button">Submit</div>
                 </form>
             </div>
         </div>
@@ -125,4 +132,16 @@
             </div>
         </div>
     </section>
+    <script type="text/javascript">
+        $("#post-submit").click(function(){
+            title = $("input[name='title']").val();
+            content = $("textarea[name='content']").val();
+
+            if( title == "" || content == "" ){
+                alert("Title and content are required !");
+            } else {
+                $("#add-post").submit();
+            }
+        })
+    </script>
 {% endblock %}

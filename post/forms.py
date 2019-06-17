@@ -12,6 +12,21 @@ class NoticeAddForm(forms.ModelForm):
                 "placeholder": "E-mail",
                 "required": True,
             }))
+    title = forms.CharField(
+        label="Title",
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Title",
+                "required": True,
+            }))
+    content = forms.CharField(
+        label="E-mail",
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "Content",
+                "required": True,
+            })
+    )
 
     class Meta:
         model = Notice
@@ -27,6 +42,21 @@ class PostAddForm(forms.ModelForm):
                 "placeholder": "E-mail",
                 "required": True,
             }))
+    title = forms.CharField(
+        label="Title",
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Title",
+                "required": True,
+            }))
+    content = forms.CharField(
+        label="E-mail",
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "Content",
+                "required": True,
+            })
+    )
 
     class Meta:
         model = Post
@@ -42,6 +72,21 @@ class ReportAddForm(forms.ModelForm):
                 "placeholder": "E-mail",
                 "required": True,
             }))
+    title = forms.CharField(
+        label="Title",
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Title",
+                "required": True,
+            }))
+    content = forms.CharField(
+        label="E-mail",
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "Content",
+                "required": True,
+            })
+    )
 
     class Meta:
         model = Report

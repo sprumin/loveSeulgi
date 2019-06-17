@@ -209,7 +209,7 @@ class ReportView(View):
                     "content": row.content,
                     "views": row.views,
                     "comments": len(ReportComment.objects.filter(report=row)),
-                    "password": row.password
+                    "password": True if row.password else False
                 })
 
             return render(request, "post/report.html", {

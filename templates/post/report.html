@@ -1,6 +1,64 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <div class="ui modal">
+        <div class="header">
+            Add Report
+        </div>
+        <div class="image content">
+            <div class="description">
+                <form method="POST" enctype="multipart/form-data" id="add-report" class="ui form">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label>Title</label>
+                        <div class="field">
+                            {{ form.title }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Category</label>
+                        <div class="field">
+                            {{ form.category }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>File</label>
+                        <div class="field">
+                            {{ form.photo }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Content</label>
+                        <div class="field">
+                            {{ form.content }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <div class="field">
+                            {{ form.password }}
+                        </div>
+                    </div>
+                    <div id="report-submit" class="ui submit button">Submit</div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="ui modal">
+        <div class="header">
+            Check Password
+        </div>
+        <div class="image content">
+            <div class="description">
+                <div class="ui input">
+                    <label>Password</label>
+                    <div class="field">
+                        <input type="text" name="Password...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <section>
         <div class="Wrap">
             <div class="main">
@@ -35,7 +93,7 @@
                         </tbody>
                     </table>
                 {% else %}
-                <button class="ui inverted violet button">Report</button>
+                <button class="ui inverted violet button" onclick="javascript:$('.ui.modal').modal('show')">Report</button>
                 <h3> 위 버튼을 눌러 건의사항을 작성할 수 있습니다</h3>
                 <div class="tables">
                     <table class="ui celled table" cellspacing="0">
@@ -51,13 +109,13 @@
                         </thead>
                         <tbody>
                             {% for row in pagination.data %}
-                                {% if request.user.is_superuser %}
-                                    <tr onclick="javascript:location='/post/report/{{ row.id }}'">
-                                {% else %}
-                                    <tr onclick="password_modal('{{ row.id }}')">
-                                {% endif %}
+                                <tr>
                                     <td>{{ row.id }}</td>
-                                    <td class="photo-title"><a href="/post/report/{{ row.id }}">{{ row.title }}</a></td>
+                                    {% if request.user.is_superuser or not row.password %}
+                                        <td class="photo-title"><a href="/post/report/{{ row.id }}">{{ row.title }}</a></td>
+                                    {% else %}
+                                        <td class="photo-title"><a onclick="javascript:check_password('{{ row.password }}')">{{ row.title }}</a></td>
+                                    {% endif %}
                                     <td>{{ row.category }}</td>
                                     <td>{{ row.content }}</td>
                                     <td>{{ row.views }}</td>
@@ -108,46 +166,17 @@
         </div>
     </section>
     <script>
-        var report_id = "";
+        $("#report-submit").click(function(){
+            title = $("input[name='title']").val();
+            content = $("textarea[name='content']").val();
 
-        $(document).ready(function(){
-            $("#add_report").hide();
-            $("#password_modal").hide();
+            if( title == "" || content == "" ){
+                alert("Title and content are required !");
+            } else {
+                $("#add-report").submit();
+            }
         })
 
-        $("#open_modal").on("click", function(){
-            $("#add_report").show();
-        })
-
-        $("#close_modal").on("click", function(){
-            $("#add_report").hide();
-        })
-
-        $("#close_pwcheck").on("click", function(){
-            $("#password_modal").hide();
-        })
-
-        function password_modal(_id){
-            report_id = _id;
-
-            $("#password_modal").show();
-        }
-
-        $("#password_check").on("click", function(){
-            $.ajax({
-                type: "POST",
-                url: "/post/report/" + report_id,
-                data: {post_pw: $("#post_pw").val()},
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
-                },
-                success: function(){
-                    window.location="/post/report/" + report_id;
-                },
-                error: function(error){
-                    alert(error);
-                }
-             })
-        })
+        function check_password()
     </script>
 {% endblock %}

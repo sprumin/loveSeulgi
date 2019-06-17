@@ -14,7 +14,7 @@ Dev. http://3.16.158.117
 - [x] base template 디자인
 - [x] User 관리 페이지 디자인
 - [x] Gallery 페이지 디자인
-- [x] Dockerfile, docker-compose 추가
+- [x] Dockerfile 추가
 - [ ] Photo Comments Pagination 추가
 - [ ] Post 페이지 디자인
 - [x] django, nginx, uwsgi 연동 ( dev )
@@ -22,3 +22,5 @@ Dev. http://3.16.158.117
 - [ ] Photo, Post 삭제 기능 구현
 - [ ] 크롤러 동작 방식 변경
 - [ ] 클릭 시 조회 수 변경 안되는 버그 
+- [ ] docker-compose 파일 수정
+- [ ] fileupload 시 정상적인 이미지 파일인지 검사

@@ -160,6 +160,10 @@ a {
     margin: 0 auto;
 }
 
+.ui.celled.table {
+    text-align: center;
+}
+
 .ui.celled.table > tbody > tr {
     height: 40px;
 }

@@ -66,68 +66,68 @@
                         </tbody>
                     </table>
                 {% else %}
-                {% if request.user.is_authenticated %}
-                    <button class="ui inverted blue button" onclick="javascript:$('.ui.modal').modal('show')">Post</button>
-                {% else %}
-                    <button class="ui inverted blue button" data-tooltip="로그인 후 작성해주세요" data-position="right center">Post</button>
-                {% endif %}
-                <h3>위 버튼을 눌러 게시물을 작성할 수 있습니다</h3>
-                <div class="tables">
-                    <table class="ui celled table" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Title</th>
-                                <th>Content</th>
-                                <th>Views</th>
-                                <th>Comments</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for row in pagination.data %}
-                            <tr>
-                                <td>{{ row.id }}</td>
-                                <td class="photo-title"><a href="/post/post/{{ row.id }}">{{ row.title }}</a></td>
-                                <td>{{ row.content }}</td>
-                                <td>{{ row.views }}</td>
-                                <td>{{ row.comments }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {% if pagination.data.has_other_pages %}
-                        <div class="ui pagination menu">
-                            {% if pagination.data.has_previous %}
-                                <a class="item" href="?page={{ pagination.data.previous_page_number }}">&laquo;</a>
-                            {% else %}
-                                <div class="disabled item"><span>&laquo;</span></div>
-                            {% endif %}
-
-                            {% if pagination.data.number > 2 %}
-                                <a class="item" href="?page={{ 1 }}">1</a>
-                                <div class="disabled item">...</div>
-                            {% endif %}
-                            {% for i in pagination.page_range %}
-                                {% if pagination.data.number == i %}
-                                    <a class="active item">{{ i }}</a>
-                                {% else %}
-                                    <a class="item" href="?page={{ i }}">{{ i }}</a>
-                                {% endif %}
-                            {% endfor %}
-
-                            {% if pagination.data.number < max_index %}
-                                <div class="disabled item">...</div>
-                                <a class="item" href="?page={{ pagination.max_index|add:'2' }}">{{ pagination.max_index|add:"2"}}</a>
-                            {% endif %}
-
-                            {% if pagination.data.has_next %}
-                                <a class="item" href="?page={{ pagination.data.next_page_number }}">&raquo;</a>
-                            {% else %}
-                                <div class="disabled item"><span>&raquo;</span></div>
-                            {% endif %}
-                        </div>
+                    {% if request.user.is_authenticated %}
+                        <button class="ui inverted blue button" onclick="javascript:$('.ui.modal').modal('show')">Post</button>
+                    {% else %}
+                        <button class="ui inverted blue button" data-tooltip="로그인 후 작성해주세요" data-position="right center">Post</button>
                     {% endif %}
-                </div>
+                    <h3>위 버튼을 눌러 게시물을 작성할 수 있습니다</h3>
+                    <div class="tables">
+                        <table class="ui celled table" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Title</th>
+                                    <th>Content</th>
+                                    <th>Views</th>
+                                    <th>Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in pagination.data %}
+                                <tr>
+                                    <td>{{ row.id }}</td>
+                                    <td class="photo-title"><a href="/post/post/{{ row.id }}">{{ row.title }}</a></td>
+                                    <td>{{ row.content }}</td>
+                                    <td>{{ row.views }}</td>
+                                    <td>{{ row.comments }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% if pagination.data.has_other_pages %}
+                            <div class="ui pagination menu">
+                                {% if pagination.data.has_previous %}
+                                    <a class="item" href="?page={{ pagination.data.previous_page_number }}">&laquo;</a>
+                                {% else %}
+                                    <div class="disabled item"><span>&laquo;</span></div>
+                                {% endif %}
+
+                                {% if pagination.data.number > 2 %}
+                                    <a class="item" href="?page={{ 1 }}">1</a>
+                                    <div class="disabled item">...</div>
+                                {% endif %}
+                                {% for i in pagination.page_range %}
+                                    {% if pagination.data.number == i %}
+                                        <a class="active item">{{ i }}</a>
+                                    {% else %}
+                                        <a class="item" href="?page={{ i }}">{{ i }}</a>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if pagination.data.number < max_index %}
+                                    <div class="disabled item">...</div>
+                                    <a class="item" href="?page={{ pagination.max_index|add:'2' }}">{{ pagination.max_index|add:"2"}}</a>
+                                {% endif %}
+
+                                {% if pagination.data.has_next %}
+                                    <a class="item" href="?page={{ pagination.data.next_page_number }}">&raquo;</a>
+                                {% else %}
+                                    <div class="disabled item"><span>&raquo;</span></div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
                 {% endif %}
             </div>
         </div>

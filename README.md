@@ -25,3 +25,4 @@ Dev. http://3.16.158.117
 - [ ] docker-compose 파일 수정
 - [ ] fileupload 시 정상적인 이미지 파일인지 검사
 - [ ] report 페이지 비밀번호 설정 게시글 hover 이벤트
+- [ ] Photo 추천 버튼 중복 처리

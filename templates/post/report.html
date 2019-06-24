@@ -193,9 +193,10 @@
         $("#report-submit").click(function(){
             title = $("input[name='title']").val();
             content = $("textarea[name='content']").val();
+            photo = $("input[name='photo']").val();
 
-            if( title == "" || content == "" ){
-                alert("Title and content are required !");
+            if( title == "" || content == "" || photo == ""){
+                alert("Title and content and photo are required !");
             } else {
                 $("#add-report").submit();
             }

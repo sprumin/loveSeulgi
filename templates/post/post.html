@@ -32,6 +32,31 @@
             </div>
         </div>
     </div>
+    <div id="add-modal" class="ui modal">
+        <div class="header">
+            Add Comment
+        </div>
+        <div class="image content">
+            <div class="description">
+                <form method="POST" id="add-comment" class="ui form">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label>Title</label>
+                        <div class="field">
+                            {{ form.username }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Content</label>
+                        <div class="field">
+                            {{ form.comment }}
+                        </div>
+                    </div>
+                    <div id="comment-submit" class="ui submit button">Submit</div>
+                </form>
+            </div>
+        </div>
+    </div>
     <section>
         <div class="Wrap">
             <div class="main">
@@ -58,7 +83,7 @@
                                     {% else %}
                                         <h1>No Comments</h1>
                                     {% endif %}
-                                    <button class="ui inverted olive button">Add</button>
+                                    <button class="ui inverted olive button" onclick="javascript:$('#add-modal').modal('show')">Add</button>
                                 </div>
                                 <div class="description-footer">
                                     <div class="ui labeled button" tabindex="0">
@@ -162,6 +187,10 @@
             } else {
                 $("#add-post").submit();
             }
+        })
+
+        $("#comment-submit").click(function(){
+            $("#add-comment").submit();
         })
     </script>
 {% endblock %}

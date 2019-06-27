@@ -96,8 +96,13 @@
                             <div class="ui raised segment">
                                 <div class="description-header"><h3>{{ report.title }}</h3></div>
                                 <br>
-                                <a class="ui teal ribbon label">Comments</a>
-                                <div class="ui list">
+                                <a id="content-to-comments" class="ui teal ribbon label">Content</a>
+                                <div id="content" class="ui list">
+                                    <div class="ui segment">
+                                        <p>{{ report.content }}</p>
+                                    </div>
+                                </div>
+                                <div id="comments" class="ui list">
                                     {% if report.comment %}
                                         {% for message in report.comment %}
                                             <div class="item">
@@ -250,8 +255,26 @@
              })
         })
 
+        $("#comments").css("display", "none");
+
         $("#comment-submit").click(function(){
             $("#add-comment").submit();
-        })
+        });
+
+        $("#content-to-comments").click(function(){
+            if($("#content-to-comments").text() == "Comments"){
+                $("#comments").css("display", "none");
+                $("#content-to-comments").text("Content");
+                $("#content").css("display", "block");
+            } else if($("#content-to-comments").text() == "Content"){
+                $("#content").css("display", "none");
+                $("#content-to-comments").text("Comments");
+                $("#comments").css("display", "block");
+            } else {
+                $("#content").css("display", "none");
+                $("#content-to-comments").text("Content");
+                $("#comments").css("display", "block");
+            }
+        });
     </script>
 {% endblock %}

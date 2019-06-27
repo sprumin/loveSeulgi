@@ -1,39 +1,76 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <div id="comment-modal" class="ui modal">
+        <div class="header">
+            Add Comment
+        </div>
+        <div class="image content">
+            <div class="description">
+                <form method="POST" id="add-comment" class="ui form">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label>Title</label>
+                        <div class="field">
+                            {{ form.username }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Content</label>
+                        <div class="field">
+                            {{ form.comment }}
+                        </div>
+                    </div>
+                    <div id="comment-submit" class="ui submit button">Submit</div>
+                </form>
+            </div>
+        </div>
+    </div>
     <section>
         <div class="Wrap">
             <div class="main">
                 {% if notice %}
-                    {% if notice.photo %}
-                        <img src="{{ notice.photo }}" width="500" height="500">
-                    {% endif %}
-                    <h2>ID : {{ notice.id }}</h2>
-                    <h2>TITLE : {{ notice.title }}</h2>
-                    <h2>CONTENT : {{ notice.content }}</h2>
-                    <h2>VIEWS : {{ notice.views }}</h2>
-                    <br>
-                    <h3>댓글</h3>
-                    <form method="post">
-                        {% csrf_token %}
-                        Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit">
-                    </form>
-                    <table border=1>
-                        <thead>
-                            <tr>
-                                <td><b>Username</b></td>
-                                <td><b>Comment</b></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for message in notice.comment %}
-                            <tr>
-                                <td>{{ message.username }}</td>
-                                <td>{{ message }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    <div class="photo">
+                        <div class="photo-div">
+                            {% if notice.photo %}
+                                <img class="select-photo" src="{{ notice.photo }}" width="500" height="500">
+                            {% endif %}
+                        </div>
+                        <div class="description-div">
+                            <div class="ui raised segment">
+                                <div class="description-header"><h3>{{ notice.title }}</h3></div>
+                                <br>
+                                <a id="content-to-comments" class="ui teal ribbon label">Content</a>
+                                <div id="content" class="ui list">
+                                    <div class="ui segment">
+                                        <p>{{ notice.content }}</p>
+                                    </div>
+                                </div>
+                                <div id="comments" class="ui list">
+                                    {% if notice.comment %}
+                                        {% for message in notice.comment %}
+                                            <div class="item">
+                                                <div class="header">{{ message.username }}</div>
+                                                {{ message }}
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <h1>No Comments</h1>
+                                    {% endif %}
+                                    <button class="ui inverted olive button" onclick="javascript:$('#comment-modal').modal('show')">Add</button>
+                                </div>
+                                <a class="ui orange ribbon label">Events</a>
+                                <div class="description-footer">
+                                    <div class="ui labeled button" tabindex="0">
+                                        <div class="ui button">
+                                            <i class="eye icon"></i> Views
+                                        </div>
+                                        <a class="ui basic left pointing label">{{ notice.views }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 {% else %}
                     {% if request.user.is_superuser %}
                     <button class="ui inverted green button" onclick="javascript:window.location='/_4dmin/post/notice/add'">Notice</button>
@@ -101,4 +138,27 @@
             </div>
         </div>
     </section>
+    <script type="text/javascript">
+        $("#comments").css("display", "none");
+
+        $("#comment-submit").click(function(){
+            $("#add-comment").submit();
+        });
+
+        $("#content-to-comments").click(function(){
+            if($("#content-to-comments").text() == "Comments"){
+                $("#comments").css("display", "none");
+                $("#content-to-comments").text("Content");
+                $("#content").css("display", "block");
+            } else if($("#content-to-comments").text() == "Content"){
+                $("#content").css("display", "none");
+                $("#content-to-comments").text("Comments");
+                $("#comments").css("display", "block");
+            } else {
+                $("#content").css("display", "none");
+                $("#content-to-comments").text("Content");
+                $("#comments").css("display", "block");
+            }
+        });
+    </script>
 {% endblock %}

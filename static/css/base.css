@@ -124,6 +124,11 @@ a {
     padding: 7px;
 }
 
+/* about */
+.about {
+    font-size: 40px;
+}
+
 /* authentication */
 .inline.field {
     text-align: -webkit-center;

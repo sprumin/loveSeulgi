@@ -15,15 +15,16 @@ Dev. http://3.16.158.117
 - [x] User 관리 페이지 디자인
 - [x] Gallery 페이지 디자인
 - [x] Dockerfile 추가
-- [ ] Comments Pagination 추가
+- [x] Comments Pagination 추가
 - [x] Post 페이지 디자인
 - [x] django, nginx, uwsgi 연동 ( dev )
-- [ ] About 페이지 작성
-- [ ] Photo, Post 삭제 기능 구현
+- [x] About 페이지 작성
+- [x] Post,Report 삭제 기능 구현
+- [ ] Photo gif만 보기 버튼 추가
+- [ ] Photo/Report Non-Photo 페이지 분리
+- [ ] fileupload 시 정상적인 이미지 파일인지 검사
 - [ ] 크롤러 동작 방식 변경
 - [ ] 클릭 시 조회 수 변경 안되는 버그 
-- [ ] docker-compose 파일 수정
-- [ ] fileupload 시 정상적인 이미지 파일인지 검사
-- [ ] report 페이지 비밀번호 설정 게시글 hover 이벤트
 - [ ] Photo 추천 버튼 중복 처리
-- [ ] Photo/Report Non-Photo 페이지 분리
+- [ ] Django message
+- [ ] docker-compose 파일 수정

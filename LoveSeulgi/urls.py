@@ -20,11 +20,12 @@ from django.contrib import admin
 from django.urls import path
 from django.views.generic.base import RedirectView
 
-from user.views import index
+from user.views import index, about
 
 urlpatterns = [
     # path("", RedirectView.as_view(url="/user/signin", permanent=False)),
     path("", index),
+    path("about", about),
     path("gallery/", include("gallery.urls")),
     path("user/", include("user.urls")),
     path("post/", include("post.urls")),

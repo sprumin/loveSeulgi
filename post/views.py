@@ -170,6 +170,15 @@ class PostView(View):
 
         return redirect(f"/post/post/{post_id}")
 
+    def delete(self, request, post_id=None):
+        if post_id:
+            post = Post.objects.get(id=post_id)
+            post.delete()
+            
+            return HttpResponse(status=200)
+
+        return HttpResponse(status=400)
+
 
 class ReportView(View):
     def get(self, request, report_id=None):
@@ -257,3 +266,12 @@ class ReportView(View):
             return redirect("/post/report")
 
         return redirect(f"/post/report/{report_id}")
+
+    def delete(self, request, report_id=None):
+        if report_id:
+            report = Report.objects.get(id=report_id)
+            report.delete()
+            
+            return HttpResponse(status=200)
+
+        return HttpResponse(status=400)

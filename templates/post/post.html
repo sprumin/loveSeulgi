@@ -137,6 +137,9 @@
                                             </div>
                                             <a class="ui basic red left pointing label">{{ photo.thumbs }}</a>
                                         </div>
+                                        <div id="delete" class="ui button">
+                                            <i class="trash alternate icon"></i> Delete
+                                        </div>
                                         <div class="ui buttons">
                                             <button class="ui positive button" id="add-myalbum">Add My-Album</button>
                                             <button class="ui negative button" id="del-myalbum">Delete My-Album</button>
@@ -226,6 +229,23 @@
             } else {
                 $("#add-post").submit();
             }
+        })
+
+        $("#delete").click(function(){
+            $.ajax({
+                type: "DELETE",
+                url: window.location.pathname,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
+                },
+                success: function(){
+                    alert("삭제되었습니다.");
+                    window.location = '/post/post';
+                },
+                error: function(error){
+                    alert("Invalid post id");
+                }
+            })
         })
 
         $("#comments").css("display", "none");

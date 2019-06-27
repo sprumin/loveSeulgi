@@ -9,6 +9,31 @@
             </div>   
         </div>
     </div>
+    <div id="comment-modal" class="ui modal">
+        <div class="header">
+            Add Comment
+        </div>
+        <div class="image content">
+            <div class="description">
+                <form method="POST" id="add-comment" class="ui form">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label>Title</label>
+                        <div class="field">
+                            {{ form.username }}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Content</label>
+                        <div class="field">
+                            {{ form.comment }}
+                        </div>
+                    </div>
+                    <div id="comment-submit" class="ui submit button">Submit</div>
+                </form>
+            </div>
+        </div>
+    </div>
     <section>
         <div class="Wrap">
             <div class="main">
@@ -23,17 +48,49 @@
                                 <br>
                                 <a class="ui teal ribbon label">Comments</a>
                                 <div class="ui list">
-                                    {% if photo.comment %}
-                                        {% for message in photo.comment %}
+                                    {% if photo.comments %}
+                                        {% for message in photo.comments.data %}
                                             <div class="item">
                                                 <div class="header">{{ message.username }}</div>
                                                 {{ message }}
                                             </div>
                                         {% endfor %}
+                                        {% if photo.comments.data.has_other_pages %}
+                                            <div class="ui pagination menu">
+                                                {% if photo.comments.data.has_previous %}
+                                                    <a class="item" href="?page={{ photo.comments.data.previous_page_number }}">&laquo;</a>
+                                                {% else %}
+                                                    <div class="disabled item"><span>&laquo;</span></div>
+                                                {% endif %}
+
+                                                {% if photo.comments.data.number > 2 %}
+                                                    <a class="item" href="?page={{ 1 }}">1</a>
+                                                    <div class="disabled item">...</div>
+                                                {% endif %}
+                                                {% for i in photo.comments.page_range %}
+                                                    {% if photo.comments.data.number == i %}
+                                                        <a class="active item">{{ i }}</a>
+                                                    {% else %}
+                                                        <a class="item" href="?page={{ i }}">{{ i }}</a>
+                                                    {% endif %}
+                                                {% endfor %}
+
+                                                {% if photo.comments.data.number < photo.comments.max_index %}
+                                                    <div class="disabled item">...</div>
+                                                    <a class="item" href="?page={{ photo.comments.max_index|add:'2' }}">{{ photo.comments.max_index|add:"2"}}</a>
+                                                {% endif %}
+
+                                                {% if photo.comments.data.has_next %}
+                                                    <a class="item" href="?page={{ photo.comments.data.next_page_number }}">&raquo;</a>
+                                                {% else %}
+                                                    <div class="disabled item"><span>&raquo;</span></div>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
                                     {% else %}
                                         <h1>No Comments</h1>
                                     {% endif %}
-                                    <button class="ui inverted olive button">Add</button>
+                                    <button class="ui inverted olive button" onclick="javascript:$('#comment-modal').modal('show')">Add</button>
                                 </div>
                                 <a class="ui orange ribbon label">Events</a>
                                 <div class="description-footer">
@@ -59,11 +116,6 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <!--<form method="post">
-                                {% csrf_token %}
-                                Comment {{ form.username }} | {{ form.comment }} <input type="submit" name="submit"> 조회 수 {{ photo.views }}   
-                                추천 수 {{ photo.thumbs }} <input type="button" id="thumbs_up" value="추천">
-                            </form>-->
                         </div>
                     </div>
                 {% else %}
@@ -190,6 +242,10 @@
                 }
               })
             })
+
+        $("#comment-submit").click(function(){
+            $("#add-comment").submit();
+        });
 
         function show_photo(title, photo){
             $(".ui.modal").modal('show');

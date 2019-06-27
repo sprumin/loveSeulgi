@@ -22,15 +22,17 @@ class NoticeView(View):
             if not notice.user.is_superuser:
                 return HttpResponse("This user is not admin")
 
-            comment = NoticeComment.objects.filter(notice=notice)
+            comments = NoticeComment.objects.filter(notice=notice)
 
             notice_data = {
                 "id": notice.id,
                 "title": notice.title,
                 "content": notice.content,
                 "views": notice.views,
-                "comment": comment
             }
+
+            if comments:
+                notice_data["comments"] = pagination(request, comments, 5)
 
             if notice.photo:
                 notice_data["photo"] = notice.photo.url
@@ -96,7 +98,7 @@ class PostView(View):
         if post_id:
             form = PostCommentForm
             post = Post.objects.get(id=post_id)
-            comment = PostComment.objects.filter(post=post)
+            comments = PostComment.objects.filter(post=post)
 
             post_data = {
                 "id": post.id,
@@ -104,8 +106,10 @@ class PostView(View):
                 "content": post.content,
                 "views": post.views,
                 "thumbs": post.thumbs,
-                "comment": comment
             }
+
+            if comments:
+                post_data["comments"] = pagination(request, comments, 5)
 
             if post.photo:
                 post_data["photo"] = post.photo.url
@@ -172,7 +176,7 @@ class ReportView(View):
         if report_id:
             form = ReportCommentForm
             report = Report.objects.get(id=report_id)
-            comment = ReportComment.objects.filter(report=report)
+            comments = ReportComment.objects.filter(report=report)
 
             report_data = {
                 "id": report.id,
@@ -182,8 +186,10 @@ class ReportView(View):
                 "views": report.views,
                 "password": report.password,
                 "status": report.status,
-                "comment": comment
             }
+
+            if comments:
+                report_data["comments"] = pagination(request, comments, 5)
 
             if report.photo:
                 report_data["photo"] = report.photo.url

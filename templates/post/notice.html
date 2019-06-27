@@ -54,6 +54,38 @@
                                                 {{ message }}
                                             </div>
                                         {% endfor %}
+                                        {% if photo.comments.data.has_other_pages %}
+                                            <div class="ui pagination menu">
+                                                {% if photo.comments.data.has_previous %}
+                                                    <a class="item" href="?page={{ photo.comments.data.previous_page_number }}">&laquo;</a>
+                                                {% else %}
+                                                    <div class="disabled item"><span>&laquo;</span></div>
+                                                {% endif %}
+
+                                                {% if photo.comments.data.number > 2 %}
+                                                    <a class="item" href="?page={{ 1 }}">1</a>
+                                                    <div class="disabled item">...</div>
+                                                {% endif %}
+                                                {% for i in photo.comments.page_range %}
+                                                    {% if photo.comments.data.number == i %}
+                                                        <a class="active item">{{ i }}</a>
+                                                    {% else %}
+                                                        <a class="item" href="?page={{ i }}">{{ i }}</a>
+                                                    {% endif %}
+                                                {% endfor %}
+
+                                                {% if photo.comments.data.number < photo.comments.max_index %}
+                                                    <div class="disabled item">...</div>
+                                                    <a class="item" href="?page={{ photo.comments.max_index|add:'2' }}">{{ photo.comments.max_index|add:"2"}}</a>
+                                                {% endif %}
+
+                                                {% if photo.comments.data.has_next %}
+                                                    <a class="item" href="?page={{ photo.comments.data.next_page_number }}">&raquo;</a>
+                                                {% else %}
+                                                    <div class="disabled item"><span>&raquo;</span></div>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
                                     {% else %}
                                         <h1>No Comments</h1>
                                     {% endif %}

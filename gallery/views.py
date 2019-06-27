@@ -22,7 +22,7 @@ class AlbumView(View):
         if photo_id:
             form = AlbumCommentForm
             photo = Album.objects.get(id=photo_id)
-            comment = AlbumComment.objects.filter(photo=photo)
+            comments = AlbumComment.objects.filter(photo=photo)
 
             photo_data = {
                 "id": photo.id,
@@ -31,8 +31,10 @@ class AlbumView(View):
                 "source": photo.source,
                 "views": photo.views,
                 "thumbs": photo.thumbs,
-                "comment": pagination(request, comment, 5)
             }
+
+            if comments:
+                photo_data["comments"] = pagination(request, comments, 5)
 
             # update views
             photo.views += 1
@@ -63,7 +65,6 @@ class AlbumView(View):
 
     def post(self, request, photo_id):
         photo = Album.objects.get(id=photo_id)
-        user = User.objects.get(email=request.user.email)
 
         username = request.POST.get("username", None)
         comment = request.POST.get("comment", None)
@@ -86,12 +87,14 @@ class AlbumView(View):
 
         # UserAlbum 에 해당 photo 등록/삭제 시키기
         if add_myalbum:
+            user = User.objects.get(email=request.user.email)
             if photo in user.photos.all():
                 return HttpResponse(status=400)
             else:
                 user.photos.add(photo)
                 user.save()
         elif del_myalbum:
+            user = User.objects.get(email=request.user.email)
             if not photo in user.photos.all():
                 return HttpResponse(status=400)
             else:

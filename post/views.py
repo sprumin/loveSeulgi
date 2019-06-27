@@ -58,7 +58,7 @@ class NoticeView(View):
                 })
 
             return render(request, "post/notice.html", {
-                "pagination": pagination(request, notice_list),
+                "pagination": pagination(request, notice_list, 10),
                 "form": form
             })
 
@@ -133,7 +133,7 @@ class PostView(View):
                 })
 
             return render(request, "post/post.html", {
-                "pagination": pagination(request, post_list),
+                "pagination": pagination(request, post_list, 10),
                 "form": form
             })
 
@@ -213,7 +213,7 @@ class ReportView(View):
                 })
 
             return render(request, "post/report.html", {
-                "pagination": pagination(request, report_list),
+                "pagination": pagination(request, report_list, 10),
                 "form": form
             })
 

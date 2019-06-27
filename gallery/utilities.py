@@ -1,9 +1,9 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
-def pagination(request, data_list):
+def pagination(request, data_list, list_len):
     total_len = len(data_list)
-    paginator = Paginator(data_list, 10)
+    paginator = Paginator(data_list, list_len)
     page = request.GET.get('page')
     last_data = data_list[0]
 

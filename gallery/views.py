@@ -31,7 +31,7 @@ class AlbumView(View):
                 "source": photo.source,
                 "views": photo.views,
                 "thumbs": photo.thumbs,
-                "comment": comment
+                "comment": pagination(request, comment, 5)
             }
 
             # update views
@@ -59,7 +59,7 @@ class AlbumView(View):
                 "comments": len(AlbumComment.objects.filter(photo=row))
             })
 
-        return render(request, "gallery/album.html", pagination(request, photo_list))
+        return render(request, "gallery/album.html", pagination(request, photo_list, 10))
 
     def post(self, request, photo_id):
         photo = Album.objects.get(id=photo_id)

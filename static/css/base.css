@@ -233,6 +233,10 @@ a {
     font-size: 13px !important;
 }
 
+.ui.buttons {
+    margin: 5px !important;
+}
+
 .description-footer {
     width: 100%;
     height: 120px;

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="ui modal">
+    <div id="image-modal" class="ui modal">
         <div id="header" class="header"></div>
         <div class="image content">
             <div class="image">
@@ -248,7 +248,7 @@
         });
 
         function show_photo(title, photo){
-            $(".ui.modal").modal('show');
+            $("#image-modal").modal('show');
             $("#photo").attr("src", photo);
             $("#header").text(title);
         }

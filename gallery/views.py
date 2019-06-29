@@ -42,7 +42,7 @@ class AlbumView(View):
 
             return render(request, "gallery/album.html", {"photo": photo_data, "form": form})
 
-        if is_gif:
+        if is_gif == "is_false":
             condition = Album.objects.filter(is_gif=True).order_by("-id")
         else:
             condition = Album.objects.filter(is_gif=False).order_by("-id")

@@ -286,6 +286,7 @@
                 },
                 error: function(error){
                     alert("Invalid Password");
+                    $("input[name='password']").val('');
                 }
              })
         })

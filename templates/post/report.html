@@ -87,12 +87,14 @@
             <div class="main">
                 {% if report %}
                     <div class="photo">
-                        <div class="photo-div">
-                            {% if report.photo %}
+                        {% if report.photo %}
+                            <div class="photo-div">
                                 <img class="select-photo" src="{{ report.photo }}" width="500" height="500">
-                            {% endif %}
-                        </div>
-                        <div class="description-div">
+                            </div>
+                            <div class="description-div">
+                        {% else %}
+                            <div class="description-div" style="width:100%;">
+                        {% endif %}
                             <div class="ui raised segment">
                                 <div class="description-header"><h3>{{ report.title }}</h3></div>
                                 <br>

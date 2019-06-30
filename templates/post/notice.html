@@ -31,12 +31,14 @@
             <div class="main">
                 {% if notice %}
                     <div class="photo">
-                        <div class="photo-div">
-                            {% if notice.photo %}
+                        {% if notice.photo %}
+                            <div class="photo-div">
                                 <img class="select-photo" src="{{ notice.photo }}" width="500" height="500">
-                            {% endif %}
-                        </div>
-                        <div class="description-div">
+                            </div>
+                            <div class="description-div">
+                        {% else %}
+                            <div class="description-div" style="width:100%;">
+                        {% endif %}
                             <div class="ui raised segment">
                                 <div class="description-header"><h3>{{ notice.title }}</h3></div>
                                 <br>

@@ -248,30 +248,13 @@
         });
 
         $("#photo-to-gif").click(function(){
-            status = $("#photo-to-gif").val()
+            path = window.location.pathname;
 
-            $.ajax({
-                type: "POST",
-                url: "/gallery/album/",
-                data: {is_gif: status},
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
-                },
-                success: function(){
-                    window.location.reload();
-
-                    if(status == "is_false"){
-                        $("#photo-to-gif").val("is_true");
-                    } else if (status == "is_true"){
-                        $("#photo-to-gif").val("is_false");
-                    } else {
-                        $("#photo-to-gif").val("is_false");
-                    }
-                },
-                error: function(error){
-                    alert(error);
-                }
-            })
+            if(path == "/gallery/album/"){
+                window.location = "/gallery/album/gif";
+            } else if(path == "/gallery/album/gif"){
+                window.location = "/gallery/album/";
+            }
         })
 
         function show_photo(title, photo){

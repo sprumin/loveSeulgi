@@ -15,9 +15,7 @@ def index(request):
 
 
 class AlbumView(View):
-    def get(self, request, photo_id=None):
-        is_gif = request.POST.get("is_gif", None)
-
+    def get(self, request, photo_id=None, is_gif=None):
         # send photo data
         if photo_id:
             form = AlbumCommentForm
@@ -42,8 +40,11 @@ class AlbumView(View):
 
             return render(request, "gallery/album.html", {"photo": photo_data, "form": form})
 
-        if is_gif == "is_false":
-            condition = Album.objects.filter(is_gif=True).order_by("-id")
+        if is_gif:
+            if is_gif == "gif":
+                condition = Album.objects.filter(is_gif=True).order_by("-id")
+            else:
+                return redirect("/gallery/album/")
         else:
             condition = Album.objects.filter(is_gif=False).order_by("-id")
 

@@ -18,6 +18,10 @@ class AlbumView(View):
             photo = Album.objects.get(id=photo_id)
             comments = AlbumComment.objects.filter(photo=photo)
 
+            # update views
+            photo.views += 1
+            photo.save()
+
             photo_data = {
                 "id": photo.id,
                 "photo": photo.photo.url,
@@ -29,10 +33,6 @@ class AlbumView(View):
 
             if comments:
                 photo_data["comments"] = pagination(request, comments, 5)
-
-            # update views
-            photo.views += 1
-            photo.save()
 
             return render(request, "gallery/album.html", {"photo": photo_data, "form": form})
 

@@ -20,6 +20,10 @@ class NoticeView(View):
 
             comments = NoticeComment.objects.filter(notice=notice)
 
+            # views update
+            notice.views += 1
+            notice.save()
+
             notice_data = {
                 "id": notice.id,
                 "title": notice.title,
@@ -32,10 +36,6 @@ class NoticeView(View):
 
             if notice.photo:
                 notice_data["photo"] = notice.photo.url
-
-            # views update
-            notice.views += 1
-            notice.save()
 
             return render(request, "post/notice.html", {"notice": notice_data, "form": form})
         else:
@@ -96,6 +96,10 @@ class PostView(View):
             post = Post.objects.get(id=post_id)
             comments = PostComment.objects.filter(post=post)
 
+            # views update
+            post.views += 1
+            post.save()
+
             post_data = {
                 "id": post.id,
                 "title": post.title,
@@ -109,10 +113,6 @@ class PostView(View):
 
             if post.photo:
                 post_data["photo"] = post.photo.url
-
-            # views update
-            post.views += 1
-            post.save()
 
             return render(request, "post/post.html", {"post": post_data, "form": form})
         else:
@@ -186,6 +186,10 @@ class ReportView(View):
             report = Report.objects.get(id=report_id)
             comments = ReportComment.objects.filter(report=report)
 
+            # views update
+            report.views += 1
+            report.save()
+
             report_data = {
                 "id": report.id,
                 "title": report.title,
@@ -201,10 +205,6 @@ class ReportView(View):
 
             if report.photo:
                 report_data["photo"] = report.photo.url
-
-            # views update
-            report.views += 1
-            report.save()
 
             return render(request, "post/report.html", {"report": report_data, "form": form})
         else:

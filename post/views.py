@@ -9,10 +9,6 @@ from post.models import Notice, Post, Report, NoticeComment, PostComment, Report
 
 
 # Create your views here.
-def index(request):
-    return HttpResponse("POST")
-
-
 class NoticeView(View):
     def get(self, request, notice_id=None):
         if notice_id:
@@ -275,3 +271,12 @@ class ReportView(View):
             return HttpResponse(status=200)
 
         return HttpResponse(status=400)
+
+
+def file_valid_check(file):
+    ext = file.split(".")[-1]
+
+    if ext not in ["jpg", "jpeg", "gif", "png"]:
+        return False
+
+    return True

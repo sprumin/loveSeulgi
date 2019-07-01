@@ -10,10 +10,6 @@ from user.models import User
 
 
 # Create your views here.
-def index(request):
-    return HttpResponse("GALLERY")
-
-
 class AlbumView(View):
     def get(self, request, photo_id=None, is_gif=None):
         # send photo data

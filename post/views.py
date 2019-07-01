@@ -159,8 +159,11 @@ class PostView(View):
             content = request.POST.get("content", None)
 
             if title and content:
-                post = Post(user=user, title=title, photo=photo, content=content)
-                post.save()
+                try:
+                    post = Post(user=user, title=title, photo=photo, content=content)
+                    post.save()
+                except ValueError:
+                    return HttpResponse("Invalid Photo")
 
             return redirect("/post/post")
 
@@ -255,9 +258,12 @@ class ReportView(View):
             password = request.POST.get("password", None)
 
             if category and title and content:
-                report = Report(user=user, category=category, title=title, photo=photo,
-                                content=content, password=password)
-                report.save()
+                try:
+                    report = Report(user=user, category=category, title=title, photo=photo,
+                                    content=content, password=password)
+                    report.save()
+                except ValueError:
+                    return HttpResponse("Invalid Photo")
 
             return redirect("/post/report")
 
@@ -271,12 +277,3 @@ class ReportView(View):
             return HttpResponse(status=200)
 
         return HttpResponse(status=400)
-
-
-def file_valid_check(file):
-    ext = file.split(".")[-1]
-
-    if ext not in ["jpg", "jpeg", "gif", "png"]:
-        return False
-
-    return True

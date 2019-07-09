@@ -29,3 +29,6 @@ Dev. http://3.16.158.117
 - [ ] Django message
 - [ ] 크롤러 동작 방식 변경
 - [ ] docker-compose 파일 수정
+- [ ] User Album 값 없어서 500 에러
+- [ ] signup 비밀번호 양식 제공
+- [ ] 500에러 페이지 생성

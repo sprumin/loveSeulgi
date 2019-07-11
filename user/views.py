@@ -40,7 +40,10 @@ class UserSignUpView(View):
         form = UserCreationForm(request.POST)
 
         if form.is_valid():
-            User.objects.create_user(**form.cleaned_data)
+            try:
+                User.objects.create_user(**form.cleaned_data)
+            except ValueError:
+                return HttpResponse("Password too short!")
 
             return redirect("/user/signin/")
 
@@ -139,12 +142,17 @@ class UserAlbumView(View):
         user = User.objects.get(email=request.user.email)
         user_album = list()
 
-        for row in user.photos.all():
-            user_album.append({
-                "id": row.id,
-                "title": row.title,
-                "photo": row.photo.url,
-                "source": row.source
-            })
+        photos = user.photos.all()
 
-        return render(request, "user/album.html", pagination(request, user_album))
+        if photos:
+            for row in user.photos.all():
+                user_album.append({
+                    "id": row.id,
+                    "title": row.title,
+                    "photo": row.photo.url,
+                    "source": row.source
+                })
+
+            return render(request, "user/album.html", pagination(request, user_album))
+        else:
+            return HttpResponse("등록된 사진이 없습니다. 사진을 먼저 등록해주세요.")

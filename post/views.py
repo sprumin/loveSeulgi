@@ -172,9 +172,11 @@ class PostView(View):
     def delete(self, request, post_id=None):
         if post_id:
             post = Post.objects.get(id=post_id)
-            post.delete()
-            
-            return HttpResponse(status=200)
+
+            if User.objects.get(email=request.user.email) == post.user or request.user.is_superuser:
+                post.delete()
+
+                return HttpResponse(status=200)
 
         return HttpResponse(status=400)
 
@@ -272,8 +274,10 @@ class ReportView(View):
     def delete(self, request, report_id=None):
         if report_id:
             report = Report.objects.get(id=report_id)
-            report.delete()
+
+            if User.objects.get(email=request.user.email) == report.user or request.user.is_superuser:
+                report.delete()
             
-            return HttpResponse(status=200)
+                return HttpResponse(status=200)
 
         return HttpResponse(status=400)

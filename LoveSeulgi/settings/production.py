@@ -12,7 +12,7 @@ SECRET_KEY = os.urandom(40)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*.kro.kr']
 
 # Static files
 STATIC_ROOT = os.path.join(ROOT_DIR, 'static')

@@ -12,10 +12,11 @@ SECRET_KEY = os.urandom(40)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*.kro.kr']
+ALLOWED_HOSTS = ['*']
 
 # Static files
-STATIC_ROOT = os.path.join(ROOT_DIR, 'static')
+# STATIC_ROOT = os.path.join(ROOT_DIR, 'static')
+
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases

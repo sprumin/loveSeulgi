@@ -1,10 +1,10 @@
 #!/bin/bash
 
 echo "Update model migration"
-python manage.py makemigrations --settings=LoveSeulgi.settings.development
+python manage.py makemigrations --settings=LoveSeulgi.settings.production
 
 echo "Django Databases migration"
-python manage.py migrate --settings=LoveSeulgi.settings.development
+python manage.py migrate --settings=LoveSeulgi.settings.production
 
 echo "Start Django Server"
-python manage.py runserver --settings=LoveSeulgi.settings.development
+uwsgi --http :8000 --module LoveSeulgi.wsgi --enable-threads --processes 4

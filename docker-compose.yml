@@ -7,12 +7,17 @@ services:
                         - "80:80"
                         - "8080:8080"
                 volumes:
-                        - ./conf/nginx/:/etc/nginx/conf.d/
+                        - ./nginx/:/etc/nginx/conf.d/
+                        - ./static:/static
+                        - ./media:/media
                 networks:
                         - loveseulgi
         web:
                 build: .
                 restart: always
+                volumes:
+                        - ./static:/static
+                        - ./media:/media
                 networks:
                         - loveseulgi
 networks:

@@ -15,7 +15,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 # Static files
-# STATIC_ROOT = os.path.join(ROOT_DIR, 'static')
+STATIC_ROOT = os.path.join(ROOT_DIR, 'static')
 
 
 # Database

@@ -18,15 +18,15 @@ Dev. http://3.16.158.117
 - [x] Dockerfile 추가
 - [x] Comments Pagination 추가
 - [x] Post 페이지 디자인
-- [x] django, nginx, uwsgi 연동 ( dev )
 - [x] About 페이지 작성
 - [x] Post,Report 삭제 기능 구현
 - [x] Photo gif만 보기 버튼 추가
 - [x] Photo/Report Non-Photo 페이지 분리
 - [x] fileupload 시 정상적인 이미지 파일인지 검사
+- [x] 배포 파일 작성 docker-compose, nginx conf file
 - [ ] Django message
 - [ ] 크롤러 동작 방식 변경
-- [ ] docker-compose 파일 수정
+- [ ] favicon 추가
 
 ##### 버그
 - [x] 클릭 시 조회 수 변경 안되는 버그 

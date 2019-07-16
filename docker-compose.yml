@@ -1,11 +1,24 @@
 version: '3'
 services:
+        nginx:
+                image: nginx:latest
+                restart: always
+                ports:
+                        - "80:80"
+                        - "8080:8080"
+                volumes:
+                        - ./nginx/:/etc/nginx/conf.d/
+                        - ./static:/static
+                        - ./media:/media
+                networks:
+                        - loveseulgi
         web:
-               build:
-                       context: .
-                       dockerfile: Dockerfile
-               command: ["/bin/bash", "docker-entrypoint.sh"]
-               volumes:
-                       - .:/home/sprumin/code/
-               ports:
-                       - "8000:8000"
+                build: .
+                restart: always
+                volumes:
+                        - ./static:/static
+                        - ./media:/media
+                networks:
+                        - loveseulgi
+networks:
+        loveseulgi:

@@ -1,0 +1,11 @@
+version: '3'
+services:
+        web:
+               build:
+                       context: .
+                       dockerfile: Dockerfile
+               command: ["/bin/bash", "docker-entrypoint.sh"]
+               volumes:
+                       - .:/home/sprumin/code/
+               ports:
+                       - "8000:8000"

@@ -7,8 +7,9 @@ db.sqlite3
 # venv
 venv
 
-# media
+# static/media
 media
+static
 
 # chromedriver
 chromedriver.exe

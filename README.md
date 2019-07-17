@@ -2,7 +2,7 @@
 
 크롤러를 통해 레드벨벳 슬기 사진을 모아두는 팬 페이지 
 
-Dev. http://3.16.158.117
+Dev. http://loveseulgi.kro.kr
 
 
 #### TODO

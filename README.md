@@ -24,9 +24,10 @@ Dev. http://3.16.158.117
 - [x] Photo/Report Non-Photo 페이지 분리
 - [x] fileupload 시 정상적인 이미지 파일인지 검사
 - [x] 배포 파일 작성 docker-compose, nginx conf file
-- [ ] Django message
+- [x] Django message
+- [x] favicon 추가
+- [ ] cloudflare 연동 ( 내도메인.한국 무료도메인 사용중이라 cloudflare 연동이 안됨.. )
 - [ ] 크롤러 동작 방식 변경
-- [ ] favicon 추가
 
 ##### 버그
 - [x] 클릭 시 조회 수 변경 안되는 버그 
@@ -35,6 +36,5 @@ Dev. http://3.16.158.117
 - [x] signup 비밀번호 양식 제공
 - [ ] 에러 페이지 생성
 - [x] 게시글 Delete 권한 설정
-- [ ] post method 로그인 체크
 - [ ] 코드 최적화
 - [ ] 이미지 리사이징 fix -> percent

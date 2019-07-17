@@ -16,7 +16,9 @@ class NoticeView(View):
             notice = Notice.objects.get(id=notice_id)
 
             if not notice.user.is_superuser:
-                return HttpResponse("This user is not admin")
+                messages.error(request, "This user is not superuser")
+
+                return redirect("/post/notice/")
 
             comments = NoticeComment.objects.filter(notice=notice)
 
@@ -74,7 +76,9 @@ class NoticeView(View):
             user = User.objects.get(email=request.user.email)
 
             if not user.is_superuser:
-                return HttpResponse("User is not admin")
+                messages.error(request, "This user is not superuser")
+
+                return redirect("/post/notice")
 
             title = request.POST.get("title", None)
             photo = request.FILES.get("photo", None)
@@ -83,6 +87,8 @@ class NoticeView(View):
             if title and content:
                 notice = Notice(user=user, title=title, photo=photo, content=content)
                 notice.save()
+
+                messages.info(request, "Posting is complete!")
 
             return redirect("/post/notice")
 
@@ -152,6 +158,8 @@ class PostView(View):
             post.thumbs += 1
             post.views -= 1
             post.save()
+
+            messages.info(request, "Thumb is complete!")
         else:
             user = User.objects.get(email=request.user.email)
             title = request.POST.get("title", None)
@@ -159,11 +167,10 @@ class PostView(View):
             content = request.POST.get("content", None)
 
             if title and content:
-                try:
-                    post = Post(user=user, title=title, photo=photo, content=content)
-                    post.save()
-                except ValueError:
-                    return HttpResponse("Invalid Photo")
+                post = Post(user=user, title=title, photo=photo, content=content)
+                post.save()
+
+                messages.info(request, "Posting is complete!")
 
             return redirect("/post/post")
 
@@ -176,7 +183,13 @@ class PostView(View):
             if User.objects.get(email=request.user.email) == post.user or request.user.is_superuser:
                 post.delete()
 
+                messages.info(request, "Post delete is complete!")
+
                 return HttpResponse(status=200)
+            else:
+                messages.error(request, "You have not permission")
+
+        messages.error(request, "Invalid post id")
 
         return HttpResponse(status=400)
 
@@ -250,6 +263,8 @@ class ReportView(View):
             if report.password == post_pw:
                 return HttpResponse(status=200)
             else:
+                messages.error(request, "Invalid password")
+
                 return HttpResponse(status=400)
         else:
             user = User.objects.get(email=request.user.email)
@@ -260,12 +275,11 @@ class ReportView(View):
             password = request.POST.get("password", None)
 
             if category and title and content:
-                try:
-                    report = Report(user=user, category=category, title=title, photo=photo,
-                                    content=content, password=password)
-                    report.save()
-                except ValueError:
-                    return HttpResponse("Invalid Photo")
+                report = Report(user=user, category=category, title=title, photo=photo,
+                                content=content, password=password)
+                report.save()
+
+                messages.info(request, "Posting is complete!")
 
             return redirect("/post/report")
 
@@ -277,7 +291,13 @@ class ReportView(View):
 
             if User.objects.get(email=request.user.email) == report.user or request.user.is_superuser:
                 report.delete()
-            
+                
+                messages.info(request, "Post delete is complete!")
+
                 return HttpResponse(status=200)
+            else:
+                messages.error(request, "You have not permission")
+
+        messages.error(request, "Invalid report id")
 
         return HttpResponse(status=400)

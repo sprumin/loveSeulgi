@@ -198,7 +198,6 @@
                     xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
                 },
                 success: function(){
-                    alert("추천성공!");
                     window.location.reload();
                 },
                 error: function(error){
@@ -216,11 +215,10 @@
                     xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
                 },
                 success: function(){
-                    alert("나의 앨범에 사진을 등록하였습니다.");
                     window.location.reload();
                 },
                 error: function(error){
-                    alert("이미 등록되어있는 사진입니다.");
+                    window.location.reload();
                 }
               })
             })
@@ -234,11 +232,10 @@
                     xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
                 },
                 success: function(){
-                    alert("나의 앨범에서 사진을 삭제했습니다.");
                     window.location.reload();
                 },
                 error: function(error){
-                    alert("나의 앨범에 등록되어있지 않은 사진입니다.");
+                    window.location.reload();
                 }
               })
             })

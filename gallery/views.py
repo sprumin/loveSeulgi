@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -82,20 +83,31 @@ class AlbumView(View):
             photo.views -= 1
             photo.save()
 
+            messages.info(request, "Thumb is complete!")
+
         # UserAlbum 에 해당 photo 등록/삭제 시키기
         if add_myalbum:
             user = User.objects.get(email=request.user.email)
             if photo in user.photos.all():
+                messages.error(request, "Photo already registered.")
+
                 return HttpResponse(status=400)
             else:
                 user.photos.add(photo)
                 user.save()
+
+                messages.info(request, "Photo add is complete!")
+
         elif del_myalbum:
             user = User.objects.get(email=request.user.email)
-            if not photo in user.photos.all():
+            if photo not in user.photos.all():
+                messages.error(request, "This is Photo that is not in the album.")
+
                 return HttpResponse(status=400)
             else:
                 user.photos.remove(photo)
                 user.save()
 
-        return redirect(f"/gallery/album/{photo_id}")
+                messages.info(request, "Photo delete is complete!")
+
+        return HttpResponse(status=200)

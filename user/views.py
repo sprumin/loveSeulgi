@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, QueryDict
 from django.shortcuts import render, redirect
@@ -43,17 +44,17 @@ class UserSignUpView(View):
             try:
                 User.objects.create_user(**form.cleaned_data)
             except ValueError:
-                return HttpResponse("Password too short!")
+                messages.error(request, "Password too short!")
+            else:
+                return redirect("/user/signin")
 
-            return redirect("/user/signin/")
-
-        return HttpResponse("Form is invalid")
+        return redirect("/user/signup")
 
 
 class UserSignInView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect("/signup")
+            return redirect("/")
 
         form = UserSignInForm
 
@@ -70,14 +71,16 @@ class UserSignInView(View):
 
             return redirect("/")
 
-        return HttpResponse("Invalid email or password")
+        messages.error(request, "Invalid email or password")
+
+        return redirect("/user/signin")
 
 
 class UserEditView(View):
     """ User information update """
     def get(self, request):
         if not request.user.is_authenticated:
-            return redirect("/user/signin/")
+            return redirect("/user/signin")
 
         form = UserEditForm(initial={"email": request.user.email,
                                      "username": request.user.username})
@@ -91,10 +94,9 @@ class UserEditView(View):
         password1 = data['password1']
         password2 = data['password2']
 
-        if password1 != password2:
-            return HttpResponse(status=400)
+        if password1 != password2 or len(password1) < 8:
+            messages.error(request, "Password mismatch or Password too short")
 
-        if len(password1) < 8:
             return HttpResponse(status=400)
 
         user = User.objects.get(email=request.user.email)
@@ -110,7 +112,7 @@ class UserEditView(View):
 class UserDeleteView(View):
     def get(self, request):
         if not request.user.is_authenticated:
-            return redirect('/user/signin/')
+            return redirect('/user/signin')
 
         form = UserDeleteForm
 
@@ -123,9 +125,11 @@ class UserDeleteView(View):
             user = User.objects.get(email=email)
             user.delete()
 
-            return redirect("/user/")
+            return redirect("/")
 
-        return HttpResponse("Does not match signed email")
+        messages.error(request, "Does not match signed email")
+
+        return redirect("/user/delete")
 
 
 def signout(request):
@@ -137,7 +141,7 @@ def signout(request):
 class UserAlbumView(View):
     def get(self, request):
         if not request.user.is_authenticated:
-            return redirect("/user/signin/")
+            return redirect("/user/signin")
 
         user = User.objects.get(email=request.user.email)
         user_album = list()
@@ -155,4 +159,6 @@ class UserAlbumView(View):
 
             return render(request, "user/album.html", pagination(request, user_album))
         else:
-            return HttpResponse("등록된 사진이 없습니다. 사진을 먼저 등록해주세요.")
+            messages.error(request, "The album does not have an image. Please add the picture first.")
+
+            return redirect("/gallery/album")

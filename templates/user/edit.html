@@ -28,11 +28,9 @@
                     xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');  
                 },
                 success: function() {
-                    alert("Success!")
                     window.location = '/user/signin/';
                 },
                 error: function(error) {
-                    alert("Invalid Password!")
                     window.location = '/user/edit/'
                 }
             })

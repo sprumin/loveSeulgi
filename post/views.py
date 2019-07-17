@@ -13,12 +13,18 @@ class NoticeView(View):
     def get(self, request, notice_id=None):
         if notice_id:
             form = NoticeCommentForm
-            notice = Notice.objects.get(id=notice_id)
+
+            try:
+                notice = Notice.objects.get(id=notice_id)
+            except:
+                messages.error(request, "Invalid notice id")
+
+                return redirect("/post/notice")
 
             if not notice.user.is_superuser:
                 messages.error(request, "This user is not superuser")
 
-                return redirect("/post/notice/")
+                return redirect("/post/notice")
 
             comments = NoticeComment.objects.filter(notice=notice)
 
@@ -99,7 +105,14 @@ class PostView(View):
     def get(self, request, post_id=None):
         if post_id:
             form = PostCommentForm
-            post = Post.objects.get(id=post_id)
+
+            try:
+                post = Post.objects.get(id=post_id)
+            except:
+                messages.error(request, "Invalid post id")
+
+                return redirect("/post/post") 
+
             comments = PostComment.objects.filter(post=post)
 
             # views update
@@ -198,7 +211,14 @@ class ReportView(View):
     def get(self, request, report_id=None):
         if report_id:
             form = ReportCommentForm
-            report = Report.objects.get(id=report_id)
+
+            try:
+                report = Report.objects.get(id=report_id)
+            except:
+                messages.error(request, "Invalid report id ")
+
+                return redirect("/post/report")
+
             comments = ReportComment.objects.filter(report=report)
 
             # views update

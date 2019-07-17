@@ -16,7 +16,14 @@ class AlbumView(View):
         # send photo data
         if photo_id:
             form = AlbumCommentForm
-            photo = Album.objects.get(id=photo_id)
+
+            try:
+                photo = Album.objects.get(id=photo_id)
+            except:
+                messages.error(request, "Invalid photo id")
+
+                return redirect("/gallery/album")
+
             comments = AlbumComment.objects.filter(photo=photo)
 
             # update views

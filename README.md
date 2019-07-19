@@ -28,6 +28,7 @@ Dev. http://loveseulgi.kro.kr
 - [x] favicon 추가
 - [ ] cloudflare 연동 ( 내도메인.한국 무료도메인 사용중이라 cloudflare 연동이 안됨.. )
 - [ ] 크롤러 동작 방식 변경
+- [ ] user edit/delete/album 페이지 수정 ( 잊고있었음 )
 
 ##### 버그
 - [x] 클릭 시 조회 수 변경 안되는 버그 
@@ -38,3 +39,6 @@ Dev. http://loveseulgi.kro.kr
 - [x] 게시글 Delete 권한 설정
 - [ ] 코드 최적화
 - [ ] 이미지 리사이징 fix -> percent
+- [x] user album 500 error
+- [ ] 삭제 권한 오류
+- [ ] email exists 에러

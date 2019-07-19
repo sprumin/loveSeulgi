@@ -2,38 +2,83 @@
 {% load staticfiles %}
 
 {% block content %}
-    <form method="POST" id="editForm">
-        {% csrf_token %}
-
-        <h3>Email : {{ form.email }}</h3>
-        <h3>Username : {{ form.username }}</h3>
-        <h3>Password: {{ form.password1 }}</h3>
-        <h3>Password Confirmation: {{ form.password2 }}</h3>
-
-        <button type="submit">Submit</button>
-    </form>
+    <div id="delete-modal" class="ui modal">
+        <div class="header">
+            Delete Account
+        </div>
+        <div class="image content">
+            <div class="description">
+                <form method="DELETE" id="delete-form" class="ui form">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label>Email</label>
+                        <div class="field">
+                            {{ form.email }}
+                        </div>
+                    </div>
+                    <div id="delete-submit" class="ui submit button">Submit</div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <section>
+        <div class="Wrap">
+            <div class="auth-main">
+                <div class="auth-form">
+                    <h1 class="auth-title"><b>Edit</b></h1>
+                    <form class="ui fluid form" method="POST">
+                        {% csrf_token %}
+                        <div class="inline field">
+                            <h3 class="auth-input">{{ form.username }}</h3>
+                            <div class="ui left pointing red basic label">
+                                Please enter a Username
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <h3 class="auth-input" style="margin-left:15px;">{{ form.password1 }}</h3>
+                            <div class="ui left pointing red basic label">
+                                Please enter a Password
+                            </div>
+                        </div>
+                        <div class="inline field">
+                            <h3 class="auth-input" style="margin-left:15px;">{{ form.password2 }}</h3>
+                            <div class="ui left pointing red basic label">
+                                Please enter a Password Confirmation
+                            </div>
+                        </div>
+                        <button class="ui inverted green button" type="submit">Edit</button>
+                        <button class="ui inverted red button" onclick="$('#delete-modal').modal('show')">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
     <script>
-        $('#editForm').submit(function(event){
+        $("#editForm").submit(function(event){
             event.preventDefault();
 
             $.ajax({
-                type: 'PUT',
-                url: '/user/edit/',
+                type: "PUT",
+                url: window.location.pathname,
                 data: {
-                    username: $('input[name=username]').val(),
-                    password1: $('input[name=password1]').val(),
-                    password2: $('input[name=password2]').val(),
+                    username: $("input[name=username]").val(),
+                    password1: $("input[name=password1]").val(),
+                    password2: $("input[name=password2]").val(),
                 },
                 beforeSend: function(xhr) {
-                    xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');  
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
                 },
                 success: function() {
-                    window.location = '/user/signin/';
+                    window.location = "/user/signin/";
                 },
                 error: function(error) {
-                    window.location = '/user/edit/'
+                    window.location = "/user/edit/";
                 }
             })
         });
+
+        $("#delete-submit").click(function(){
+            $("#delete-form").submit();
+        })
     </script>
 {% endblock %}

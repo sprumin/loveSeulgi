@@ -108,17 +108,7 @@ class UserEditView(View):
 
         return HttpResponse(status=200)
 
-
-class UserDeleteView(View):
-    def get(self, request):
-        if not request.user.is_authenticated:
-            return redirect('/user/signin')
-
-        form = UserDeleteForm
-
-        return render(request, "user/delete.html", {"form": form})
-
-    def post(self, request):
+    def delete(self, request):
         email = request.POST.get("email")
 
         if request.user.email == email:
@@ -154,10 +144,11 @@ class UserAlbumView(View):
                     "id": row.id,
                     "title": row.title,
                     "photo": row.photo.url,
-                    "source": row.source
+                    "source": row.source,
+                    "upload_time": row.created_at,
                 })
 
-            return render(request, "user/album.html", pagination(request, user_album))
+            return render(request, "user/album.html", pagination(request, user_album, 10))
         else:
             messages.error(request, "The album does not have an image. Please add the picture first.")
 

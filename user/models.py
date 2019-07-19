@@ -10,7 +10,7 @@ from gallery.models import Album
 class UserManager(BaseUserManager):
     def create_user(self, email, username, password1, password2):
         if len(password1) < 8:
-            raise ValueError("Password too short. Please set it to 8 characters or more")
+            raise ValueError
 
         user = self.model(
             email=self.normalize_email(email),

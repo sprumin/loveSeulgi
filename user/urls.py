@@ -8,5 +8,4 @@ urlpatterns = [
     path("edit/", views.UserEditView.as_view()),
     path("album/", views.UserAlbumView.as_view()),
     path("signout/", views.signout),
-    path("delete/", views.UserDeleteView.as_view()),
 ]

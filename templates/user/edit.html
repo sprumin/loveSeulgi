@@ -8,7 +8,7 @@
         </div>
         <div class="image content">
             <div class="description">
-                <form method="DELETE" id="delete-form" class="ui form">
+                <form method="post" id="delete-form" class="ui form">
                     {% csrf_token %}
                     <div class="field">
                         <label>Email</label>
@@ -26,7 +26,7 @@
             <div class="auth-main">
                 <div class="auth-form">
                     <h1 class="auth-title"><b>Edit</b></h1>
-                    <form class="ui fluid form" method="POST">
+                    <form class="ui fluid form">
                         {% csrf_token %}
                         <div class="inline field">
                             <h3 class="auth-input">{{ form.username }}</h3>
@@ -78,7 +78,22 @@
         });
 
         $("#delete-submit").click(function(){
-            $("#delete-form").submit();
+            $.ajax({
+                type: "DELETE",
+                url: window.location.pathname,
+                data: {
+                    email: $("input[name='email']").val()
+                },
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
+                },
+                success: function() {
+                    window.location = "/user/signin/";
+                },
+                error: function(error) {
+                    window.location = "/user/edit/";
+                }
+            })
         })
     </script>
 {% endblock %}

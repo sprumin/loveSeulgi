@@ -109,7 +109,7 @@ class UserEditView(View):
         return HttpResponse(status=200)
 
     def delete(self, request):
-        email = request.POST.get("email")
+        email = QueryDict(request.body)['email']
 
         if request.user.email == email:
             user = User.objects.get(email=email)
@@ -119,7 +119,7 @@ class UserEditView(View):
 
         messages.error(request, "Does not match signed email")
 
-        return redirect("/user/delete")
+        return redirect("/user/edit")
 
 
 def signout(request):

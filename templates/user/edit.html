@@ -26,7 +26,7 @@
             <div class="auth-main">
                 <div class="auth-form">
                     <h1 class="auth-title"><b>Edit</b></h1>
-                    <form class="ui fluid form">
+                    <form method="post" class="ui fluid form">
                         {% csrf_token %}
                         <div class="inline field">
                             <h3 class="auth-input">{{ form.username }}</h3>
@@ -46,7 +46,7 @@
                                 Please enter a Password Confirmation
                             </div>
                         </div>
-                        <button class="ui inverted green button" type="submit">Edit</button>
+                        <button id="edit-submit" class="ui inverted green button">Edit</button>
                         <button class="ui inverted red button" onclick="$('#delete-modal').modal('show')">Delete</button>
                     </form>
                 </div>
@@ -54,9 +54,7 @@
         </div>
     </section>
     <script>
-        $("#editForm").submit(function(event){
-            event.preventDefault();
-
+        $("#edit-submit").click(function(){
             $.ajax({
                 type: "PUT",
                 url: window.location.pathname,
@@ -88,7 +86,7 @@
                     xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
                 },
                 success: function() {
-                    window.location = "/user/signin/";
+                    window.location = "/";
                 },
                 error: function(error) {
                     window.location = "/user/edit/";

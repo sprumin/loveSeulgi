@@ -106,6 +106,8 @@ class UserEditView(View):
 
         user.save()
 
+        messages.info(request, "Update Success! Please login again")
+
         return HttpResponse(status=200)
 
     def delete(self, request):

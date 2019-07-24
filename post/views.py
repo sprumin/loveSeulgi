@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import View
@@ -201,8 +202,8 @@ class PostView(View):
                 return HttpResponse(status=200)
             else:
                 messages.error(request, "You have not permission")
-
-        messages.error(request, "Invalid post id")
+        else:
+            messages.error(request, "Invalid post id")
 
         return HttpResponse(status=400)
 
@@ -317,7 +318,7 @@ class ReportView(View):
                 return HttpResponse(status=200)
             else:
                 messages.error(request, "You have not permission")
-
-        messages.error(request, "Invalid report id")
+        else:
+            messages.error(request, "Invalid report id")
 
         return HttpResponse(status=400)

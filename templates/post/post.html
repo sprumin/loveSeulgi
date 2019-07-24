@@ -236,11 +236,10 @@
                     xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  
                 },
                 success: function(){
-                    alert("삭제되었습니다.");
-                    window.location = '/post/post';
+                    window.location = "/post/post";
                 },
                 error: function(error){
-                    alert("You don't have permission to delete the article.");
+                    window.location.reload();
                 }
             })
         })

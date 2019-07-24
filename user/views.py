@@ -40,6 +40,11 @@ class UserSignUpView(View):
     def post(self, request):
         form = UserCreationForm(request.POST)
 
+        if User.objects.filter(email=request.POST.get("email")).exists():
+            messages.error(request, "Email does exists!")
+
+            return redirect("/user/signup")
+
         if form.is_valid():
             try:
                 User.objects.create_user(**form.cleaned_data)

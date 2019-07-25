@@ -37,8 +37,7 @@ http://loveseulgi.kro.kr
 - [x] signup 비밀번호 양식 제공
 - [ ] 에러 페이지 생성
 - [x] 게시글 Delete 권한 설정
-- [ ] 코드 최적화
 - [ ] 이미지 리사이징 fix -> percent
 - [x] user album 500 error
-- [ ] 삭제 권한 오류
-- [ ] email exists 에러
+- [x] 삭제 권한 오류
+- [x] email exists 에러

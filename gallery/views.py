@@ -102,6 +102,8 @@ class AlbumView(View):
                 photo.views -= 1
                 photo.save()
                 messages.error(request, "Thumb is cancel!")
+
+        return HttpResponse(status=200)
         """
         # UserAlbum 에 해당 photo 등록/삭제 시키기
         if add_myalbum:

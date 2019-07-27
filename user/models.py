@@ -3,7 +3,6 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 
-from gallery.models import Album
 
 
 # Create your models here.
@@ -39,7 +38,6 @@ class User(AbstractBaseUser):
         unique=True,
     )
     username = models.CharField(max_length=32)
-    photos = models.ManyToManyField(Album)
     is_superuser = models.BooleanField(default=False)
 
     objects = UserManager()

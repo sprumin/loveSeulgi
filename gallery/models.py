@@ -1,5 +1,7 @@
 from django.db import models
 
+from user.models import User
+
 import datetime
 
 
@@ -13,6 +15,7 @@ class Album(models.Model):
     source = models.CharField(max_length=2048)
     views = models.IntegerField(default=0)
     thumbs = models.IntegerField(default=0)
+    thumbers = models.ManyToManyField(User)
     is_gif = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -26,7 +29,7 @@ class AlbumComment(models.Model):
     username = models.CharField(max_length=32)
     message = models.TextField(default="Comment")
     thumbs = models.IntegerField(default=0)
-    created_at = models.DateTimeField(default=datetime.datetime.now())
+    created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

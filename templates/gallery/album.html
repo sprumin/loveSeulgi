@@ -107,10 +107,11 @@
                                             </div>
                                             <a class="ui basic red left pointing label">{{ photo.thumbs }}</a>
                                         </div>
+                                        <!--
                                         <div class="ui buttons">
                                             <button class="ui positive button" id="add-myalbum">Add My-Album</button>
                                             <button class="ui negative button" id="del-myalbum">Delete My-Album</button>
-                                        </div>
+                                        </div>-->
                                     {% else %}
                                         <h1>Please use the additional function after login.</h1>
                                     {% endif %}
@@ -205,7 +206,7 @@
                 }
               })
             })
-
+/*
         $("#add-myalbum").on("click", function(){
             $.ajax({
                 type: "POST",
@@ -239,7 +240,7 @@
                 }
               })
             })
-
+*/
         $("#comment-submit").click(function(){
             $("#add-comment").submit();
         });

@@ -85,13 +85,24 @@ class AlbumView(View):
         # update thumbs
         # TODO: 일단 횟수제한 없이 세팅하고 프로젝트 완료시 redis에 횟수제한걸기
         if thumbs:
-            photo.thumbs += 1
-            # thumbs 데이터를 view 로 전송할 때 해당 url에 접근하기때문에 조회수가 두번 누적되어서 한번 빼준다
-            photo.views -= 1
-            photo.save()
+            
+            user = User.objects.get(email=request.user.email)
 
-            messages.info(request, "Thumb is complete!")
+            if user not in photo.thumbers.all():
+                photo.thumbs += 1
+                photo.thumbers.add(user)
+                # thumbs 데이터를 view 로 전송할 때 해당 url에 접근하기때문에 조회수가 두번 누적되어서 한번 빼준다
+                photo.views -= 1
+                photo.save()
 
+                messages.info(request, "Thumb is complete!")
+            else:
+                photo.thumbs -= 1
+                photo.thumbers.remove(user)
+                photo.views -= 1
+                photo.save()
+                messages.error(request, "Thumb is cancel!")
+        """
         # UserAlbum 에 해당 photo 등록/삭제 시키기
         if add_myalbum:
             user = User.objects.get(email=request.user.email)
@@ -118,3 +129,4 @@ class AlbumView(View):
                 messages.info(request, "Photo delete is complete!")
 
         return HttpResponse(status=200)
+        """

@@ -29,7 +29,7 @@
                     <form method="post" class="ui fluid form">
                         {% csrf_token %}
                         <div class="inline field">
-                            <h3 class="auth-input">{{ form.username }}</h3>
+                            <h3 class="auth-input" style="margin-left:16px">{{ form.username }}</h3>
                             <div class="ui left pointing red basic label">
                                 Please enter a Username
                             </div>
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="inline field">
-                            <h3 class="auth-input" style="margin-left:15px;">{{ form.password2 }}</h3>
+                            <h3 class="auth-input" style="margin-left:76px;">{{ form.password2 }}</h3>
                             <div class="ui left pointing red basic label">
                                 Please enter a Password Confirmation
                             </div>

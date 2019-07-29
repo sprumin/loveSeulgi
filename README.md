@@ -29,16 +29,16 @@ http://loveseulgi.kro.kr
 - [ ] cloudflare 연동 ( 내도메인.한국 무료도메인 사용중이라 cloudflare 연동이 안됨.. )
 - [ ] 크롤러 동작 방식 변경
 - [x] user edit/delete/album 페이지 수정 ( 잊고있었음 )
-- [ ] 추천수, 조회수로 정렬 기능 추가
+- [ ] 조회수, 추천수 정렬 ( request.GET.get() 으로 개발예정 )
 
 ##### 버그
 - [x] 클릭 시 조회 수 변경 안되는 버그 
-- [x] Photo 추천 버튼 중복 처리
+- [ ] Photo 추천 버튼 중복 처리
 - [x] User Album 값 없어서 500 에러
 - [x] signup 비밀번호 양식 제공
+- [ ] 에러 페이지 생성
 - [x] 게시글 Delete 권한 설정
+- [ ] 이미지 리사이징 fix -> percent
 - [x] user album 500 error
 - [x] 삭제 권한 오류
 - [x] email exists 에러
-- [ ] UserAlbum 페이지 재 생성
-- [ ] 이미지 리사이징 

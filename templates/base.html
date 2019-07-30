@@ -28,11 +28,11 @@
             </div>
             <div class="user-event">
                 {% if request.user.is_authenticated %}
-                <button class="ui inverted primary button" onclick="window.location='/user/edit/'">Edit</button>
-                <button class="ui inverted red button" onclick="window.location='/user/signout/'">Log-out</button>
+                <button class="ui inverted primary button" onclick="window.location='/user/edit'">Edit</button>
+                <button class="ui inverted red button" onclick="window.location='/user/signout'">Log-out</button>
                 {% else %}
-                <button class="ui inverted primary button" onclick="window.location='/user/signup/'">Register</button>
-                <button class="ui inverted red button" onclick="window.location='/user/signin/'">Log-in</button>
+                <button class="ui inverted primary button" onclick="window.location='/user/signup'">Register</button>
+                <button class="ui inverted red button" onclick="window.location='/user/signin'">Log-in</button>
                 {% endif %}
             </div>
         </div>

@@ -10,12 +10,6 @@ venv
 # media
 media
 
-# chromedriver
-chromedriver.exe
-
-# migrations
-migrations
-
 # debug
 debug.log
 uwsgi.log

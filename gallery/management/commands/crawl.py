@@ -20,30 +20,30 @@ class Command(BaseCommand):
         exts = ["jpg", "jpeg", "gif", "png"]
         for row in data: 
             try:
-                if row[0] == "trash":
-                    t = TrashCan(photo_link=row[1])
-                    t.save()
-                    print(f"Save Trash : {row[1]}")
-                else:
-                    a = Album(name=name, title=row[1].replace("\\u0027", ""), photo_link=row[0], source=row[2])
-                    filename = uuid.uuid4().hex
-                    ext = os.path.basename(row[0]).split(".")[-1]
+                a = Album(name=name, title=row[1].replace("\\u0027", ""), photo_link=row[0], source=row[2])
+                filename = uuid.uuid4().hex
+                ext = os.path.basename(row[0]).split(".")[-1]
 
-                    if not ext in exts:
-                        ext = "jpg"
+                if not ext in exts:
+                    ext = "jpg"
 
-                    if ext == "gif":
-                        a.is_gif = True
+                if ext == "gif":
+                    a.is_gif = True
 
-                    a.photo.save(f"{filename}.{ext}", BytesIO(requests.get(row[0]).content))
-                    print(f"Save Image : {row[1]}")
+                a.photo.save(f"{filename}.{ext}", BytesIO(requests.get(row[0]).content))
+                print(f"Save Image : {row[1]}")
 
             except Exception as e:
                 print(f"Save Error : {e}")
 
 
     def crawl_google_image(self, name):
-        driver = webdriver.Chrome("chromedriver")
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+
+        driver = webdriver.Chrome(executable_path="chromedriver", chrome_options=options)
         driver.get(f"https://www.google.co.kr/search?q={name}&tbm=isch")
         driver.implicitly_wait(3)
 
@@ -73,19 +73,7 @@ class Command(BaseCommand):
 
         for image in images_info:
             if not Album.objects.filter(photo_link=image[0]).exists() and not TrashCan.objects.filter(photo_link=image[0]).exists():
-                driver.get(image[0])
-                valid = input()
-
-                if valid:
-                    data = ("trash", image[0])
-                else:
-                    data = image
-
-                result.append(data)
-            
-            if len(result) > 50:
-                break
-            
+                result.append(image)
 
         driver.quit()
 

@@ -28,6 +28,7 @@ http://loveseulgi.kro.kr
 - [x] favicon 추가
 - [ ] cloudflare 연동 ( 내도메인.한국 무료도메인 사용중이라 cloudflare 연동이 안됨.. )
 - [x] 크롤러 동작 방식 변경
+- [ ] 크롤러에 Multiprocessing 적용
 - [x] user edit/delete/album 페이지 수정 ( 잊고있었음 )
 - [ ] 크롤러를 headless 로 변경함에따라 valid check 기능 추가 생성
 - [ ] Design 개선

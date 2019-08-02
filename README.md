@@ -30,6 +30,7 @@ http://loveseulgi.kro.kr
 - [x] 크롤러 동작 방식 변경
 - [x] user edit/delete/album 페이지 수정 ( 잊고있었음 )
 - [ ] 크롤러를 headless 로 변경함에따라 valid check 기능 추가 생성
+- [ ] Design 개선
 
 ##### 버그
 - [x] 클릭 시 조회 수 변경 안되는 버그 

@@ -83,7 +83,7 @@ class Command(BaseCommand):
 
                 result.append(data)
             
-            if len(result) > 50:
+            if len(result) > 10:
                 break
             
 

@@ -27,12 +27,15 @@ http://loveseulgi.kro.kr
 - [x] Django message
 - [x] favicon 추가
 - [ ] cloudflare 연동 ( 내도메인.한국 무료도메인 사용중이라 cloudflare 연동이 안됨.. )
-- [ ] 크롤러 동작 방식 변경
+- [x] 크롤러 동작 방식 변경
+- [x] 크롤러에 Multiprocessing 적용
 - [x] user edit/delete/album 페이지 수정 ( 잊고있었음 )
+- [ ] 크롤러를 headless 로 변경함에따라 valid check 기능 추가 생성
+- [ ] Design 개선
 
 ##### 버그
 - [x] 클릭 시 조회 수 변경 안되는 버그 
-- [ ] Photo 추천 버튼 중복 처리
+- [x] Photo 추천 버튼 중복 처리
 - [x] User Album 값 없어서 500 에러
 - [x] signup 비밀번호 양식 제공
 - [ ] 에러 페이지 생성

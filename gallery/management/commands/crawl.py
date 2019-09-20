@@ -16,27 +16,28 @@ import uuid
 class Command(BaseCommand):
     help = "seulgi image crawler"
 
-    def save_data(self, data):
+    def save_data(self, datas):
         # save image data
         name = "Seulgi"
         exts = ["jpg", "jpeg", "gif", "png"] 
         
-        try:
-            a = Album(name=name, title=data[1].replace("\\u0027", ""), photo_link=data[0], source=data[2])
-            filename = uuid.uuid4().hex
-            ext = os.path.basename(data[0]).split(".")[-1]
+        for data in datas:
+            try:
+                a = Album(name=name, title=data[1].replace("\\u0027", ""), photo_link=data[0], source=data[2])
+                filename = uuid.uuid4().hex
+                ext = os.path.basename(data[0]).split(".")[-1]
 
-            if not ext in exts:
-                ext = "jpg"
+                if not ext in exts:
+                    ext = "jpg"
 
-            if ext == "gif":
-                a.is_gif = True
+                if ext == "gif":
+                    a.is_gif = True
 
-            a.photo.save(f"{filename}.{ext}", BytesIO(requests.get(data[0]).content))
-            print(f"Save Image : {data[1]}")
+                a.photo.save(f"{filename}.{ext}", BytesIO(requests.get(data[0]).content))
+                print(f"Save Image : {data[1]}")
 
-        except Exception as e:
-            print(f"Save Error : {e}")
+            except Exception as e:
+                print(f"Save Error : {e}")
 
 
     def crawl_google_image(self, name):
@@ -93,8 +94,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         name = options["name"][0]
-
+        """
         pool = Pool(processes=4)
         pool.map(self.save_data, self.crawl_google_image(name))
         pool.close()
         pool.join()
+        """
+        self.save_data(self.crawl_google_image(name))

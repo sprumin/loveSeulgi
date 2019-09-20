@@ -16,3 +16,6 @@ chromedriver.exe
 # debug
 debug.log
 uwsgi.log
+
+# vscode
+.vscode

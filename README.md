@@ -1,42 +1,46 @@
 # RedVelvet Seulgi Fan Page
 
-**[레드벨벳 슬기 팬 페이지](http://loveseulgi.kro.kr)**
+크롤러를 통해 레드벨벳 슬기 사진을 모아두는 팬 페이지 
 
-위 링크는 현재 `LoveSeulgi v1` 이 서비스중이며 `LoveSeulgi v2 .Dev` 서버로 사용됩니다.
-
-<br/>
-
-|     날짜     | 작성자  |          비고           |
-| :--------: | :--: | :-------------------: |
-| 2019-02-12 | 이성필  |  LoveSeulgi 프로젝트 생성   |
-| 2019-08-09 | 이성필  |  LoveSeulgi 프로젝트 배포   |
-| 2019-09-20 | 이성필  | LoveSeulgi 프로젝트 v2 구상 |
-| 2019-09-21 | 이성필  |  LoveSeulgi v2 개발 시작  |
-
-<br/>
-
-### LoveSeulgi v2
-
-- `Frontend` 와 `Backend` 구분
-  - 기존 jinja2 + Django ( 순수 Django 기능 )
-  - `Frontend` : Vue.js
-  - `Backend` :  django-rest-framework api server
-- Database 변경
-  - 기존 sqlite3
-  - Postgresql / Mysql 로 변경예정
-  - DB Relation 도 다시 짤 예정
-- Website Renual
-  - 기존에 있던 기능은 삭제되지 않으나 신규 기능이 추가될듯함
-  - 기존 UI 전부 수정할 계획
-  - ↑ 현재 디자인이 너무 안좋기때문
-- Crawler
-  - 기존 django custom command 로 수동으로 실행해줌
-  - python 프로젝트로 따로 분리하여 cron 으로 실행할예정
-  - v1 에서 오류때문에 사용중지한 Multiprocessing 적용예정
-
-<br/>
+http://loveseulgi.kro.kr
 
 
+#### TODO
+##### 기능
+- [x] 크롤러 구현
+- [x] 유저 이벤트 구현
+- [x] 크롤러 최적화
+- [x] 갤러리, 게시글, 공지사항, 건의사항 기능 구현
+- [x] Pagination
+- [x] base template 디자인
+- [x] User 관리 페이지 디자인
+- [x] Gallery 페이지 디자인
+- [x] Dockerfile 추가
+- [x] Comments Pagination 추가
+- [x] Post 페이지 디자인
+- [x] About 페이지 작성
+- [x] Post,Report 삭제 기능 구현
+- [x] Photo gif만 보기 버튼 추가
+- [x] Photo/Report Non-Photo 페이지 분리
+- [x] fileupload 시 정상적인 이미지 파일인지 검사
+- [x] 배포 파일 작성 docker-compose, nginx conf file
+- [x] Django message
+- [x] favicon 추가
+- [ ] cloudflare 연동 ( 내도메인.한국 무료도메인 사용중이라 cloudflare 연동이 안됨.. )
+- [x] 크롤러 동작 방식 변경
+- [x] 크롤러에 Multiprocessing 적용
+- [x] user edit/delete/album 페이지 수정 ( 잊고있었음 )
+- [ ] 크롤러를 headless 로 변경함에따라 valid check 기능 추가 생성
+- [ ] Design 개선
 
-- Todo List 는 github Issue 기능으로 관리할 예정
-- Develop by sprumin@gmail.com 
+##### 버그
+- [x] 클릭 시 조회 수 변경 안되는 버그 
+- [x] Photo 추천 버튼 중복 처리
+- [x] User Album 값 없어서 500 에러
+- [x] signup 비밀번호 양식 제공
+- [ ] 에러 페이지 생성
+- [x] 게시글 Delete 권한 설정
+- [ ] 이미지 리사이징 fix -> percent
+- [x] user album 500 error
+- [x] 삭제 권한 오류
+- [x] email exists 에러
